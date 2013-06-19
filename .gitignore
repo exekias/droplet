@@ -1,4 +1,6 @@
 *.log
 *.pot
 *.pyc
+*.swp
+.coverage
 local_settings.py
