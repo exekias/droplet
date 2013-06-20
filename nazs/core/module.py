@@ -10,6 +10,9 @@ class ModuleMeta(type):
     """
     Module metaclass, to allow some black magic tricks on module definitions
     """
+    # Modules instances
+    MODULES = {}
+
     def __new__(meta, name, bases, dct):
         # Construct the class
         cls = super(ModuleMeta, meta).__new__(meta, name, bases, dct)
@@ -17,7 +20,15 @@ class ModuleMeta(type):
         # Wrap enable event signals
         cls.enable = meta.enable_wrapper(cls.enable, cls)
         cls.disable = meta.disable_wrapper(cls.disable, cls)
+
+        if cls not in ModuleMeta.MODULES:
+            ModuleMeta.MODULES[cls] = None
         return cls
+
+    def __call__(cls, *args, **kw):
+        if cls not in ModuleMeta.MODULES or ModuleMeta.MODULES[cls] is None:
+            ModuleMeta.MODULES[cls] = super(ModuleMeta, cls).__call__(*args, **kw)
+        return ModuleMeta.MODULES[cls]
 
     @classmethod
     def enable_wrapper(cls, enable, new_class):

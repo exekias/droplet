@@ -47,14 +47,14 @@ class ModuleTests(TestCase):
     def test_pre_enable_signal(self):
         m = self.aModule()
 
-        m.called = False
+        m.called = 0
         @receiver(pre_enable)
         def increment(sender, **kwargs):
             self.assertFalse(sender.enabled)
-            sender.called = True
+            sender.called += 1
 
         m.enable()
-        self.assertTrue(m.called)
+        self.assertEqual(m.called, 1)
 
     def test_first_enable_signal(self):
         m = self.aModule()
@@ -84,5 +84,9 @@ class ModuleTests(TestCase):
         m.enable()
         self.assertEqual(m.enable_count, 2)
 
+    def test_singleton(self):
+        x = self.aModule()
+        y = self.aModule()
+        self.assertEqual(x, y)
 
 
