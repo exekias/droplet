@@ -1,4 +1,4 @@
-from django.utils import unittest
+from django.test import TestCase
 from django.dispatch import receiver
 
 
@@ -6,7 +6,7 @@ from nazs.core.module import Module
 from nazs.core.signals import pre_enable, post_enable, \
                               pre_disable, post_disable
 
-class ModuleTests(unittest.TestCase):
+class ModuleTests(TestCase):
     """
     Base Module class testing
     """
@@ -15,7 +15,14 @@ class ModuleTests(unittest.TestCase):
         class aModule(Module):
             def __init__(self):
                 super(aModule, self).__init__()
-                self.x = 3
+                self.enable_count = 0
+                self.first_enable_count = 0
+
+            def first_enable(self):
+                self.first_enable_count += 1
+
+            def enable(self):
+                self.enable_count += 1
 
         self.aModule = aModule
 
@@ -29,6 +36,7 @@ class ModuleTests(unittest.TestCase):
 
     def test_persistent_status(self):
         m = self.aModule()
+        m.enable()
         self.assertTrue(m.enabled)
 
         m.disable()
@@ -38,14 +46,43 @@ class ModuleTests(unittest.TestCase):
 
     def test_pre_enable_signal(self):
         m = self.aModule()
-        self.assertEqual(m.x, 3)
 
+        m.called = False
         @receiver(pre_enable)
         def increment(sender, **kwargs):
-            sender.x += 1
+            self.assertFalse(sender.enabled)
+            sender.called = True
 
         m.enable()
-        self.assertEqual(m.x, 4)
+        self.assertTrue(m.called)
+
+    def test_first_enable_signal(self):
+        m = self.aModule()
+        m.enable()
+        self.assertEqual(m.first_enable_count, 1)
+        self.assertEqual(m.enable_count, 1)
+
+        m.disable()
+        m.enable()
+
+        self.assertEqual(m.first_enable_count, 1)
+        self.assertEqual(m.enable_count, 2)
+
+    def test_double_actions(self):
+        m = self.aModule()
+        self.assertFalse(m.enabled)
+
+        m.enable()
+        self.assertEqual(m.enable_count, 1)
+
+        self.assertRaises(AssertionError, m.enable)
+        self.assertEqual(m.enable_count, 1)
+
+        m.disable()
+        self.assertRaises(AssertionError, m.disable)
+
+        m.enable()
+        self.assertEqual(m.enable_count, 2)
 
 
 

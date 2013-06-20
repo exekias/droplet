@@ -12,38 +12,60 @@ class ModuleMeta(type):
     """
     def __new__(meta, name, bases, dct):
         # Construct the class
-        res = super(ModuleMeta, meta).__new__(meta, name, bases, dct)
+        cls = super(ModuleMeta, meta).__new__(meta, name, bases, dct)
 
         # Wrap enable event signals
-        res.enable = meta.signals_wrapper(res.enable, res, pre_enable, post_enable)
-        res.disable = meta.signals_wrapper(res.disable, res, pre_disable, post_disable)
-        return res
+        cls.enable = meta.enable_wrapper(cls.enable, cls)
+        cls.disable = meta.disable_wrapper(cls.disable, cls)
+        return cls
 
     @classmethod
-    def signals_wrapper(cls, operation, new_class, pre, post):
+    def enable_wrapper(cls, enable, new_class):
         """
-        Calls given pre and post signals with the given operation in between
+        Wrap the enable method to call pre and post enable signals and update
+        module status
         """
         def _wrapped(self, *args, **kwargs):
             # avoid double wrapping because of inheritance
-            wrap = type(self) == new_class
+#            wrap = type(self) == new_class
+#            if not wrap:
+#                return enable(self, *args, **kwargs)
 
-            if wrap: pre.send(sender=self)
-            res = operation(self, *args, **kwargs)
-            if wrap: post.send(sender=self)
+            if self.enabled:
+                raise AssertionError('Module %s is already enabled' % self.name)
+
+            if not self.was_enabled:
+                self.first_enable()
+
+            pre_enable.send(sender=self)
+            res = enable(self, *args, **kwargs)
+            post_enable.send(sender=self)
+
+            self._info.status = ModuleInfo.ENABLED
+            self._info.save()
             return res
 
         return _wrapped
 
-@receiver(post_enable)
-def after_enable(sender, **kwargs):
-    sender._info.status = ModuleInfo.ENABLED
-    sender._info.save()
+    @classmethod
+    def disable_wrapper(cls, disable, new_class):
+        """
+        Wrap the disable method to call pre and post disable signals and update
+        module status
+        """
+        def _wrapped(self, *args, **kwargs):
+            if not self.enabled:
+                raise AssertionError('Module %s is already disabled' % self.name)
 
-@receiver(post_disable)
-def after_disable(sender, **kwargs):
-    sender._info.status = ModuleInfo.DISABLED
-    sender._info.save()
+            pre_disable.send(sender=self)
+            res = disable(self, *args, **kwargs)
+            post_disable.send(sender=self)
+
+            self._info.status = ModuleInfo.DISABLED
+            self._info.save()
+            return res
+
+        return _wrapped
 
 
 class Module(object):
@@ -90,6 +112,13 @@ class Module(object):
         self._info, _ = ModuleInfo.objects.get_or_create(name=name)
 
     @property
+    def name(self):
+        """
+        Return the user visible name of the module
+        """
+        return self.__class__.__name__
+
+    @property
     def was_enabled(self):
         """
         Returns True if the module has been enabled some time before
@@ -113,6 +142,11 @@ class Module(object):
         return self._info.changed
 
 
+    def first_enable(self):
+        """
+        First enable actions, called only the first time the module is enabled
+        """
+        pass
 
     def enable(self):
         """
