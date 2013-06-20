@@ -25,5 +25,8 @@ class ModuleInfo(models.Model):
     name = models.CharField(max_length=100)
 
     # Status
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default=INSTALLED)
+    status = models.IntegerField(choices=STATUS_CHOICES, default=INSTALLED)
+
+    # Changed
+    changed = models.BooleanField(default=False)
 
