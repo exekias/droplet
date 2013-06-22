@@ -1,0 +1,62 @@
+import os
+import pwd
+import grp
+
+class BaseConfFile(object):
+    """
+    ConfFile is the representation of any configuration file that a module will read
+    or write to work
+    """
+    def __init__(self, path, mode=None, user='root', group='root'):
+        """
+        Instance a ConfFile object
+
+        Parameters
+            path - full path of the file
+            mode - POSIX permissions mode
+            user - owner of the file
+            group - group of the file
+        """
+        self.path = path
+        self.mode = mode
+        self.user = user
+        self.group = group
+
+
+    def write(self):
+        """
+        Write the file, forcing the proper permissions
+        """
+        mode = self.mode or 0640
+
+        oldmask = os.umask(0)
+
+        fd = os.open(self.path, os.O_WRONLY | os.O_CREAT, mode)
+        f = os.fdopen(fd, 'w')
+        with f:
+            os.fchown(fd, self.uid(), self.gid())
+            f.write(self.contents())
+
+        os.umask(oldmask)
+
+    def contents(self):
+        """
+        Return contents to write in the file
+        """
+        return ''
+
+    def uid(self):
+        return int(pwd.getpwnam(self.user).pw_uid)
+
+    def gid(self):
+        return int(grp.getgrnam(self.group).gr_gid)
+
+
+
+class TemplateConfFile(BaseConfFile):
+
+    def __init__(self, path, template=None, context={}, *args, **kwargs):
+        self.template = template
+        self.context = context
+        super(TemplateConfFile, self).__init__(path, *args, **kwargs)
+

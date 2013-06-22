@@ -79,6 +79,7 @@ class ModuleMeta(type):
         return _wrapped
 
 
+
 class Module(object):
     """
     NAZS module, implements everything needed to provide a feature.
@@ -129,6 +130,11 @@ class Module(object):
         """
         return self.__class__.__name__
 
+
+
+    # Status info
+
+
     @property
     def was_enabled(self):
         """
@@ -153,6 +159,10 @@ class Module(object):
         return self._info.changed
 
 
+
+    # Enable / disable actions
+
+
     def first_enable(self):
         """
         First enable actions, called only the first time the module is enabled
@@ -171,7 +181,5 @@ class Module(object):
         Do the needed actions to disable this module
         """
         pass
-
-
 
 
