@@ -1,6 +1,5 @@
 from django.dispatch import receiver
 
-from services import Service
 from models import ModuleInfo
 from signals import pre_enable, post_enable, \
                     pre_disable, post_disable
