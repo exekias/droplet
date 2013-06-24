@@ -192,5 +192,5 @@ class CommandsTests(TestCase):
         self.assertEqual(output, "test")
 
     def test_run_fail(self):
-        self.assertRaises(subprocess.CalledProcessError, run, "/bin/notexistent")
+        self.assertRaises(subprocess.CalledProcessError, run, "/bin/notexist")
 
