@@ -1,11 +1,12 @@
 from django.test import TestCase
 from django.dispatch import receiver
+from django.template import Template
 
 from nazs.core.module import Module
-from nazs.core.files import BaseConfFile
 from nazs.core.commands import run
 from nazs.core.signals import pre_enable, post_enable, \
                               pre_disable, post_disable
+from nazs.core import files
 
 import tempfile
 import shutil
@@ -113,7 +114,7 @@ class FilesTests(TestCase):
         filename = os.path.join(self.tmpdir, 'test')
         self.assertFalse(os.path.exists(filename))
 
-        BaseConfFile(filename).write()
+        files.BaseConfFile(filename).write()
 
         self.assertTrue(os.path.exists(filename))
 
@@ -127,10 +128,10 @@ class FilesTests(TestCase):
         uid = pwd.getpwnam(USER).pw_uid
         gid = grp.getgrnam(USER).gr_gid
 
-        BaseConfFile(filename,
-                     user=USER,
-                     group=GROUP,
-                     mode=MODE).write()
+        files.BaseConfFile(filename,
+                           user=USER,
+                           group=GROUP,
+                           mode=MODE).write()
 
         stat = os.stat(filename)
         self.assertEqual(stat.st_mode & 0777, MODE)
@@ -146,11 +147,39 @@ class FilesTests(TestCase):
         uid = pwd.getpwnam(USER).pw_uid
         gid = grp.getgrnam(USER).gr_gid
 
-        BaseConfFile(filename).write()
+        files.BaseConfFile(filename).write()
 
         stat = os.stat(filename)
         self.assertNotEqual(stat.st_uid, uid)
         self.assertNotEqual(stat.st_gid, gid)
+
+
+    def test_basic_template(self):
+        filename = os.path.join(self.tmpdir, 'test')
+
+        # mock get_template
+        files.get_template = lambda x: Template(u'hello {{world}}')
+
+        files.TemplateConfFile(filename,
+                               template='the template file',
+                               template_params={'world': 'foo'}).write()
+
+        self.assertEqual(open(filename).read(), 'hello foo')
+
+    def test_callable_params_template(self):
+        filename = os.path.join(self.tmpdir, 'test')
+
+        # mock get_template
+        files.get_template = lambda x: Template(u'hello {{world}}')
+
+        def params():
+            return {'world': 'bar'}
+
+        files.TemplateConfFile(filename,
+                               template='the template file',
+                               template_params=params()).write()
+
+        self.assertEqual(open(filename).read(), 'hello bar')
 
 
 class CommandsTests(TestCase):

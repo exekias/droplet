@@ -1,11 +1,14 @@
+from django.template.loader import get_template
+from django.template import Context
+
 import os
 import pwd
 import grp
 
 class BaseConfFile(object):
     """
-    ConfFile is the representation of any configuration file that a module will read
-    or write to work
+    ConfFile is the representation of any configuration file that a module will
+    write in order to work
     """
     def __init__(self, path, mode=None, user='root', group='root'):
         """
@@ -55,8 +58,18 @@ class BaseConfFile(object):
 
 class TemplateConfFile(BaseConfFile):
 
-    def __init__(self, path, template=None, context={}, *args, **kwargs):
+    def __init__(self, path, template=None, template_params={}, *args, **kwargs):
         self.template = template
-        self.context = context
+        self.template_params = template_params
         super(TemplateConfFile, self).__init__(path, *args, **kwargs)
+
+
+    def contents(self):
+        template = get_template(self.template)
+        if callable(self.template_params):
+            params = self.template_params()
+        else:
+            params = self.template_params
+        context = Context(params)
+        return template.render(context)
 
