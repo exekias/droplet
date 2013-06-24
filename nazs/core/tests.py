@@ -3,6 +3,7 @@ from django.dispatch import receiver
 
 from nazs.core.module import Module
 from nazs.core.files import BaseConfFile
+from nazs.core.commands import run
 from nazs.core.signals import pre_enable, post_enable, \
                               pre_disable, post_disable
 
@@ -11,6 +12,7 @@ import shutil
 import os
 import pwd
 import grp
+import subprocess
 
 class ModuleTests(TestCase):
     """
@@ -150,4 +152,16 @@ class FilesTests(TestCase):
         self.assertNotEqual(stat.st_uid, uid)
         self.assertNotEqual(stat.st_gid, gid)
 
+
+class CommandsTests(TestCase):
+    """
+    Test on commands classes
+    """
+
+    def test_run(self):
+        output = run("echo -n test")
+        self.assertEqual(output, "test")
+
+    def test_run_fail(self):
+        self.assertRaises(subprocess.CalledProcessError, run, "/bin/notexistent")
 
