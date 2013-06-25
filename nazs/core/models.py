@@ -22,7 +22,7 @@ class ModuleInfo(models.Model):
     )
 
     # Module name
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=200)
 
     # Status
     status = models.IntegerField(choices=STATUS_CHOICES, default=INSTALLED)
