@@ -87,7 +87,7 @@ class FilesTests(TestCase):
 
         files.TemplateConfFile(filename,
                                template='the template file',
-                               template_params=params()).write()
+                               template_params=params).write()
 
         self.assertEqual(open(filename).read(), 'hello bar')
 
