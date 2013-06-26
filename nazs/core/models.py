@@ -30,3 +30,9 @@ class ModuleInfo(models.Model):
     # Changed
     changed = models.BooleanField(default=False)
 
+    def __unicode__(self):
+        return u'Module %s' % self.name
+
+    class Meta(Model.Meta):
+        verbose_name = _('Module')
+
