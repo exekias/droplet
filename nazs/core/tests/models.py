@@ -22,10 +22,10 @@ class ModelTests(TestCase):
 
 
     def test_all_counter(self):
-        ModuleInfo().save()
+        ModuleInfo(name='a').save()
         self.assertEqual(ModuleInfo.objects.count(), 1)
 
-        ModuleInfo().save()
+        ModuleInfo(name='b').save()
         self.assertEqual(ModuleInfo.objects.all().count(), 2)
 
 
@@ -49,9 +49,9 @@ class ModelTests(TestCase):
 
 
     def test_new_changed_counters(self):
-        a = ModuleInfo()
+        a = ModuleInfo(name='a')
         a.save()
-        b = ModuleInfo()
+        b = ModuleInfo(name='b')
         b.save()
         self.assertEqual(ModuleInfo.objects.changed().count(), 2)
         self.assertEqual(ModuleInfo.objects.new().count(), 2)
@@ -67,4 +67,28 @@ class ModelTests(TestCase):
         self.assertEqual(ModuleInfo.objects.new().count(), 0)
         self.assertEqual(ModuleInfo.objects.changed().count(), 1)
 
+    def test_update(self):
+        ModuleInfo(name='a').save()
+        ModuleInfo(name='b').save()
+        ModuleInfo.commit_save()
+
+        ModuleInfo.objects.update(status=2)
+        self.assertEqual(ModuleInfo.objects.changed().count(), 2)
+
+    def test_delete(self):
+        ModuleInfo(name='a').save()
+        ModuleInfo(name='b').save()
+        ModuleInfo.objects.all().delete()
+
+        self.assertEqual(ModuleInfo.objects.all().count(), 0)
+        self.assertEqual(ModuleInfo.objects.deleted().count(), 2)
+
+
+class ModuleInfoTests(TestCase):
+    """
+    ModuleInfo model tests
+    """
+    def test_unicode(self):
+        m = ModuleInfo(name='foo')
+        self.assertEqual(str(m), 'Module foo')
 

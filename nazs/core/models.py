@@ -122,6 +122,7 @@ class Model(models.Model):
         cls.objects.changed().true_update(_new=False, _changed=False)
 
 
+
 class ModuleInfo(Model):
     """
     NAZS module info, identified by the module name
