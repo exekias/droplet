@@ -51,8 +51,19 @@ class ModelManager(models.Manager):
     when subclassing this, if a custom manager is added, it should subclass
     this
     """
+    def __init__(self, *args, **kwargs):
+        super(ModelManager, self).__init__(*args, **kwargs)
+
+        # updating model objects?
+        self._updating = False
 
     def get_query_set(self):
+        # Update model objects on each query
+        if not self._updating:
+            self._updating = True
+            self.model.update()
+            self._updating = False
+
         return ModelQuerySet(self.model).filter(_deleted=False)
 
     # Selectors
@@ -109,6 +120,15 @@ class Model(models.Model):
         self._changed = True
         self._deleted = True
         super(Model, self).save(*args, **kwargs)
+
+    @classmethod
+    def update(cls):
+        """
+        Update model objects, used to map some external behavior
+        from the system. This way you can update shown objects after
+        system changes (for example network interfaces)
+        """
+        pass
 
     @classmethod
     def commit_save(cls):
