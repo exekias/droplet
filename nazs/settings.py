@@ -104,7 +104,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django_nose',
+
     'nazs.core',
+    'nazs.network',
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
