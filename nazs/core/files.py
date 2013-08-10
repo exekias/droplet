@@ -1,6 +1,8 @@
 from django.template.loader import get_template
 from django.template import Context
 
+from nazs.core.sudo import root
+
 import os
 import pwd
 import grp
@@ -34,11 +36,12 @@ class BaseConfFile(object):
 
         oldmask = os.umask(0)
 
-        fd = os.open(self.path, os.O_WRONLY | os.O_CREAT, mode)
-        f = os.fdopen(fd, 'w')
-        with f:
-            os.fchown(fd, self.uid(), self.gid())
-            f.write(self.contents())
+        with root():
+            fd = os.open(self.path, os.O_WRONLY | os.O_CREAT, mode)
+            f = os.fdopen(fd, 'w')
+            with f:
+                os.fchown(fd, self.uid(), self.gid())
+                f.write(self.contents())
 
         os.umask(oldmask)
 
