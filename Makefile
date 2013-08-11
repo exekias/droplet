@@ -1,14 +1,21 @@
-PWD = $(shell pwd)
+FORCE:
 
 run:
 	./manage.py runserver
 
-env:
+env: FORCE
 	./bootstrap.sh
 
-test:
+test: coverage
 	./manage.py test --with-coverage --cover-package=nazs
+	@rm .coverage
 
-docker_test:
-	docker run -i -t -v ${PWD}:/nazs cperez/python /bin/bash -c "cd /nazs && ./manage.py test --cover-package=nazs"
+docker_test: coverage
+	@docker run -i -t -v $(shell pwd):/nazs exekias/python /bin/bash -c \
+           "cd /nazs && ./manage.py test --with-coverage --cover-package=nazs"
+	@rm .coverage
+
+coverage:
+	@touch .coverage
+	@chmod 666 .coverage
 
