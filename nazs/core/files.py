@@ -38,8 +38,7 @@ class BaseConfFile(object):
 
         with root():
             fd = os.open(self.path, os.O_WRONLY | os.O_CREAT, mode)
-            f = os.fdopen(fd, 'w')
-            with f:
+            with os.fdopen(fd, 'w') as f:
                 os.fchown(fd, self.uid(), self.gid())
                 f.write(self.contents())
 
