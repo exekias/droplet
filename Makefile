@@ -1,10 +1,12 @@
-FORCE:
+all: env run
 
-run:
-	./manage.py runserver
+FORCE:
 
 env: FORCE
 	./bootstrap.sh
+
+run:
+	./manage.py runserver
 
 test: coverage
 	./manage.py test --with-coverage --cover-package=nazs
