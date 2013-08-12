@@ -16,10 +16,10 @@ class ModuleTests(TestCase):
             def __init__(self):
                 super(aModule, self).__init__()
                 self.enable_count = 0
-                self.install_count = 0
+                self.install_called = True
 
             def install(self):
-                self.install_count += 1
+                self.install_called = True
 
             def enable(self):
                 self.enable_count += 1
@@ -32,8 +32,15 @@ class ModuleTests(TestCase):
     def test_enable_module(self):
         m = self.aModule()
         m.install()
+        self.assertTrue(m.install_called)
+        self.assertTrue(m.installed)
         m.enable()
         self.assertTrue(m.enabled)
+
+    def test_double_install(self):
+        m = self.aModule()
+        m.install()
+        self.assertRaises(AssertionError, m.install)
 
     def test_assure_installed(self):
         m = self.aModule()
