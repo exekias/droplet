@@ -15,10 +15,10 @@ class ModuleTests(TestCase):
             def __init__(self):
                 super(aModule, self).__init__()
                 self.enable_count = 0
-                self.first_enable_count = 0
+                self.install_count = 0
 
-            def first_enable(self):
-                self.first_enable_count += 1
+            def install(self):
+                self.install_count += 1
 
             def enable(self):
                 self.enable_count += 1
@@ -30,11 +30,17 @@ class ModuleTests(TestCase):
 
     def test_enable_module(self):
         m = self.aModule()
+        m.install()
         m.enable()
         self.assertTrue(m.enabled)
 
+    def test_assure_installed(self):
+        m = self.aModule()
+        self.assertRaises(AssertionError, m.enable)
+
     def test_persistent_status(self):
         m = self.aModule()
+        m.install()
         m.enable()
         self.assertTrue(m.enabled)
 
@@ -52,24 +58,15 @@ class ModuleTests(TestCase):
             self.assertFalse(sender.enabled)
             sender.called += 1
 
+        m.install()
         m.enable()
         self.assertEqual(m.called, 1)
-
-    def test_first_enable_signal(self):
-        m = self.aModule()
-        m.enable()
-        self.assertEqual(m.first_enable_count, 1)
-        self.assertEqual(m.enable_count, 1)
-
-        m.disable()
-        m.enable()
-
-        self.assertEqual(m.first_enable_count, 1)
-        self.assertEqual(m.enable_count, 2)
 
     def test_double_actions(self):
         m = self.aModule()
         self.assertFalse(m.enabled)
+
+        m.install()
 
         m.enable()
         self.assertEqual(m.enable_count, 1)

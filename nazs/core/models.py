@@ -93,7 +93,7 @@ class Model(models.Model):
 
     WARNING
     when subclassing this, if a Meta class is added, it should
-    subclass this (Model.Meta)
+    subclass this Model.Meta
     """
 
     class Meta:
@@ -151,12 +151,12 @@ class ModuleInfo(Model):
        - Module status
 
     """
-    INSTALLED = 0
+    NOT_INSTALLED = 0
     DISABLED = 1
     ENABLED = 2
 
     STATUS_CHOICES = (
-        (INSTALLED, _('Installed')),
+        (NOT_INSTALLED, _('Not installed')),
         (DISABLED, _('Disabled')),
         (ENABLED, _('Enabled')),
        #(BROKEN, _('Broken')),
@@ -166,7 +166,7 @@ class ModuleInfo(Model):
     name = models.CharField(max_length=200, unique=True)
 
     # Status
-    status = models.IntegerField(choices=STATUS_CHOICES, default=INSTALLED)
+    status = models.IntegerField(choices=STATUS_CHOICES, default=NOT_INSTALLED)
 
     # Changed
     changed = models.BooleanField(default=False)

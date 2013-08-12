@@ -1,7 +1,8 @@
 from django.dispatch import receiver
 
 from models import ModuleInfo
-from signals import pre_enable, post_enable, \
+from signals import pre_install, post_install, \
+                    pre_enable, post_enable, \
                     pre_disable, post_disable
 
 
@@ -17,6 +18,7 @@ class ModuleMeta(type):
         cls = super(ModuleMeta, meta).__new__(meta, name, bases, dct)
 
         # Wrap enable event signals
+        cls.install = meta.install_wrapper(cls.install, cls)
         cls.enable = meta.enable_wrapper(cls.enable, cls)
         cls.disable = meta.disable_wrapper(cls.disable, cls)
 
@@ -30,22 +32,37 @@ class ModuleMeta(type):
         return ModuleMeta.MODULES[cls]
 
     @classmethod
+    def install_wrapper(cls, install, new_class):
+        """
+        Wrap the install method to call pre and post enable signals and update
+        module status
+        """
+        def _wrapped(self, *args, **kwargs):
+            if self.installed:
+                raise AssertionError('Module %s is already installed' % self.name)
+
+            pre_install.send(sender=self)
+            res = install(self, *args, **kwargs)
+            post_install.send(sender=self)
+
+            self._info.status = ModuleInfo.DISABLED
+            self._info.save()
+            return res
+
+        return _wrapped
+
+    @classmethod
     def enable_wrapper(cls, enable, new_class):
         """
         Wrap the enable method to call pre and post enable signals and update
         module status
         """
         def _wrapped(self, *args, **kwargs):
-            # avoid double wrapping because of inheritance
-#            wrap = type(self) == new_class
-#            if not wrap:
-#                return enable(self, *args, **kwargs)
+            if not self.installed:
+                raise AssertionError('Module %s cannot be enabled, you should install it first' % self.name)
 
             if self.enabled:
                 raise AssertionError('Module %s is already enabled' % self.name)
-
-            if not self.was_enabled:
-                self.first_enable()
 
             pre_enable.send(sender=self)
             res = enable(self, *args, **kwargs)
@@ -86,13 +103,13 @@ class Module(object):
     Module lifecycle
     ----------------
 
-    Modules have 3 status: installed, enabled and disabled
+    Modules have 3 status: not installed, enabled and disabled
 
-    A module starts with installed status, if the user enables it,
-    enable method will be called and the module will move to enabled status.
+    A module starts with not installed status, if the user installs it,
+    install() method will be called and the module will move to disabled status.
 
-    After first enable the module can be switched between enabled or disabled,
-    but cannot move to installed anymore.
+    After install the module can be switched between enabled or disabled,
+    but cannot move to not installed anymore.
 
 
     TODO
@@ -135,13 +152,11 @@ class Module(object):
 
 
     @property
-    def was_enabled(self):
+    def installed(self):
         """
-        Returns True if the module has been enabled some time before
-
-        This tells if enable method has been called, it will be called only once.
+        Returns True if the module has been installed
         """
-        return self._info.status > ModuleInfo.INSTALLED
+        return self._info.status > ModuleInfo.NOT_INSTALLED
 
     @property
     def enabled(self):
@@ -162,9 +177,11 @@ class Module(object):
     # Enable / disable actions
 
 
-    def first_enable(self):
+    def install(self):
         """
-        First enable actions, called only the first time the module is enabled
+        Setup actions, called only once. This method should assume nothing
+        about the status of the system before, but leave it
+        ready to enable and start using the module
         """
         pass
 
