@@ -8,16 +8,19 @@ env: FORCE
 run:
 	./manage.py runserver
 
-test: coverage
+test: prepare_coverage
 	./manage.py test --with-coverage --cover-package=nazs
 	@rm .coverage
 
-docker_test: coverage
-	@docker run -i -t -v $(shell pwd):/nazs exekias/python /bin/bash -c \
+dockertest: prepare_coverage
+	docker run -i -t -v $(shell pwd):/nazs exekias/python /bin/bash -c \
            "cd /nazs && ./manage.py test --with-coverage --cover-package=nazs"
 	@rm .coverage
 
-coverage:
+pep8:
+	pep8 nazs
+
+prepare_coverage:
 	@touch .coverage
 	@chmod 666 .coverage
 
