@@ -11,3 +11,7 @@ post_enable = django.dispatch.Signal()
 # Module disable signals
 pre_disable = django.dispatch.Signal()
 post_disable = django.dispatch.Signal()
+
+# Module save signals
+pre_save = django.dispatch.Signal()
+post_save = django.dispatch.Signal()

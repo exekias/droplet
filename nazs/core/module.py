@@ -21,6 +21,7 @@ class ModuleMeta(type):
         cls.install = meta.install_wrapper(cls.install, cls)
         cls.enable = meta.enable_wrapper(cls.enable, cls)
         cls.disable = meta.disable_wrapper(cls.disable, cls)
+        cls.save = meta.save_wrapper(cls.save, cls)
 
         if cls not in ModuleMeta.MODULES:
             ModuleMeta.MODULES[cls] = None
@@ -80,6 +81,25 @@ class ModuleMeta(type):
         return _wrapped
 
     @classmethod
+    def save_wrapper(cls, save, new_class):
+        """
+        Wrap the save method to call pre and post enable signals and update
+        module status
+        """
+        def _wrapped(self, *args, **kwargs):
+            if not self.installed:
+                raise AssertionError('Module %s is not installed' % self.name)
+
+            pre_save.send(sender=self)
+            res = save(self, *args, **kwargs)
+            post_save.send(sender=self)
+
+            self._info.commit_save()  # TODO commit_save all module models
+            return res
+
+        return _wrapped
+
+    @classmethod
     def disable_wrapper(cls, disable, new_class):
         """
         Wrap the disable method to call pre and post disable signals and update
@@ -121,7 +141,7 @@ class Module(object):
 
     Definitions
     -----------
-       - pre init models
+       - pre install models
        - models
        - conf files
        - daemons
@@ -196,5 +216,28 @@ class Module(object):
         """
         pass
 
-
     # Save changes process
+
+    def save(self):
+        """
+        Apply module changes to the system, it will basically:
+
+         - Call write_conf()
+         - Call manage_daemons()
+
+        If you need more advanced stuff you can override thiss method
+        """
+        self.write_conf()
+        self.manage_daemons()
+
+    def write_conf(self):
+        """
+        Write configuration files for this module
+        """
+        pass
+
+    def manage_daemons(self):
+        """
+        Write configuration files for this module
+        """
+        pass

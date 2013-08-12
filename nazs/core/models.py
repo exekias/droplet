@@ -125,7 +125,8 @@ class Model(models.Model):
     def update(cls):
         """
         Update model objects, used to map some external behavior
-        from the system. This way you can update shown objects after
+        from the system. This method will be called everytime the
+        objects are accessed. This way you can update  objects after
         system changes (for example network interfaces)
         """
         pass
