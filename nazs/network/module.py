@@ -1,14 +1,15 @@
 from nazs import Module
 from nazs.files import TemplateConfFile
 
-from models import Interfaces
+from models import Interface
 
-class NetworkModule(Module):
+
+class Network(Module):
 
     # Configuration files
 
-    # Interfaces
     interfaces = TemplateConfFile('/etc/network/interfaces',
                                   template='interfaces',
-                                  template_params=Interfaces.objects.all())
-
+                                  template_params={
+                                      'interfaces': Interface.objects.all()
+                                  })

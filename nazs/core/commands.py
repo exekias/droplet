@@ -1,5 +1,6 @@
 import subprocess
 
+
 def run(cmd):
     """
     executes a command on shell mode and returns stdout
@@ -9,4 +10,3 @@ def run(cmd):
     output = subprocess.check_output(cmd, shell=True)
 
     return output
-

@@ -18,13 +18,11 @@ class ModelQuerySet(QuerySet):
         """
         super(ModelQuerySet, self).update(_changed=True, **kwargs)
 
-
     def delete(self):
         """
         Mark selected objects as deleted without deleting them
         """
         self.update(_deleted=True)
-
 
     # Only intended for internal use:
 
@@ -39,7 +37,6 @@ class ModelQuerySet(QuerySet):
         Update the the object without marking it as changed
         """
         super(ModelQuerySet, self).update(**kwargs)
-
 
 
 class ModelManager(models.Manager):
@@ -102,13 +99,16 @@ class Model(models.Model):
     objects = ModelManager()
 
     # True if the object was added after module save event
-    _new = models.BooleanField(default=True, verbose_name=_('Row new'))
+    _new = models.BooleanField(default=True,
+                               verbose_name=_('Row new'))
 
     # True if the object has changed since last module save event
-    _changed = models.BooleanField(default=True, verbose_name=_('Row changed'))
+    _changed = models.BooleanField(default=True,
+                                   verbose_name=_('Row changed'))
 
     # Deleted marker, custom manager will not show models with this set to True
-    _deleted = models.BooleanField(default=False, verbose_name=_('Row deleted'))
+    _deleted = models.BooleanField(default=False,
+                                   verbose_name=_('Row deleted'))
 
     # Override save method to mark object as changed
     def save(self, *args, **kwargs):
@@ -142,7 +142,6 @@ class Model(models.Model):
         cls.objects.changed().true_update(_new=False, _changed=False)
 
 
-
 class ModuleInfo(Model):
     """
     NAZS module info, identified by the module name
@@ -159,7 +158,7 @@ class ModuleInfo(Model):
         (NOT_INSTALLED, _('Not installed')),
         (DISABLED, _('Disabled')),
         (ENABLED, _('Enabled')),
-       #(BROKEN, _('Broken')),
+        #(BROKEN, _('Broken')),
     )
 
     # Module name
@@ -176,4 +175,3 @@ class ModuleInfo(Model):
 
     class Meta(Model.Meta):
         verbose_name = _('Module')
-

@@ -20,14 +20,12 @@ class ModelTests(TestCase):
         self.assertEqual(ModuleInfo.objects.changed().count(), 0)
         self.assertEqual(ModuleInfo.objects.deleted().count(), 0)
 
-
     def test_all_counter(self):
         ModuleInfo(name='a').save()
         self.assertEqual(ModuleInfo.objects.count(), 1)
 
         ModuleInfo(name='b').save()
         self.assertEqual(ModuleInfo.objects.all().count(), 2)
-
 
     def test_deleted_counter(self):
         a = ModuleInfo()
@@ -46,7 +44,6 @@ class ModelTests(TestCase):
 
         # Totally deleted
         self.assertEqual(ModuleInfo.objects.deleted().count(), 0)
-
 
     def test_new_changed_counters(self):
         a = ModuleInfo(name='a')
@@ -91,4 +88,3 @@ class ModuleInfoTests(TestCase):
     def test_unicode(self):
         m = ModuleInfo(name='foo')
         self.assertEqual(str(m), 'Module foo')
-

@@ -6,6 +6,7 @@ from nazs.core.sudo import root
 import os
 import pwd
 
+
 class SudoTests(TestCase):
     """
     Test nazs.core.sudo module
@@ -17,4 +18,3 @@ class SudoTests(TestCase):
 
         with root():
             self.assertEqual(os.getuid(), 0)
-

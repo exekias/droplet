@@ -4,6 +4,7 @@ from nazs.network.util import getifaddrs
 from django.db import models
 from django.utils.translation import ugettext as _
 
+
 class Interface(Model):
     """
     Network Interfaces, both physical and virtual
@@ -39,10 +40,14 @@ class Interface(Model):
     name = models.CharField(max_length=10)
 
     # Type (ethernet, vlan, bridge...)
-    type = models.CharField(choices=TYPE_CHOICES, max_length=10, default=ETHERNET)
+    type = models.CharField(choices=TYPE_CHOICES,
+                            max_length=10,
+                            default=ETHERNET)
 
     # Mode (dhcp, static, bridged...)
-    mode = models.CharField(choices=MODE_CHOICES, max_length=10, default=DHCP)
+    mode = models.CharField(choices=MODE_CHOICES,
+                            max_length=10,
+                            default=UNCONFIGURED)
 
     @classmethod
     def update(cls):
@@ -55,4 +60,3 @@ class Interface(Model):
 
     def __unicode__(self):
         return self.name
-

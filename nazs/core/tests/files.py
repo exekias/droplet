@@ -9,6 +9,7 @@ import os
 import pwd
 import grp
 
+
 class FilesTests(TestCase):
     """
     Test on files classes
@@ -48,7 +49,6 @@ class FilesTests(TestCase):
         self.assertEqual(stat.st_uid, uid)
         self.assertEqual(stat.st_gid, gid)
 
-
     def test_overwrite_permissions(self):
         filename = os.path.join(self.tmpdir, 'test')
 
@@ -62,7 +62,6 @@ class FilesTests(TestCase):
         stat = os.stat(filename)
         self.assertNotEqual(stat.st_uid, uid)
         self.assertNotEqual(stat.st_gid, gid)
-
 
     def test_basic_template(self):
         filename = os.path.join(self.tmpdir, 'test')
@@ -90,5 +89,3 @@ class FilesTests(TestCase):
                                template_params=params).write()
 
         self.assertEqual(open(filename).read(), 'hello bar')
-
-

@@ -3,6 +3,7 @@ from django.test import TestCase
 from nazs.core.commands import run
 import subprocess
 
+
 class CommandsTests(TestCase):
     """
     Test on commands classes
@@ -14,4 +15,3 @@ class CommandsTests(TestCase):
 
     def test_run_fail(self):
         self.assertRaises(subprocess.CalledProcessError, run, "/bin/notexist")
-

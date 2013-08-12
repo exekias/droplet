@@ -2,8 +2,9 @@ from django.test import TestCase
 from django.dispatch import receiver
 
 from nazs.core.module import Module
-from nazs.core.signals import pre_enable, post_enable, \
-                              pre_disable, post_disable
+from nazs.core.signals import (pre_enable, post_enable,
+                               pre_disable, post_disable)
+
 
 class ModuleTests(TestCase):
     """
@@ -53,6 +54,7 @@ class ModuleTests(TestCase):
         m = self.aModule()
 
         m.called = 0
+
         @receiver(pre_enable)
         def increment(sender, **kwargs):
             self.assertFalse(sender.enabled)
@@ -84,4 +86,3 @@ class ModuleTests(TestCase):
         x = self.aModule()
         y = self.aModule()
         self.assertEqual(x, y)
-

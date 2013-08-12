@@ -4,6 +4,7 @@ from contextlib import contextmanager
 import os
 import pwd
 
+
 def drop_privileges():
     """
     Set settings.RUN_AS_USER effective UID for the current process
@@ -15,6 +16,7 @@ def drop_privileges():
     """
     uid = int(pwd.getpwnam(settings.RUN_AS_USER).pw_uid)
     os.seteuid(uid)
+
 
 @contextmanager
 def root():
@@ -30,4 +32,3 @@ def root():
     os.seteuid(0)
     yield
     drop_privileges()
-

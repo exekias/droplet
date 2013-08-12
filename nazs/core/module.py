@@ -1,9 +1,9 @@
 from django.dispatch import receiver
 
 from models import ModuleInfo
-from signals import pre_install, post_install, \
-                    pre_enable, post_enable, \
-                    pre_disable, post_disable
+from signals import (pre_install, post_install,
+                     pre_enable, post_enable,
+                     pre_disable, post_disable)
 
 
 class ModuleMeta(type):
@@ -28,7 +28,8 @@ class ModuleMeta(type):
 
     def __call__(cls, *args, **kw):
         if cls not in ModuleMeta.MODULES or ModuleMeta.MODULES[cls] is None:
-            ModuleMeta.MODULES[cls] = super(ModuleMeta, cls).__call__(*args, **kw)
+            ModuleMeta.MODULES[cls] = \
+                super(ModuleMeta, cls).__call__(*args, **kw)
         return ModuleMeta.MODULES[cls]
 
     @classmethod
@@ -39,7 +40,8 @@ class ModuleMeta(type):
         """
         def _wrapped(self, *args, **kwargs):
             if self.installed:
-                raise AssertionError('Module %s is already installed' % self.name)
+                raise AssertionError('Module %s is already installed'
+                                     % self.name)
 
             pre_install.send(sender=self)
             res = install(self, *args, **kwargs)
@@ -59,10 +61,13 @@ class ModuleMeta(type):
         """
         def _wrapped(self, *args, **kwargs):
             if not self.installed:
-                raise AssertionError('Module %s cannot be enabled, you should install it first' % self.name)
+                raise AssertionError('Module %s cannot be enabled'
+                                     ', you should install it first'
+                                     % self.name)
 
             if self.enabled:
-                raise AssertionError('Module %s is already enabled' % self.name)
+                raise AssertionError('Module %s is already enabled'
+                                     % self.name)
 
             pre_enable.send(sender=self)
             res = enable(self, *args, **kwargs)
@@ -82,7 +87,8 @@ class ModuleMeta(type):
         """
         def _wrapped(self, *args, **kwargs):
             if not self.enabled:
-                raise AssertionError('Module %s is already disabled' % self.name)
+                raise AssertionError('Module %s is already disabled'
+                                     % self.name)
 
             pre_disable.send(sender=self)
             res = disable(self, *args, **kwargs)
@@ -95,7 +101,6 @@ class ModuleMeta(type):
         return _wrapped
 
 
-
 class Module(object):
     """
     NAZS module, implements everything needed to provide a feature.
@@ -106,7 +111,7 @@ class Module(object):
     Modules have 3 status: not installed, enabled and disabled
 
     A module starts with not installed status, if the user installs it,
-    install() method will be called and the module will move to disabled status.
+    install() method will be called and the module will move to disabled status
 
     After install the module can be switched between enabled or disabled,
     but cannot move to not installed anymore.
@@ -146,10 +151,7 @@ class Module(object):
         """
         return self.__class__.__name__
 
-
-
     # Status info
-
 
     @property
     def installed(self):
@@ -168,14 +170,11 @@ class Module(object):
     @property
     def changed(self):
         """
-        Tells if module configuration has been changed (and it needs to be saved)
+        Tells if module configuration has been changed (it needs to be saved)
         """
         return self._info.changed
 
-
-
     # Enable / disable actions
-
 
     def install(self):
         """
@@ -191,7 +190,6 @@ class Module(object):
         """
         pass
 
-
     def disable(self):
         """
         Do the needed actions to disable this module
@@ -200,4 +198,3 @@ class Module(object):
 
 
     # Save changes process
-

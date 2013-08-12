@@ -7,6 +7,7 @@ import os
 import pwd
 import grp
 
+
 class BaseConfFile(object):
     """
     ConfFile is the representation of any configuration file that a module will
@@ -26,7 +27,6 @@ class BaseConfFile(object):
         self.mode = mode
         self.user = user
         self.group = group
-
 
     def write(self):
         """
@@ -57,14 +57,13 @@ class BaseConfFile(object):
         return int(grp.getgrnam(self.group).gr_gid)
 
 
-
 class TemplateConfFile(BaseConfFile):
 
-    def __init__(self, path, template=None, template_params={}, *args, **kwargs):
+    def __init__(self, path, template=None,
+                 template_params={}, *args, **kwargs):
         self.template = template
         self.template_params = template_params
         super(TemplateConfFile, self).__init__(path, *args, **kwargs)
-
 
     def contents(self):
         template = get_template(self.template)
@@ -74,4 +73,3 @@ class TemplateConfFile(BaseConfFile):
             params = self.template_params
         context = Context(params)
         return template.render(context)
-

@@ -2,6 +2,7 @@ from ctypes import *
 from socket import AF_INET, AF_INET6, AF_PACKET, inet_ntop
 from sys import platform
 
+
 def getifaddrs():
     """
     Return a list of network interfaces info, with this format:
@@ -9,7 +10,9 @@ def getifaddrs():
     {
         'interface_name':
             {
-                'ipv6': [{'scope': 5L, 'netmask': 'ffff:ffff:ffff:ffff::', 'addr': 'fe80::34f2:7dff:fe69:7c18'}],
+                'ipv6': [{'scope': 5L,
+                          'netmask': 'ffff:ffff:ffff:ffff::',
+                          'addr': 'fe80::34f2:7dff:fe69:7c18'}],
                 'hw': [{'addr': '36:f2:7d:69:7c:18'}],
                 'ipv4': [{'netmask': '255.255.255.0', 'addr': '10.0.3.1'}]},
             },
@@ -18,34 +21,34 @@ def getifaddrs():
     """
     class ifa_ifu_u(Union):
         _fields_ = [
-            ( "ifu_broadaddr", c_void_p ),
-            ( "ifu_dstaddr",   c_void_p )
+            ("ifu_broadaddr", c_void_p),
+            ("ifu_dstaddr", c_void_p)
         ]
-
 
     class ifaddrs(Structure):
         _fields_ = [
-            ( "ifa_next",    c_void_p  ),
-            ( "ifa_name",    c_char_p  ),
-            ( "ifa_flags",   c_uint    ),
-            ( "ifa_addr",    c_void_p  ),
-            ( "ifa_netmask", c_void_p  ),
-            ( "ifa_ifu",     ifa_ifu_u ),
-            ( "ifa_data",    c_void_p  )
+            ("ifa_next", c_void_p),
+            ("ifa_name", c_char_p),
+            ("ifa_flags", c_uint),
+            ("ifa_addr", c_void_p),
+            ("ifa_netmask", c_void_p),
+            ("ifa_ifu", ifa_ifu_u),
+            ("ifa_data", c_void_p)
         ]
 
     # AF_UNKNOWN / generic
-    if platform.startswith( "darwin" ) or platform.startswith( "freebsd" ):
+    if platform.startswith("darwin") or platform.startswith("freebsd"):
         class sockaddr(Structure):
             _fields_ = [
-                ("sa_len",     c_uint8 ),
-                ("sa_family",  c_uint8 ),
-                ("sa_data",   (c_uint8 * 14) ) ]
+                ("sa_len", c_uint8),
+                ("sa_family", c_uint8),
+                ("sa_data", c_uint8 * 14)
+            ]
     else:
         class sockaddr(Structure):
             _fields_ = [
-                ( "sa_family", c_uint16 ),
-                ( "sa_data",   (c_uint8 * 14) )
+                ("sa_family", c_uint16),
+                ("sa_data", c_uint8 * 14)
             ]
 
     # AF_INET / IPv4
@@ -57,17 +60,17 @@ def getifaddrs():
     class sockaddr_in(Structure):
         _fields_ = [
             ("sin_family", c_short),
-            ("sin_port",   c_ushort),
-            ("sin_addr",   in_addr),
-            ("sin_zero",   (c_char * 8) ), # padding
+            ("sin_port", c_ushort),
+            ("sin_addr", in_addr),
+            ("sin_zero", c_char * 8),  # padding
         ]
 
     # AF_INET6 / IPv6
     class in6_u(Union):
         _fields_ = [
-            ("u6_addr8",  (c_uint8 * 16) ),
-            ("u6_addr16", (c_uint16 * 8) ),
-            ("u6_addr32", (c_uint32 * 4) )
+            ("u6_addr8", c_uint8 * 16),
+            ("u6_addr16", c_uint16 * 8),
+            ("u6_addr32", c_uint32 * 4)
         ]
 
     class in6_addr(Union):
@@ -77,41 +80,41 @@ def getifaddrs():
 
     class sockaddr_in6(Structure):
         _fields_ = [
-            ("sin6_family",   c_short),
-            ("sin6_port",     c_ushort),
+            ("sin6_family", c_short),
+            ("sin6_port", c_ushort),
             ("sin6_flowinfo", c_uint32),
-            ("sin6_addr",     in6_addr),
+            ("sin6_addr", in6_addr),
             ("sin6_scope_id", c_uint32),
         ]
 
     # AF_PACKET / Linux
-    class sockaddr_ll( Structure ):
+    class sockaddr_ll(Structure):
         _fields_ = [
-            ("sll_family",   c_uint16 ),
-            ("sll_protocol", c_uint16 ),
-            ("sll_ifindex",  c_uint32 ),
-            ("sll_hatype",   c_uint16 ),
-            ("sll_pktype",   c_uint8  ),
-            ("sll_halen",    c_uint8  ),
-            ("sll_addr",     (c_uint8 * 8) )
+            ("sll_family", c_uint16),
+            ("sll_protocol", c_uint16),
+            ("sll_ifindex", c_uint32),
+            ("sll_hatype", c_uint16),
+            ("sll_pktype", c_uint8),
+            ("sll_halen", c_uint8),
+            ("sll_addr", c_uint8 * 8)
         ]
 
     # AF_LINK / BSD|OSX
-    class sockaddr_dl( Structure ):
+    class sockaddr_dl(Structure):
         _fields_ = [
-            ("sdl_len",    c_uint8  ),
-            ("sdl_family", c_uint8  ),
-            ("sdl_index",  c_uint16 ),
-            ("sdl_type",   c_uint8  ),
-            ("sdl_nlen",   c_uint8  ),
-            ("sdl_alen",   c_uint8  ),
-            ("sdl_slen",   c_uint8  ),
-            ("sdl_data",   (c_uint8 * 46) )
+            ("sdl_len", c_uint8),
+            ("sdl_family", c_uint8),
+            ("sdl_index", c_uint16),
+            ("sdl_type", c_uint8),
+            ("sdl_nlen", c_uint8),
+            ("sdl_alen", c_uint8),
+            ("sdl_slen", c_uint8),
+            ("sdl_data", c_uint8 * 46)
         ]
 
     families = {
         AF_INET: 'ipv4',
-        AF_INET6 : 'ipv6',
+        AF_INET6: 'ipv6',
         AF_PACKET: 'hw'
     }
 
@@ -123,7 +126,6 @@ def getifaddrs():
     ifa = ifaddrs.from_address(ptr.value)
     result = {}
 
-
     while ifa:
         name = ifa.ifa_name
 #       name = ifa.ifa_name.decode('UTF-8') # use this for python3
@@ -133,7 +135,6 @@ def getifaddrs():
 
         sa = sockaddr.from_address(ifa.ifa_addr)
 
-
         if sa.sa_family not in result[name]:
             result[name][families[sa.sa_family]] = []
 
@@ -142,20 +143,20 @@ def getifaddrs():
         if sa.sa_family == AF_INET:
             if ifa.ifa_addr is not None:
                 si = sockaddr_in.from_address(ifa.ifa_addr)
-                data['addr'] = inet_ntop(si.sin_family,si.sin_addr)
+                data['addr'] = inet_ntop(si.sin_family, si.sin_addr)
             if ifa.ifa_netmask is not None:
                 si = sockaddr_in.from_address(ifa.ifa_netmask)
-                data['netmask'] = inet_ntop(si.sin_family,si.sin_addr)
+                data['netmask'] = inet_ntop(si.sin_family, si.sin_addr)
 
         if sa.sa_family == AF_INET6:
             if ifa.ifa_addr is not None:
                 si = sockaddr_in6.from_address(ifa.ifa_addr)
-                data['addr'] = inet_ntop(si.sin6_family,si.sin6_addr)
+                data['addr'] = inet_ntop(si.sin6_family, si.sin6_addr)
                 if data['addr'].startswith('fe80:'):
                     data['scope'] = si.sin6_scope_id
             if ifa.ifa_netmask is not None:
                 si = sockaddr_in6.from_address(ifa.ifa_netmask)
-                data['netmask'] = inet_ntop(si.sin6_family,si.sin6_addr)
+                data['netmask'] = inet_ntop(si.sin6_family, si.sin6_addr)
 
         if sa.sa_family == AF_PACKET:
             if ifa.ifa_addr is not None:
@@ -176,5 +177,3 @@ def getifaddrs():
 
     libc.freeifaddrs(ptr)
     return result
-
-
