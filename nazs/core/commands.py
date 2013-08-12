@@ -7,6 +7,6 @@ def run(cmd):
     raises subprocess.CalledProcessError if it fails
     """
 
-    output = subprocess.check_output(cmd, shell=True)
+    output = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
 
     return output
