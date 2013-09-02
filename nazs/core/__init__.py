@@ -1,4 +1,4 @@
-from nazs.core.sudo import drop_privileges
+from nazs.core.sudo import set_euid
 
 
 def init():
@@ -6,4 +6,4 @@ def init():
     Initialize nazs environment, setup logging, processes and all
     needed stuff for running nazs
     """
-    drop_privileges()
+    set_euid()

@@ -5,7 +5,7 @@ import os
 import pwd
 
 
-def drop_privileges():
+def set_euid():
     """
     Set settings.RUN_AS_USER effective UID for the current process
 
@@ -16,6 +16,18 @@ def drop_privileges():
     """
     uid = int(pwd.getpwnam(settings.RUN_AS_USER).pw_uid)
     os.seteuid(uid)
+
+
+def drop_privileges():
+    """
+    Set settings.RUN_AS_USER UID for the current process
+
+    After calling this, root operation will be impossible to execute
+
+    See root context manager
+    """
+    uid = int(pwd.getpwnam(settings.RUN_AS_USER).pw_uid)
+    os.setuid(uid)
 
 
 @contextmanager
@@ -31,4 +43,4 @@ def root():
     """
     os.seteuid(0)
     yield
-    drop_privileges()
+    set_euid()
