@@ -17,6 +17,8 @@ dockertest: prepare_coverage
            "cd /nazs && ./manage.py test --with-coverage --cover-package=nazs"
 	@rm .coverage
 
+sense: dockertest pep8
+
 pep8:
 	pep8 nazs
 
