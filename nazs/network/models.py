@@ -26,7 +26,7 @@ class Interface(Model):
 
     UNCONFIGURED = 'notset'
     STATIC = 'static'
-    DHCP = 'dchp'
+    DHCP = 'dhcp'
     BRIDGED = 'bridged'
 
     MODE_CHOICES = (
