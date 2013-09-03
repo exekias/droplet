@@ -1,5 +1,5 @@
-from nazs import Module
-from nazs.files import TemplateConfFile
+from nazs.core.module import Module
+from nazs.core.files import TemplateConfFile
 
 from models import Interface
 
