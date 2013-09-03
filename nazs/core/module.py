@@ -1,6 +1,7 @@
 from django.dispatch import receiver
 
 from models import ModuleInfo
+from files import ConfFile
 from signals import (pre_install, post_install,
                      pre_enable, post_enable,
                      pre_disable, post_disable)
@@ -234,7 +235,17 @@ class Module(object):
         """
         Write configuration files for this module
         """
-        pass
+        for f in self.conf_files():
+            f.write()
+
+    def conf_files(self):
+        """
+        List of configuration files for this module
+        """
+        for attr in dir(self):
+            field = getattr(self, attr)
+            if isinstance(field, ConfFile):
+                yield field
 
     def manage_daemons(self):
         """

@@ -8,7 +8,7 @@ import pwd
 import grp
 
 
-class BaseConfFile(object):
+class ConfFile(object):
     """
     ConfFile is the representation of any configuration file that a module will
     write in order to work
@@ -57,7 +57,7 @@ class BaseConfFile(object):
         return int(grp.getgrnam(self.group).gr_gid)
 
 
-class TemplateConfFile(BaseConfFile):
+class TemplateConfFile(ConfFile):
 
     def __init__(self, path, template=None,
                  template_params={}, *args, **kwargs):
