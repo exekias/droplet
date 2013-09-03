@@ -27,7 +27,6 @@ def set_euid():
             current_user = pwd.getpwuid(os.getuid()).pw_name
             logger.error("Failed to set '%s' EUID, running as '%s'" %
                          (settings.RUN_AS_USER, current_user))
-            raise e
     else:
         logger.debug('Didn\'t set EUID, it was already correct')
 
