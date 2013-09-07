@@ -2,10 +2,15 @@ from django.template.loader import get_template
 from django.template import Context
 
 from nazs.core.sudo import root
+from nazs import settings
 
 import os
 import pwd
 import grp
+import difflib
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class ConfFile(object):
@@ -37,6 +42,7 @@ class ConfFile(object):
         oldmask = os.umask(0)
 
         with root():
+            self._write_log()
             fd = os.open(self.path, os.O_WRONLY | os.O_CREAT, mode)
             with os.fdopen(fd, 'w') as f:
                 os.fchown(fd, self.uid(), self.gid())
@@ -49,6 +55,23 @@ class ConfFile(object):
         Return contents to write in the file
         """
         return ''
+
+    def _write_log(self):
+        """
+        Write log info
+        """
+        logger.info("Writing config file %s" % self.path)
+
+        if settings.DEBUG:
+            try:
+                old_content = open(self.path, 'r').readlines()
+            except IOError:
+                old_content = ''
+
+            new_content = self.contents().splitlines(True)
+            diff = difflib.unified_diff(old_content, new_content,
+                                        fromfile=self.path, tofile=self.path)
+            logger.debug('Diff:\n' + ''.join(diff))
 
     def uid(self):
         return int(pwd.getpwnam(self.user).pw_uid)
