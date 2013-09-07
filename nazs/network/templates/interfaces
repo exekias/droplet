@@ -5,11 +5,11 @@
 auto lo
 iface lo inet loopback
 
-auto eth0
-iface eth0 inet static
-    address 87.98.216.51
-    netmask 255.255.255.0
-    network 87.98.216.0
-    broadcast 87.98.216.255
-    gateway 87.98.216.254
-
+{% for iface in interfaces %}
+    {% if iface.configured %}
+auto {{ iface }}
+        {% if iface.mode == 'dhcp' %}
+iface {{ iface.name }} inet {{ iface.mode }}
+        {% endif %}
+    {% endif %}
+{% endfor %}
