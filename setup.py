@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
+from nazs import __version__
 
 setup(name='NAZS',
-      version='0.1',
+      version=__version__,
       author='NAZS Team',
       packages=find_packages(),
 )
