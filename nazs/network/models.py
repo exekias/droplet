@@ -54,9 +54,21 @@ class Interface(Model):
         """
         Update rows to include known network interfaces
         """
-        for ifname in getifaddrs().keys():
+        ifaddrs = getifaddrs()
+        # Create new interfaces
+        for ifname in ifaddrs.keys():
             if filter(ifname.startswith, cls.NAME_FILTER):
                 cls.objects.get_or_create(name=ifname)
+
+        # Delete no longer existing ones
+        cls.objects.exclude(name__in=ifaddrs.keys()).delete()
+
+    @property
+    def configured(self):
+        """
+        Return True if this interface is configured
+        """
+        return self.mode != Interface.UNCONFIGURED
 
     def __unicode__(self):
         return self.name
