@@ -4,7 +4,8 @@ from models import ModuleInfo
 from files import ConfFile
 from signals import (pre_install, post_install,
                      pre_enable, post_enable,
-                     pre_disable, post_disable)
+                     pre_disable, post_disable,
+                     pre_save, post_save)
 
 
 class ModuleMeta(type):
