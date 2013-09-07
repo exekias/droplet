@@ -25,7 +25,7 @@ class FilesTests(TestCase):
         filename = os.path.join(self.tmpdir, 'test')
         self.assertFalse(os.path.exists(filename))
 
-        files.BaseConfFile(filename).write()
+        files.ConfFile(filename).write()
 
         self.assertTrue(os.path.exists(filename))
 
@@ -39,10 +39,10 @@ class FilesTests(TestCase):
         uid = pwd.getpwnam(USER).pw_uid
         gid = grp.getgrnam(USER).gr_gid
 
-        files.BaseConfFile(filename,
-                           user=USER,
-                           group=GROUP,
-                           mode=MODE).write()
+        files.ConfFile(filename,
+                       user=USER,
+                       group=GROUP,
+                       mode=MODE).write()
 
         stat = os.stat(filename)
         self.assertEqual(stat.st_mode & 0777, MODE)
@@ -57,7 +57,7 @@ class FilesTests(TestCase):
         uid = pwd.getpwnam(USER).pw_uid
         gid = grp.getgrnam(USER).gr_gid
 
-        files.BaseConfFile(filename).write()
+        files.ConfFile(filename).write()
 
         stat = os.stat(filename)
         self.assertNotEqual(stat.st_uid, uid)
