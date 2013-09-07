@@ -100,15 +100,18 @@ class Model(models.Model):
 
     # True if the object was added after module save event
     _new = models.BooleanField(default=True,
-                               verbose_name=_('Row new'))
+                               verbose_name=_('Row new'),
+                               editable=False)
 
     # True if the object has changed since last module save event
     _changed = models.BooleanField(default=True,
-                                   verbose_name=_('Row changed'))
+                                   verbose_name=_('Row changed'),
+                                   editable=False)
 
     # Deleted marker, custom manager will not show models with this set to True
     _deleted = models.BooleanField(default=False,
-                                   verbose_name=_('Row deleted'))
+                                   verbose_name=_('Row deleted'),
+                                   editable=False)
 
     # Override save method to mark object as changed
     def save(self, *args, **kwargs):
