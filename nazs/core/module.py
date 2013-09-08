@@ -19,6 +19,10 @@ class ModuleMeta(type):
         # Construct the class
         cls = super(ModuleMeta, meta).__new__(meta, name, bases, dct)
 
+        # Ignore base class
+        if object in bases:
+            return cls
+
         # Wrap enable event signals
         cls.install = meta.install_wrapper(cls.install, cls)
         cls.enable = meta.enable_wrapper(cls.enable, cls)
