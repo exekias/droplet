@@ -12,6 +12,9 @@ activate_this = os.path.join(manage_path, 'env/bin/activate_this.py')
 execfile(activate_this, dict(__file__=activate_this))
 
 from django.core import management
+import logging
+
+logging.disable(logging.ERROR)
 
 management.call_command('test',
                         '--with-coverage',
