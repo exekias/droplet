@@ -9,7 +9,7 @@ run: env
 	./manage.py runserver
 
 test: env
-	./manage.py test --with-coverage --cover-erase --cover-package=nazs
+	./manage.py test --with-coverage --cover-erase --cover-inclusive --cover-package=nazs
 
 sense: vagranttest pep8
 
@@ -21,16 +21,16 @@ pep8:
 
 vagrantup: env
 	vagrant up
-	vagrant ssh -c "cd /nazs && sudo ./manage.py runserver 0.0.0.0:8000"
 
 vagrantrun: vagrantup
+	vagrant ssh -c "cd /nazs && sudo ./manage.py runserver 0.0.0.0:8000"
 
 vagranttest: vagrantup
-	vagrant ssh -c "cd /nazs && sudo ./manage.py test --with-coverage --cover-erase --cover-package=nazs"
+	vagrant ssh -c "cd /nazs && sudo ./manage.py test --with-coverage --cover-inclusive --cover-erase --cover-package=nazs"
 
 
 # Docker
 
 dockertest: env
 	docker run -i -t -v $(shell pwd):/nazs exekias/python /bin/bash -c \
-           "cd /nazs && ./manage.py test --with-coverage --cover-erase --cover-package=nazs"
+           "cd /nazs && ./manage.py test --with-coverage --cover-inclusive --cover-erase --cover-package=nazs"
