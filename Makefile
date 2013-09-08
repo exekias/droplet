@@ -4,7 +4,7 @@ env:
 	./bootstrap.sh
 
 run: env
-	./manage.py runserver
+	./manage.py runserver --nothreading
 
 test: env
 	./test.py
@@ -21,7 +21,7 @@ vagrantup: env
 	vagrant up
 
 vagrantrun: vagrantup
-	vagrant ssh -c "cd /nazs && sudo ./manage.py runserver 0.0.0.0:8000"
+	vagrant ssh -c "cd /nazs && sudo ./manage.py runserver --nothreading 0.0.0.0:8000"
 
 vagranttest: vagrantup
 	vagrant ssh -c "cd /nazs && sudo ./test.py"
