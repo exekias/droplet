@@ -18,15 +18,15 @@ class ConfFile(object):
     ConfFile is the representation of any configuration file that a module will
     write in order to work
     """
-    def __init__(self, path, mode=None, user='root', group='root'):
+    def __init__(self, path, mode=None, user=None, group=None):
         """
         Instance a ConfFile object
 
         Parameters
             path - full path of the file
-            mode - POSIX permissions mode
-            user - owner of the file
-            group - group of the file
+            mode - POSIX permissions mode (default: not change)
+            user - owner of the file (default: not change)
+            group - group of the file (default: not change)
         """
         self.path = path
         self.mode = mode
@@ -37,18 +37,19 @@ class ConfFile(object):
         """
         Write the file, forcing the proper permissions
         """
-        mode = self.mode or 0640
-
-        oldmask = os.umask(0)
-
         with root():
             self._write_log()
-            fd = os.open(self.path, os.O_WRONLY | os.O_CREAT, mode)
-            with os.fdopen(fd, 'w') as f:
-                os.fchown(fd, self.uid(), self.gid())
-                f.write(self.contents())
+            with open(self.path, 'w') as f:
+                # file owner
+                os.chown(self.path, self.uid(), self.gid())
 
-        os.umask(oldmask)
+                # mode
+                if self.mode:
+                    oldmask = os.umask(0)
+                    os.chmod(self.path, self.mode)
+                    os.umask(oldmask)
+
+                f.write(self.contents())
 
     def contents(self):
         """
@@ -74,9 +75,13 @@ class ConfFile(object):
             logger.debug('Diff:\n' + ''.join(diff))
 
     def uid(self):
+        if self.user is None:
+            return -1
         return int(pwd.getpwnam(self.user).pw_uid)
 
     def gid(self):
+        if self.group is None:
+            return -1
         return int(grp.getgrnam(self.group).gr_gid)
 
 
