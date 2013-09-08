@@ -10,6 +10,6 @@ class Network(Module):
 
     interfaces = TemplateConfFile('/etc/network/interfaces',
                                   template='interfaces',
-                                  template_params={
+                                  template_params=lambda: {
                                       'interfaces': Interface.objects.all()
                                   })

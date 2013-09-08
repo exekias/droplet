@@ -6,10 +6,10 @@ auto lo
 iface lo inet loopback
 
 {% for iface in interfaces %}
-    {% if iface.configured %}
+{% if iface.configured %}
 auto {{ iface }}
-        {% if iface.mode == 'dhcp' %}
+{% if iface.mode == 'dhcp' %}
 iface {{ iface.name }} inet {{ iface.mode }}
-        {% endif %}
-    {% endif %}
+{% endif %}
+{% endif %}
 {% endfor %}
