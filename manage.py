@@ -11,8 +11,9 @@ manage_path = os.path.dirname(os.path.realpath(__file__))
 activate_this = os.path.join(manage_path, 'env/bin/activate_this.py')
 execfile(activate_this, dict(__file__=activate_this))
 
-from nazs.core import init
-init()
+# If we import this here coverage info will be wrong
+#from nazs.core.common import init
+#init()
 
 from django.core import management
 

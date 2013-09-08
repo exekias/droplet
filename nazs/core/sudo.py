@@ -23,7 +23,8 @@ def set_euid():
     if current != uid:
         try:
             os.seteuid(uid)
-            logger.info('Set EUID to %s (%s)' % (settings.RUN_AS_USER, os.geteuid()))
+            logger.info('Set EUID to %s (%s)' %
+                        (settings.RUN_AS_USER, os.geteuid()))
         except:
             current_user = pwd.getpwuid(os.getuid()).pw_name
             logger.error("Failed to set '%s' EUID, running as '%s'" %
@@ -56,7 +57,8 @@ def root():
 
     """
     logger.info('Entering ROOT mode')
+    old_euid = os.geteuid()
     os.seteuid(0)
     yield
-    os.seteuid(int(pwd.getpwnam(settings.RUN_AS_USER).pw_uid))
+    os.seteuid(old_euid)
     logger.info('Exited ROOT mode')

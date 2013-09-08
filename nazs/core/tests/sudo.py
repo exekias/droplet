@@ -14,6 +14,7 @@ class SudoTests(TestCase):
 
     def test_with_root(self):
         uid = int(pwd.getpwnam(settings.RUN_AS_USER).pw_uid)
+        os.seteuid(uid)
         self.assertNotEqual(os.geteuid(), 0)
 
         with root():
