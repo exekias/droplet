@@ -139,15 +139,46 @@ class Module(object):
     A module starts with not installed status, if the user installs it,
     install() method will be called and the module will move to disabled status
 
-    After install the module can be switched between enabled or disabled,
+    After installing the module, it can be switched between enabled or disabled,
     but cannot move to not installed anymore. See enable() and disable()
     methods.
 
-    When a module is enabled, a call to save() will do all the needed actions
-    to make the module work: write configuration files, manage daemons, etc...
-    You can only call save() on a enabled module. Disabled modules do not
-    interfere with the system.
+    When the configuration for a module has changed and the user ask to apply
+    it, the save() method will be called. This will write all configuration
+    needed to make the module work.
 
+    Depending on the status of the module, the system will call 3 different
+    methods to operate it: start(), stop() or restart().
+
+
+    Module status          Running status
+
+    - FIRST CONFIGURATION
+    not installed             stopped
+       |--install()              |
+    disabled                     |
+       |--enable()               |
+    enabled                      |
+       |--save()                 |
+       |--start()                |
+                              running
+
+    - CONF CHANGE
+    enabled                   running
+      |--save()                  |
+      |--restart()               ~
+                              running
+
+    - BOOT
+    enabled                   stopped
+       |--start()                |
+                              running
+
+    - DISABLE
+    enabled                   running
+       |--stop()                 |
+       |--disable()           stopped
+    disabled
 
     TODO
 
@@ -155,7 +186,6 @@ class Module(object):
     -----------
        - pre install models
        - models
-       - conf files
        - daemons
        - events
 
