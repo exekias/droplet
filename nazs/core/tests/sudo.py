@@ -1,10 +1,11 @@
 from django.test import TestCase
 from django.conf import settings
 
-from nazs.core.sudo import root
+from nazs.core.sudo import root, set_euid
 
+import tempfile
+import shutil
 import os
-import pwd
 
 
 class SudoTests(TestCase):
@@ -12,10 +13,22 @@ class SudoTests(TestCase):
     Test nazs.core.sudo module
     """
 
+    def setUp(self):
+        self.tmpdir = tempfile.mkdtemp()
+
+    def tearDown(self):
+        with root():
+            shutil.rmtree(self.tmpdir)
+
     def test_with_root(self):
-        uid = int(pwd.getpwnam(settings.RUN_AS_USER).pw_uid)
-        os.seteuid(uid)
+        set_euid()
         self.assertNotEqual(os.geteuid(), 0)
 
         with root():
             self.assertEqual(os.getuid(), 0)
+
+    def test_no_root(self):
+        set_euid()
+        self.assertNotEqual(os.geteuid(), 0)
+
+        self.assertRaises(OSError, os.chown, self.tmpdir, 0, 0)
