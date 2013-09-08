@@ -18,11 +18,12 @@ def set_euid():
     See root context manager
     """
     uid = int(pwd.getpwnam(settings.RUN_AS_USER).pw_uid)
-    logger.debug('Current EUID is %s' % os.getuid())
-    if uid != os.geteuid():
+    current = os.geteuid()
+    logger.debug('Current EUID is %s' % current)
+    if current != uid:
         try:
             os.seteuid(uid)
-            logger.info('Set EUID to %s' % settings.RUN_AS_USER)
+            logger.info('Set EUID to %s (%s)' % (settings.RUN_AS_USER, os.geteuid()))
         except:
             current_user = pwd.getpwuid(os.getuid()).pw_name
             logger.error("Failed to set '%s' EUID, running as '%s'" %
