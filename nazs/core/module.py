@@ -7,7 +7,6 @@ from signals import (pre_install, post_install,
                      pre_disable, post_disable,
                      pre_save, post_save)
 
-
 class ModuleMeta(type):
     """
     Module metaclass, to allow some black magic tricks on module definitions
@@ -140,7 +139,13 @@ class Module(object):
     install() method will be called and the module will move to disabled status
 
     After install the module can be switched between enabled or disabled,
-    but cannot move to not installed anymore.
+    but cannot move to not installed anymore. See enable() and disable()
+    methods.
+
+    When a module is enabled, a call to save() will do all the needed actions
+    to make the module work: write configuration files, manage daemons, etc...
+    You can only call save() on a enabled module. Disabled modules do not
+    interfere with the system.
 
 
     TODO
