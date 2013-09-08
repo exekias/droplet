@@ -5,12 +5,11 @@ FORCE:
 env: FORCE
 	./bootstrap.sh
 
-run:
+run: env
 	./manage.py runserver
 
-test: prepare_coverage
-	./manage.py test --nologcapture --with-coverage --cover-package=nazs
-	@rm .coverage
+test: env
+	./manage.py test --with-coverage --cover-erase --cover-package=nazs
 
 sense: vagranttest pep8
 
@@ -20,20 +19,18 @@ pep8:
 
 # Vagrant
 
-vagrantup:
+vagrantup: env
 	vagrant up
+	vagrant ssh -c "cd /nazs && sudo ./manage.py runserver 0.0.0.0:8000"
+
+vagrantrun: vagrantup
 
 vagranttest: vagrantup
-	vagrant ssh -c "cd /nazs && sudo ./manage.py test --with-coverage --cover-package=nazs"
-	@rm .coverage
+	vagrant ssh -c "cd /nazs && sudo ./manage.py test --with-coverage --cover-erase --cover-package=nazs"
 
 
 # Docker
 
-dockertest: prepare_coverage
+dockertest: env
 	docker run -i -t -v $(shell pwd):/nazs exekias/python /bin/bash -c \
-           "cd /nazs && ./manage.py test --with-coverage --cover-package=nazs"
-
-prepare_coverage:
-	@touch .coverage
-	@chmod 666 .coverage
+           "cd /nazs && ./manage.py test --with-coverage --cover-erase --cover-package=nazs"
