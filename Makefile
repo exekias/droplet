@@ -9,7 +9,7 @@ run: env
 test: env
 	./test.py
 
-sense: vagranttest pep8
+sense: dockertest pep8
 
 pep8:
 	pep8 nazs
