@@ -7,6 +7,7 @@ from signals import (pre_install, post_install,
                      pre_disable, post_disable,
                      pre_save, post_save)
 
+
 class ModuleMeta(type):
     """
     Module metaclass, to allow some black magic tricks on module definitions

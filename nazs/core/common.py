@@ -1,6 +1,31 @@
+from django.db import settings
+from django.db.models.signals import post_save
+
 from nazs.core.sudo import set_euid
 from nazs.core.module import Module
-from django.db import settings
+
+import importlib
+import logging
+
+
+logger = logging.getLogger(__name__)
+
+
+def save(**kwargs):
+    """
+    Save all changed modules
+    """
+    logger.info("Saving changes")
+
+    for cls in Module.MODULES:
+        module = cls()
+        if module.enabled:
+            logger.info("Saving module: %s" % module.name)
+            module.save()
+        else:
+            logger.info("Not saving disabled module: %s" % module.name)
+
+    logger.info("Changes saved")
 
 
 def init():
@@ -10,10 +35,12 @@ def init():
     """
     set_euid()
 
+    # Load all modules
+    for app in settings.INSTALLED_APPS:
+        try:
+            importlib.import_module(app + '.module')
+        except:
+            pass
 
-def save():
-
-    for module in Module.MODULES:
-        module = module()
-        if module.installed:
-            module.save()
+    # DEVELOPMENT ONLY: save on model change
+    post_save.connect(save)
