@@ -139,9 +139,9 @@ class Module(object):
     A module starts with not installed status, if the user installs it,
     install() method will be called and the module will move to disabled status
 
-    After installing the module, it can be switched between enabled or disabled,
-    but cannot move to not installed anymore. See enable() and disable()
-    methods.
+    After installing the module, it can be switched between enabled or
+    disabled, but cannot move to not installed anymore. See enable() and
+    disable() methods.
 
     When the configuration for a module has changed and the user ask to apply
     it, the save() method will be called. This will write all configuration
@@ -258,19 +258,17 @@ class Module(object):
         """
         pass
 
-    # Save changes process
+    # Save changes
 
     def save(self):
         """
         Apply module changes to the system, it will basically:
 
          - Call write_conf()
-         - Call manage_daemons()
 
         If you need more advanced stuff you can override thiss method
         """
         self.write_conf()
-        self.manage_daemons()
 
     def write_conf(self):
         """
@@ -288,8 +286,22 @@ class Module(object):
             if isinstance(field, ConfFile):
                 yield field
 
-    def manage_daemons(self):
+    # Start / stop
+    def start(self):
         """
-        Write configuration files for this module
+        Start running the module (start daemons, launch services...)
         """
         pass
+
+    def stop(self):
+        """
+        Stop module from running (stop daemons)
+        """
+        pass
+
+    def restart(self):
+        """
+        Restart module
+        """
+        self.stop()
+        self.start()
