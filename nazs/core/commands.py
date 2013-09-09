@@ -1,4 +1,8 @@
 import subprocess
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 def run(cmd):
@@ -7,6 +11,8 @@ def run(cmd):
     raises subprocess.CalledProcessError if it fails
     """
 
+    logger.debug('Running command: %s' % cmd)
     output = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+    logger.debug(output)
 
     return output
