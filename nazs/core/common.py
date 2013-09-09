@@ -11,9 +11,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def save(**kwargs):
+def conf_change(**kwargs):
     """
-    Save all changed modules
+    Apply configuration change son all the modules
     """
     logger.info("Saving changes")
 
@@ -22,6 +22,7 @@ def save(**kwargs):
         if module.enabled:
             logger.info("Saving module: %s" % module.name)
             module.save()
+            module.restart()
         else:
             logger.info("Not saving disabled module: %s" % module.name)
 
@@ -43,4 +44,4 @@ def init():
             pass
 
     # DEVELOPMENT ONLY: save on model change
-    post_save.connect(save)
+    post_save.connect(conf_change)
