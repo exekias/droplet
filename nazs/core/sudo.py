@@ -56,9 +56,9 @@ def root():
         ...
 
     """
-    logger.info('Entering ROOT mode')
+    logger.debug('Entering ROOT mode')
     old_euid = os.geteuid()
     os.seteuid(0)
     yield
     os.seteuid(old_euid)
-    logger.info('Exited ROOT mode')
+    logger.debug('Exited ROOT mode')
