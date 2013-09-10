@@ -3,7 +3,12 @@ from nazs.core.files import TemplateConfFile
 from nazs.core.commands import run
 from nazs.core.sudo import root
 
-from models import Interface
+from nazs.network.models import Interface
+
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class Network(Module):
@@ -17,8 +22,9 @@ class Network(Module):
                                   })
 
     def start(self):
-        for iface in Interface.objects.filter():
+        for iface in Interface.objects.all():
             if not iface.configured:
+                logger.debug("%s is not configured" % iface.name)
                 continue
 
             with root():
@@ -29,6 +35,7 @@ class Network(Module):
     def stop(self):
         for iface in Interface.objects.all():
             if not iface.configured:
+                logger.debug("%s is not configured" % iface.name)
                 continue
 
             with root():
