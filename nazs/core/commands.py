@@ -24,5 +24,6 @@ def run(cmd, background=False):
     else:
         output = subprocess.check_output(cmd, shell=True,
                                          stderr=subprocess.STDOUT)
-        logger.debug('OUTPUT:\n' + output)
+        if output:
+            logger.debug('OUTPUT:\n' + output)
         return output

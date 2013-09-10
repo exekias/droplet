@@ -22,7 +22,9 @@ class Network(Module):
                 continue
 
             with root():
-                run('/sbin/ifup --force %s' % iface.name)
+                # we run ifup in background
+                # it can wait indefinitely for DHCP requests
+                run('/sbin/ifup --force %s' % iface.name, background=True)
 
     def stop(self):
         for iface in Interface.objects.all():
