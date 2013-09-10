@@ -135,9 +135,9 @@ class Model(models.Model):
         pass
 
     @classmethod
-    def commit_save(cls):
+    def commit(cls):
         """
-        Process the module save event, this will:
+        Commit current configuration, this will:
             - Unmark updated objects
             - Unmark new objects
             - Completely delete objects mark as deleted

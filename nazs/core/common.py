@@ -8,7 +8,16 @@ import importlib
 import logging
 
 
+#TODO move this to nazs/__init__.py (without breaking coverage)
+
 logger = logging.getLogger(__name__)
+
+
+def modules():
+    """
+    Return a list of instances of all present modules
+    """
+    return [cls() for cls in Module.MODULES]
 
 
 def conf_change(**kwargs):
@@ -17,14 +26,18 @@ def conf_change(**kwargs):
     """
     logger.info("Saving changes")
 
-    for cls in Module.MODULES:
-        module = cls()
+    # Save + restart
+    for module in modules():
         if module.enabled:
             logger.info("Saving module: %s" % module.name)
             module.save()
             module.restart()
         else:
             logger.info("Not saving disabled module: %s" % module.name)
+
+    # Commit
+    for module in modules():
+        module.commit()
 
     logger.info("Changes saved")
 

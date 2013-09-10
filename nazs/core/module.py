@@ -1,4 +1,5 @@
 from django.dispatch import receiver
+from django.db.models import get_app, get_models
 
 from models import ModuleInfo
 from files import ConfFile
@@ -100,7 +101,6 @@ class ModuleMeta(type):
             res = save(self, *args, **kwargs)
             post_save.send(sender=self)
 
-            self._info.commit_save()  # TODO commit_save all module models
             return res
 
         return _wrapped
@@ -236,6 +236,22 @@ class Module(object):
         """
         return self._info.changed
 
+    def commit(self):
+        """
+        Commit changes in all the models for this module. This method is call
+        after applying changes, unmarking changed/new rows and deleting purging
+        objects
+        """
+        for model in self.models():
+            model.commit()
+
+    def models(self):
+        """
+        Return all the models defined for this module
+        """
+        app = get_app(self.__class__.__module__.split('.')[-2])
+        return get_models(app)
+
     # Enable / disable actions
 
     def install(self):
@@ -287,6 +303,7 @@ class Module(object):
                 yield field
 
     # Start / stop
+
     def start(self):
         """
         Start running the module (start daemons, launch services...)

@@ -40,7 +40,7 @@ class ModelTests(TestCase):
         # but in deleted
         self.assertEqual(ModuleInfo.objects.deleted().count(), 1)
 
-        ModuleInfo.commit_save()
+        ModuleInfo.commit()
 
         # Totally deleted
         self.assertEqual(ModuleInfo.objects.deleted().count(), 0)
@@ -53,7 +53,7 @@ class ModelTests(TestCase):
         self.assertEqual(ModuleInfo.objects.changed().count(), 2)
         self.assertEqual(ModuleInfo.objects.new().count(), 2)
 
-        ModuleInfo.commit_save()
+        ModuleInfo.commit()
         self.assertEqual(ModuleInfo.objects.changed().count(), 0)
         self.assertEqual(ModuleInfo.objects.new().count(), 0)
 
@@ -67,7 +67,7 @@ class ModelTests(TestCase):
     def test_update(self):
         ModuleInfo(name='a').save()
         ModuleInfo(name='b').save()
-        ModuleInfo.commit_save()
+        ModuleInfo.commit()
 
         ModuleInfo.objects.update(status=2)
         self.assertEqual(ModuleInfo.objects.changed().count(), 2)
