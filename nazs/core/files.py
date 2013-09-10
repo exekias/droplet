@@ -72,7 +72,10 @@ class ConfFile(object):
             new_content = self.contents().splitlines(True)
             diff = difflib.unified_diff(old_content, new_content,
                                         fromfile=self.path, tofile=self.path)
-            logger.debug('Diff:\n' + ''.join(diff))
+            if diff:
+                logger.debug('Diff:\n' + ''.join(diff))
+            else:
+                logger.debug('File not changed')
 
     def uid(self):
         if self.user is None:
