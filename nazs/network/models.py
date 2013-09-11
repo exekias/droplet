@@ -14,26 +14,26 @@ class Interface(Model):
     NAME_FILTER = ('eth', 'wlan')
 
     ETHERNET = 'ethernet'
-    BRIDGE = 'bridge'
-    VLAN = 'vlan'
-    VIFACE = 'viface'
+    #BRIDGE = 'bridge'
+    #VLAN = 'vlan'
+    #VIFACE = 'viface'
 
     TYPE_CHOICES = (
         (ETHERNET, _('Ethernet')),
-        (BRIDGE, _('Bridge')),
-        (VLAN, _('VLAN')),
+        #(BRIDGE, _('Bridge')),
+        #(VLAN, _('VLAN')),
     )
 
     UNCONFIGURED = 'notset'
     STATIC = 'static'
     DHCP = 'dhcp'
-    BRIDGED = 'bridged'
+    #BRIDGED = 'bridged'
 
     MODE_CHOICES = (
         (UNCONFIGURED, _('Unconfigured')),
         (STATIC, _('Static')),
         (DHCP, _('DHCP')),
-        (BRIDGED, _('Bridged')),
+        #(BRIDGED, _('Bridged')),
     )
 
     # Interface name (eth0, eth0:1 br0, etc..)
@@ -48,6 +48,16 @@ class Interface(Model):
     mode = models.CharField(choices=MODE_CHOICES,
                             max_length=10,
                             default=UNCONFIGURED)
+
+    # IP Address (Ignored in DHCP)
+    address = models.GenericIPAddressField(protocol='IPv4',
+                                           null=True,
+                                           blank=True)
+
+    # Netmask (Ignored in DHCP)
+    netmask = models.GenericIPAddressField(protocol='IPv4',
+                                           null=True,
+                                           blank=True)
 
     @classmethod
     def update(cls):

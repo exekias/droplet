@@ -5,11 +5,11 @@
 auto lo
 iface lo inet loopback
 
-{% for iface in interfaces %}
-{% if iface.configured %}
+{% for iface in interfaces %}{% if iface.configured %}
 auto {{ iface }}
-{% if iface.mode == 'dhcp' %}
 iface {{ iface.name }} inet {{ iface.mode }}
+{% if iface.mode == 'static' %}
+    address {{ iface.address }}
+    netmask {{ iface.netmask }}
 {% endif %}
-{% endif %}
-{% endfor %}
+{% endif %}{% endfor %}
