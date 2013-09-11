@@ -71,6 +71,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django_nose',
+    'south',
 
     'nazs.core',
     'nazs.network',
