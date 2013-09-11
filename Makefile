@@ -12,7 +12,7 @@ test: env
 sense: dockertest pep8
 
 pep8:
-	pep8 nazs
+	pep8 --exclude=migrations nazs
 
 
 # Vagrant
