@@ -57,4 +57,6 @@ def init():
             pass
 
     # DEVELOPMENT ONLY: save on model change
-    post_save.connect(conf_change)
+    for module in modules():
+        for model in module.models():
+            post_save.connect(conf_change, sender=model)
