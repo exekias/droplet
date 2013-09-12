@@ -16,7 +16,7 @@ def modules():
 
 def conf_change(**kwargs):
     """
-    Apply configuration change son all the modules
+    Apply configuration changes on all the modules
     """
     logger = logging.getLogger(__name__)
     logger.info("Saving changes")
