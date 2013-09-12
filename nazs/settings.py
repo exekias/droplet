@@ -70,8 +70,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'django_nose',
     'south',
+    'django_nose',
 
     'nazs.core',
     'nazs.network',
