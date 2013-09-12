@@ -55,8 +55,9 @@ class ModuleMeta(type):
             res = install(self, *args, **kwargs)
             post_install.send(sender=self)
 
-            self._info.status = ModuleInfo.DISABLED
-            self._info.save()
+            info = self._info
+            info.status = ModuleInfo.DISABLED
+            info.save()
             return res
 
         return _wrapped
@@ -81,8 +82,9 @@ class ModuleMeta(type):
             res = enable(self, *args, **kwargs)
             post_enable.send(sender=self)
 
-            self._info.status = ModuleInfo.ENABLED
-            self._info.save()
+            info = self._info
+            info.status = ModuleInfo.ENABLED
+            info.save()
             return res
 
         return _wrapped
@@ -120,8 +122,9 @@ class ModuleMeta(type):
             res = disable(self, *args, **kwargs)
             post_disable.send(sender=self)
 
-            self._info.status = ModuleInfo.DISABLED
-            self._info.save()
+            info = self._info
+            info.status = ModuleInfo.DISABLED
+            info.save()
             return res
 
         return _wrapped
@@ -204,7 +207,13 @@ class Module(object):
     def __init__(self):
         super(Module, self).__init__()
         name = self.__class__.__module__ + '.' + self.__class__.__name__
-        self._info, _ = ModuleInfo.objects.get_or_create(name=name)
+
+    @property
+    def _info(self):
+        """
+        Module internal status representation
+        """
+        return ModuleInfo.objects.get_or_create(name=self.name)[0]
 
     @property
     def name(self):
@@ -278,17 +287,10 @@ class Module(object):
 
     def save(self):
         """
-        Apply module changes to the system, it will basically:
+        Write config needed to make this module work. By default it ensures
+        that all conf files are written
 
-         - Call write_conf()
-
-        If you need more advanced stuff you can override thiss method
-        """
-        self.write_conf()
-
-    def write_conf(self):
-        """
-        Write configuration files for this module
+        If you need more advanced stuff you can override this method
         """
         for f in self.conf_files():
             f.write()
