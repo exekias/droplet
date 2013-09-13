@@ -3,10 +3,10 @@ all: env run
 env:
 	./bootstrap.sh
 
-run: env
+run:
 	./manage.py runserver --nothreading
 
-test: env
+test:
 	./test.py
 
 sense: dockertest pep8
@@ -24,10 +24,10 @@ clean_doc:
 	ls doc/*.rst | grep -v index.rst | xargs -r rm
 	rm -rf doc/_*
 
-.PHONY: doc
+.PHONY: env doc
 
 # Docker
 
-dockertest: env
+dockertest:
 	docker run -i -t -v $(shell pwd):/nazs exekias/python /bin/bash -c \
            "cd /nazs && ./test.py"
