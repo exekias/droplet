@@ -1,0 +1,10 @@
+/* MAIN STYLES */
+
+#menu ul {
+    border-radius: 5px;
+}
+
+#main {
+    border: 1px solid #CCC;
+    border-radius: 5px;
+}

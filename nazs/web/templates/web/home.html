@@ -1,0 +1,25 @@
+{% extends "web/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>NAZS</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4" id="menu">
+        <ul class="nav nav-pills nav-stacked">
+            <li><a href="#">{% trans 'Modules' %}</a></li>
+{% for module in nazs.modules %}
+            <li><a href="#">{{ module.name }}</a></li>
+{% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-8" id="main">
+{% block main %}{% endblock %}
+    </div>
+</div>
+{% endblock %}

@@ -32,12 +32,8 @@ MEDIA_ROOT = ''
 MEDIA_URL = ''
 
 # Static folders
-STATIC_ROOT = ''
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-)
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
@@ -58,10 +54,21 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'nazs.urls'
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.contrib.messages.context_processors.messages',
+    'nazs.web.context_processors.common',
+)
+
+ROOT_URLCONF = 'nazs.web.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'nazs.wsgi.application'
+WSGI_APPLICATION = 'nazs.web.wsgi.application'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -74,6 +81,7 @@ INSTALLED_APPS = (
     'django_nose',
 
     'nazs.core',
+    'nazs.web',
     'nazs.network',
     'nazs.folders',
     'nazs.torrent',
