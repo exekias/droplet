@@ -205,14 +205,15 @@ class Module(object):
 
     def __init__(self):
         super(Module, self).__init__()
-        self.name = self.__class__.__module__ + '.' + self.__class__.__name__
 
     @property
     def _info(self):
         """
         Module internal status representation
         """
-        return ModuleInfo.objects.get_or_create(name=self.name)[0]
+        name = self.__class__.__module__ + '.' + self.__class__.__name__
+        info, created = ModuleInfo.objects.get_or_create(name=name)
+        return info
 
     @property
     def name(self):
