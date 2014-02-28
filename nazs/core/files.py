@@ -22,11 +22,10 @@ class ConfFile(object):
         """
         Instance a ConfFile object
 
-        Parameters
-            path - full path of the file
-            mode - POSIX permissions mode (default: not change)
-            user - owner of the file (default: not change)
-            group - group of the file (default: not change)
+        :param path: Full path of the file
+        :param mode: POSIX permissions mode (default: not change)
+        :param user: Owner of the file (default: not change)
+        :param group: Group of the file (default: not change)
         """
         self.path = path
         self.mode = mode

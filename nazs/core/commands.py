@@ -7,12 +7,12 @@ logger = logging.getLogger(__name__)
 
 def run(cmd, background=False):
     """
-    executes the given command
+    Executes the given command
 
-    if background is True the command will run in background
-    and this method will return a Popen object
+    If background flag is True the command will run in background
+    and this method will return a :class:`Popen` object
 
-    if background is False (default) the command will run in this thread
+    If background is False (default) the command will run in this thread
     and this method will return stdout. A subprocess.CalledProcessError
     will be raised if command fails
     """

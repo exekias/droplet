@@ -199,6 +199,7 @@ class Module(object):
 
     Modules inter communication
        - signal on event
+       - providers
 
     """
     __metaclass__ = ModuleMeta
@@ -273,7 +274,8 @@ class Module(object):
 
     def enable(self):
         """
-        Do the needed actions to enable this module
+        Do the needed actions to enable this module. You can assume that
+        install was called before
         """
         pass
 
