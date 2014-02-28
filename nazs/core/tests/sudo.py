@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.conf import settings
 
 from nazs.core.sudo import root, set_euid
 

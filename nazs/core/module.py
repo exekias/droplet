@@ -1,4 +1,3 @@
-from django.dispatch import receiver
 from django.db.models import get_app, get_models
 
 from models import ModuleInfo
@@ -206,7 +205,7 @@ class Module(object):
 
     def __init__(self):
         super(Module, self).__init__()
-        name = self.__class__.__module__ + '.' + self.__class__.__name__
+        self.name = self.__class__.__module__ + '.' + self.__class__.__name__
 
     @property
     def _info(self):

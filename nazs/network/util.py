@@ -1,6 +1,8 @@
-from ctypes import *
 from socket import AF_INET, AF_INET6, AF_PACKET, inet_ntop
 from sys import platform
+from ctypes import (Union, Structure, CDLL, c_void_p, c_char_p, c_uint,
+                    c_uint8, c_uint16, c_uint32, c_short, c_ushort, c_char,
+                    pointer)
 
 
 def getifaddrs():

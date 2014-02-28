@@ -65,4 +65,3 @@ class Settings(Model):
             res = cls()
             res.save()
             return res
-

@@ -1,12 +1,6 @@
 from django.test import TestCase
-from django.db.models import loading
-from django.core.management import call_command
 
-from nazs.core.models import Model, ModuleInfo
-from django.db import models
-
-import sys
-import new
+from nazs.core.models import ModuleInfo
 
 
 class ModelTests(TestCase):

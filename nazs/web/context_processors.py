@@ -1,5 +1,6 @@
 import nazs
 
+
 def common(request):
     """
     NAZS common context processor

@@ -55,7 +55,7 @@ class FilesTests(TestCase):
         USER = 'daemon'
         GROUP = 'daemon'
         uid = pwd.getpwnam(USER).pw_uid
-        gid = grp.getgrnam(USER).gr_gid
+        gid = grp.getgrnam(GROUP).gr_gid
 
         files.ConfFile(filename).write()
 

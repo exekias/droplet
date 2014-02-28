@@ -20,6 +20,7 @@ def conf_change(**kwargs):
     """
     logger = logging.getLogger(__name__)
     logger.info("Saving changes")
+    return
 
     # Save + restart
     for module in modules():

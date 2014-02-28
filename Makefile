@@ -14,6 +14,9 @@ sense: dockertest pep8
 pep8:
 	pep8 --exclude=migrations nazs
 
+pyflakes:
+	pyflakes nazs
+
 clean: clean_doc
 
 doc:
