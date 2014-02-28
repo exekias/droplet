@@ -17,20 +17,25 @@ def set_euid():
 
     See root context manager
     """
-    uid = int(pwd.getpwnam(settings.RUN_AS_USER).pw_uid)
     current = os.geteuid()
-    logger.debug('Current EUID is %s' % current)
+    logger.debug("Current EUID is %s" % current)
+
+    if settings.RUN_AS_USER is None:
+        logger.info("Not changing EUID, RUN_AS_USER is None")
+        return
+
+    uid = int(pwd.getpwnam(settings.RUN_AS_USER).pw_uid)
     if current != uid:
         try:
             os.seteuid(uid)
-            logger.info('Set EUID to %s (%s)' %
+            logger.info("Set EUID to %s (%s)" %
                         (settings.RUN_AS_USER, os.geteuid()))
         except:
             current_user = pwd.getpwuid(os.getuid()).pw_name
             logger.error("Failed to set '%s' EUID, running as '%s'" %
                          (settings.RUN_AS_USER, current_user))
     else:
-        logger.debug('Didn\'t set EUID, it was already correct')
+        logger.debug("Didn't set EUID, it was already correct")
 
 
 def drop_privileges():

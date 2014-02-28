@@ -12,8 +12,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'db.sqlite',
+    },
+    'volatile': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
     }
 }
+
+
+DATABASE_ROUTERS = ['nazs.core.database.VolatileRouter']
 
 # Non root user
 RUN_AS_USER = 'nobody'
