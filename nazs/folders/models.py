@@ -25,19 +25,19 @@ class Folder(Model):
         self._meta.get_field_by_name('gid')[0]._choices = self._gid_choices()
 
     # Visible name
-    name = models.CharField(max_length=10)
+    name = models.CharField(max_length=10, verbose_name=_('Name'))
 
     # Full path of the folder
-    path = models.CharField(max_length=250)
+    path = models.CharField(max_length=250, verbose_name=_('Full path'))
 
     # Folder permissions (octal)
-    mode = models.IntegerField(default=0755)
+    mode = models.IntegerField(default=0755, verbose_name=_('Permissions'))
 
     # Owner
-    uid = models.IntegerField(default=0)
+    uid = models.IntegerField(default=0, verbose_name=_('Owner'))
 
     # Group
-    gid = models.IntegerField(default=0)
+    gid = models.IntegerField(default=0, verbose_name=_('Group'))
 
     def write(self):
         """
