@@ -11,16 +11,6 @@ def home():
     return {'version': nazs.__version__}
 
 
-def module_status(mod, field):
-    if not mod.installed:
-        return _('Not installed')
-
-    if mod.enabled:
-        return _('Disabled')
-    else:
-        return _('Enable')
-
-
 @register.block('modules')
 class Modules(tables.Table):
 
@@ -30,8 +20,24 @@ class Modules(tables.Table):
     name = tables.Column(verbose_name=_('Module'))
 
     # Module status
-    status = tables.Column(verbose_name=_('Status'),
-                           accessor=module_status)
+    status = tables.MergeColumn(
+        verbose_name=_('Status'),
+        columns=(
+            ('install', tables.ActionColumn(verbose_name='Install',
+                                            action='core:install_module',
+                                            visible=lambda m: not m.installed)),
+
+            ('enable', tables.ActionColumn(verbose_name='Enable',
+                                           action='core:enable_module',
+                                           visible=lambda m: m.installed and
+                                           not m.enabled)),
+
+            ('disable', tables.ActionColumn(verbose_name='Enable',
+                                            action='core:disable_module',
+                                            visible=lambda m: m.installed and
+                                            m.enabled)),
+        )
+    )
 
     def objects(self):
         return nazs.modules()
