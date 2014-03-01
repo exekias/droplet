@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load achilles %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -14,4 +15,5 @@
 {% block content %}{% endblock %}
     </div><!-- /.container -->
   </body>
+  {% achilles_js %}
 </html>

@@ -7,4 +7,5 @@ urlpatterns = patterns(
     '',
     url(r'^$', Home.as_view(), name='home'),
     url(r'^core/', include('nazs.web.core.urls')),
+    url(r'^achilles/', include('achilles.urls')),
 )
