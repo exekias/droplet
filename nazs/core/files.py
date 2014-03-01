@@ -88,9 +88,18 @@ class ConfFile(object):
 
 
 class TemplateConfFile(ConfFile):
-
     def __init__(self, path, template=None,
                  template_params={}, *args, **kwargs):
+        """
+        Template based configuration file
+
+        It behaves like :class:`ConfFile` the conf file taking contents for
+        the file from the given template file.
+
+        :params template: Template path
+        :params template_params: Dict containing template params or function
+            returning them (will be called when writting the file)
+        """
         self.template = template
         self.template_params = template_params
         super(TemplateConfFile, self).__init__(path, *args, **kwargs)
