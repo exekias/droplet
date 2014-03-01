@@ -1,6 +1,5 @@
 __version__ = '0.1'
 from django.db import settings
-from django.db.models.signals import post_save
 
 import importlib
 import logging
@@ -14,7 +13,7 @@ def modules():
     return [cls() for cls in Module.MODULES]
 
 
-def conf_change(**kwargs):
+def save(**kwargs):
     """
     Apply configuration changes on all the modules
     """
@@ -52,8 +51,3 @@ def init():
             importlib.import_module(app + '.module')
         except:
             pass
-
-    # DEVELOPMENT ONLY: save on model change
-    for module in modules():
-        for model in module.models():
-            post_save.connect(conf_change, sender=model)

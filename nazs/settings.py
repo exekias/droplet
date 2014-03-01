@@ -23,7 +23,7 @@ DATABASES = {
 DATABASE_ROUTERS = ['nazs.core.database.VolatileRouter']
 
 # Non root user
-RUN_AS_USER = 'nobody'
+RUN_AS_USER = 'exekias'
 
 ALLOWED_HOSTS = []
 
@@ -74,7 +74,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 ROOT_URLCONF = 'nazs.web.urls'
 
-# Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'nazs.web.wsgi.application'
 
 INSTALLED_APPS = (
@@ -86,12 +85,15 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'south',
     'django_nose',
+    'achilles',
 
     'nazs.core',
-    'nazs.web',
     'nazs.network',
     'nazs.folders',
     'nazs.torrent',
+
+    'nazs.web',
+    'nazs.web.core',
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'

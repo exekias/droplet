@@ -1,25 +1,26 @@
 {% extends "web/base.html" %}
 {% load i18n %}
+{% load achilles %}
 
 {% block content %}
 
 <div class="row">
     <div class="col-md-12">
-        <h2>NAZS</h2>
+        <h2><a href="{% url "home" %}">NAZS</a></h2>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-3" id="menu">
         <ul class="nav nav-pills nav-stacked">
-            <li><a href="#">{% trans 'Modules' %}</a></li>
+            <li><a href="{% url "modules" %}">{% trans 'Modules' %}</a></li>
 {% for module in nazs.modules %}
             <li><a href="#">{{ module.name }}</a></li>
 {% endfor %}
         </ul>
     </div>
     <div class="col-md-9" id="main">
-{% block main %}{% endblock %}
+        {% ablock content_block %}
     </div>
 </div>
 {% endblock %}
