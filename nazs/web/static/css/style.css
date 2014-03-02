@@ -1,5 +1,14 @@
 /* MAIN STYLES */
 
+#loading {
+    padding: 10px;
+    display: none;
+}
+
+body.loading #loading {
+    display: block;
+}
+
 #menu ul {
     border-radius: 5px;
 }
