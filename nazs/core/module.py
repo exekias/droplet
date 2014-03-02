@@ -260,7 +260,13 @@ class Module(object):
         """
         Tells if module configuration has been changed (it needs to be saved)
         """
-        return self._info.changed
+        if self._info._changed:
+            return True
+
+        for model in self.models():
+            if model.objects.changed().count():
+                return True
+        return False
 
     def commit(self):
         """
