@@ -7,6 +7,7 @@ register = actions.Library('core')
 @register.action
 def install_module(request, table, module):
     module.install()
+    module.enable()
     blocks.update(request, table.register_name)
 
 @register.action
