@@ -110,11 +110,11 @@ class ModuleMeta(type):
             if not self.installed:
                 raise AssertionError('Module %s is not installed' % self.name)
 
-            logger.info("Saving % module" % self.name)
+            logger.info("Saving %s module" % self.name)
             pre_save.send(sender=self)
             res = save(self, *args, **kwargs)
             post_save.send(sender=self)
-            logger.info("Saved % module" % self.name)
+            logger.info("Saved %s module" % self.name)
 
             return res
 

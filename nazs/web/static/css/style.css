@@ -12,7 +12,7 @@ body.loading #loading {
 }
 
 
-.navbar-nav>li button {
+.navbar-nav>li .btn {
     line-height: 20px;
     margin-top: 7px;
 }

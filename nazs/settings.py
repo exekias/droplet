@@ -69,7 +69,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
-    'nazs.web.context_processors.common',
 )
 
 ROOT_URLCONF = 'nazs.web.urls'

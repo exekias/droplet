@@ -1,3 +1,5 @@
+import nazs
+
 from django.views.generic import View, TemplateView
 
 
@@ -10,5 +12,6 @@ class Home(BaseView, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(Home, self).get_context_data(**kwargs)
+        context['modules'] = nazs.modules()
         context['content_block'] = self.block
         return context

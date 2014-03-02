@@ -20,7 +20,7 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
           <li id="loading"><img src="{% static 'img/loading.gif' %}" height="25" /></li>
-          <li>{% ablock "core:save_button" %}</li>
+          <li>{% ablock "core:apply_button" %}</li>
         </ul>
       </div>
     </div>
@@ -32,7 +32,7 @@
     <div class="col-md-3" id="menu">
       <ul class="nav nav-pills nav-stacked">
         <li><a href="{% url "modules" %}">{% trans 'Modules' %}</a></li>
-{% for module in nazs.modules %}
+{% for module in modules %}
         <li><a href="#">{{ module.name }}</a></li>
 {% endfor %}
       </ul>

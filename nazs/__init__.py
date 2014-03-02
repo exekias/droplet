@@ -1,6 +1,8 @@
 __version__ = '0.1'
 from django.db import settings
 
+from .core.models import ModuleInfo
+
 import importlib
 import logging
 
@@ -23,26 +25,28 @@ def changed():
     return False
 
 
-def save(**kwargs):
+def save():
     """
     Apply configuration changes on all the modules
     """
     logger = logging.getLogger(__name__)
     logger.info("Saving changes")
-    return
 
     # Save + restart
     for module in modules():
         if module.enabled:
-            logger.info("Saving module: %s" % module.name)
-            module.save()
-            module.restart()
+            if module.changed:
+                logger.info("Saving module: %s" % module.name)
+                module.save()
+                module.restart()
+                module.commit()
+            else:
+                logger.debug("Not saving unchanged module: %s" % module.name)
         else:
-            logger.info("Not saving disabled module: %s" % module.name)
+            logger.debug("Not saving disabled module: %s" % module.name)
 
     # Commit
-    for module in modules():
-        module.commit()
+    ModuleInfo.commit()
 
     logger.info("Changes saved")
 
