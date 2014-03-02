@@ -13,6 +13,16 @@ def modules():
     return [cls() for cls in Module.MODULES]
 
 
+def changed():
+    """
+    Return True if there is any change in any of the available modules
+    """
+    for module in modules():
+        if module.changed:
+            return True
+    return False
+
+
 def save(**kwargs):
     """
     Apply configuration changes on all the modules

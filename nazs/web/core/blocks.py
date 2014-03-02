@@ -11,6 +11,11 @@ def home():
     return {'version': nazs.__version__}
 
 
+@register.block(template_name='web/core/save_button.html')
+def save_button():
+    return {'active': nazs.changed()}
+
+
 @register.block('modules')
 class Modules(tables.Table):
 

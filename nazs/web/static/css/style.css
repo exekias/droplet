@@ -1,5 +1,7 @@
 /* MAIN STYLES */
 
+
+/* HEAD NAV */
 #loading {
     padding: 10px;
     display: none;
@@ -9,6 +11,13 @@ body.loading #loading {
     display: block;
 }
 
+
+.navbar-nav>li button {
+    line-height: 20px;
+    margin-top: 7px;
+}
+
+/* MODULES MENU */
 #menu ul {
     border-radius: 5px;
 }

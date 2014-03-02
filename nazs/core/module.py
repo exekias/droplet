@@ -263,12 +263,20 @@ class Module(object):
         """
         Tells if module configuration has been changed (it needs to be saved)
         """
+        # Not installed modules cannot issue a change to save
+        if not self.installed:
+            return False
+
+        # Check if module status changed
         if self._info._changed:
             return True
 
+        # Check model changes
         for model in self.models():
             if model.objects.changed().count():
                 return True
+
+        # Nothing passed, module not changed
         return False
 
     def commit(self):
