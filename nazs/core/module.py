@@ -1,11 +1,16 @@
+import logging
+
 from django.db.models import get_app, get_models
 
-from models import ModuleInfo
-from files import ConfFile
-from signals import (pre_install, post_install,
-                     pre_enable, post_enable,
-                     pre_disable, post_disable,
-                     pre_save, post_save)
+from .models import ModuleInfo
+from .files import ConfFile
+from .signals import (pre_install, post_install,
+                      pre_enable, post_enable,
+                      pre_disable, post_disable,
+                      pre_save, post_save)
+
+
+logger = logging.getLogger(__name__)
 
 
 class ModuleMeta(type):
@@ -50,6 +55,7 @@ class ModuleMeta(type):
                 raise AssertionError('Module %s is already installed'
                                      % self.name)
 
+            logger.info("Installing %s module" % self.name)
             pre_install.send(sender=self)
             res = install(self, *args, **kwargs)
             post_install.send(sender=self)
@@ -57,6 +63,8 @@ class ModuleMeta(type):
             info = self._info
             info.status = ModuleInfo.DISABLED
             info.save()
+
+            logger.info("Installed %s module" % self.name)
             return res
 
         return _wrapped
@@ -77,6 +85,7 @@ class ModuleMeta(type):
                 raise AssertionError('Module %s is already enabled'
                                      % self.name)
 
+            logger.info("Enabling %s module" % self.name)
             pre_enable.send(sender=self)
             res = enable(self, *args, **kwargs)
             post_enable.send(sender=self)
@@ -84,6 +93,8 @@ class ModuleMeta(type):
             info = self._info
             info.status = ModuleInfo.ENABLED
             info.save()
+
+            logger.info("Enabled %s module" % self.name)
             return res
 
         return _wrapped
@@ -98,9 +109,11 @@ class ModuleMeta(type):
             if not self.installed:
                 raise AssertionError('Module %s is not installed' % self.name)
 
+            logger.info("Saving % module" % self.name)
             pre_save.send(sender=self)
             res = save(self, *args, **kwargs)
             post_save.send(sender=self)
+            logger.info("Saved % module" % self.name)
 
             return res
 
@@ -117,6 +130,7 @@ class ModuleMeta(type):
                 raise AssertionError('Module %s is already disabled'
                                      % self.name)
 
+            logger.info("Disabling %s module" % self.name)
             pre_disable.send(sender=self)
             res = disable(self, *args, **kwargs)
             post_disable.send(sender=self)
@@ -124,6 +138,8 @@ class ModuleMeta(type):
             info = self._info
             info.status = ModuleInfo.DISABLED
             info.save()
+
+            logger.info("Disabled %s module" % self.name)
             return res
 
         return _wrapped
