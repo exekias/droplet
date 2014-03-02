@@ -23,16 +23,16 @@ class Modules(tables.Table):
     status = tables.MergeColumn(
         verbose_name=_('Status'),
         columns=(
-            ('install', tables.ActionColumn(verbose_name='Install',
+            ('install', tables.ActionColumn(verbose_name=_('Install'),
                                             action='core:install_module',
                                             visible=lambda m: not m.installed)),
 
-            ('enable', tables.ActionColumn(verbose_name='Enable',
+            ('enable', tables.ActionColumn(verbose_name=_('Enable'),
                                            action='core:enable_module',
                                            visible=lambda m: m.installed and
                                            not m.enabled)),
 
-            ('disable', tables.ActionColumn(verbose_name='Enable',
+            ('disable', tables.ActionColumn(verbose_name=_('Disable'),
                                             action='core:disable_module',
                                             visible=lambda m: m.installed and
                                             m.enabled)),
@@ -41,3 +41,10 @@ class Modules(tables.Table):
 
     def objects(self):
         return nazs.modules()
+
+    def get_object(self, name):
+        for module in nazs.modules():
+            if module.name == name:
+                return module
+
+        raise KeyError('Module %s not found' % name)

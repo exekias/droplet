@@ -1,20 +1,20 @@
-from nazs import actions, blocks
+from achilles import blocks, actions
 
 
 register = actions.Library('core')
 
 
 @register.action
-def install_module(request, module):
+def install_module(request, table, module):
     module.install()
-    blocks.update(request, 'core:modules')
+    blocks.update(request, table.register_name)
 
 @register.action
-def enable_module(request, module):
+def enable_module(request, table, module):
     module.enable()
-    blocks.update(request, 'core:modules')
+    blocks.update(request, table.register_name)
 
 @register.action
-def disable_module(request, module):
+def disable_module(request, table, module):
     module.disable()
-    blocks.update(request, 'core:modules')
+    blocks.update(request, table.register_name)
