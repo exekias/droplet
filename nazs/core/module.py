@@ -1,4 +1,5 @@
 import logging
+import collections
 
 from django.db.models import get_app, get_models
 
@@ -18,7 +19,7 @@ class ModuleMeta(type):
     Module metaclass, to allow some black magic tricks on module definitions
     """
     # Modules instances
-    MODULES = {}
+    MODULES = collections.OrderedDict()
 
     def __new__(meta, name, bases, dct):
         # Construct the class
