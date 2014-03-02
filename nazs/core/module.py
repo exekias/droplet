@@ -230,6 +230,9 @@ class Module(object):
         """
         name = self.__class__.__module__ + '.' + self.__class__.__name__
         info, created = ModuleInfo.objects.get_or_create(name=name)
+        if created:
+            # Do not set as changed
+            info.commit()
         return info
 
     @property
