@@ -23,7 +23,7 @@ DATABASES = {
 DATABASE_ROUTERS = ['nazs.core.database.VolatileRouter']
 
 # Non root user
-RUN_AS_USER = 'exekias'
+RUN_AS_USER = 'nobody'
 
 ALLOWED_HOSTS = []
 

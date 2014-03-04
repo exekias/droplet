@@ -13,8 +13,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network :forwarded_port, guest: 80, host: 8080
 
-  config.vm.synced_folder ".", "/nazs"
-
   # Bridge
   config.vm.network :public_network
 
@@ -26,15 +24,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 $script = <<SCRIPT
   echo Bootstraping NAZS environment...
   apt-get install -y make python-pip python-virtualenv
-  cd /nazs
+  cd /vagrant
   make env
 
   echo DONE!
   echo Now you should:
   echo vagrant ssh
-  echo cd /nazs
-  echo source env/bin/activate
-  echo make run
+  echo cd /vagrant
+  echo sudo make run
 SCRIPT
 
   config.vm.provision "shell", inline: $script

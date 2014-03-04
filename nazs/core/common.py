@@ -1,7 +1,3 @@
-from django.db import settings
-
-from .models import ModuleInfo
-
 import importlib
 import logging
 
@@ -28,6 +24,8 @@ def save():
     """
     Apply configuration changes on all the modules
     """
+    from .models import ModuleInfo
+
     logger = logging.getLogger(__name__)
     logger.info("Saving changes")
 
@@ -59,6 +57,7 @@ def init():
     set_euid()
 
     # Load all modules
+    from django.conf import settings
     for app in settings.INSTALLED_APPS:
         try:
             importlib.import_module(app + '.module')
