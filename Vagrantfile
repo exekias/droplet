@@ -23,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Bootstrap env
 $script = <<SCRIPT
   echo Bootstraping NAZS environment...
-  apt-get install -y make python-pip python-virtualenv
+  apt-get install -y make python-pip python-virtualenv git-core
   cd /vagrant
   make env
 
