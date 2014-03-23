@@ -7,10 +7,12 @@ Packaging
 
 General
 -------
-Create a repo
+Create a packaging repo
+Allow easy install and test
 
 
 Modules
 -------
 CouchPotato
 Torrent
+Camlistore
