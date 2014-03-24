@@ -18,7 +18,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Host only
   config.vm.network :private_network, ip: "192.168.33.10"
-  config.vm.network :private_network, ip: "192.168.34.10"
 
   # Bootstrap env
 $script = <<SCRIPT
@@ -28,10 +27,8 @@ $script = <<SCRIPT
   make env
 
   echo DONE!
-  echo Now you should:
-  echo vagrant ssh
-  echo cd /vagrant
-  echo sudo make run
+  echo Now you should run:
+  echo vagrant ssh -c "cd /vagrant; sudo make run"
 SCRIPT
 
   config.vm.provision "shell", inline: $script
