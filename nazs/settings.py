@@ -92,7 +92,6 @@ INSTALLED_APPS = (
     'nazs.torrent',
 
     'nazs.web',
-    'nazs.web.core',
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
