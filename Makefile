@@ -28,9 +28,3 @@ clean_doc:
 	rm -rf doc/_*
 
 .PHONY: env doc
-
-# Docker
-
-dockertest:
-	docker run -i -t -v $(shell pwd):/nazs exekias/python /bin/bash -c \
-           "cd /nazs && ./test.py"
