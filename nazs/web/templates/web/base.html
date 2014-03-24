@@ -12,6 +12,8 @@
   </head>
   <body>
 {% block content %}{% endblock %}
+
+    {% csrf_token %}
   </body>
   {% achilles_js %}
   <script src="{% static 'js/nazs.js' %}"></script>
