@@ -33,7 +33,6 @@ def save():
     for module in modules():
         if module.enabled:
             if module.changed:
-                logger.info("Saving module: %s" % module.name)
                 module.save()
                 module.restart()
                 module.commit()
