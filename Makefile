@@ -4,7 +4,7 @@ env:
 	./bootstrap.sh
 
 run:
-	./manage.py runserver --nothreading --insecure
+	./manage.py runserver --nothreading --insecure 0.0.0.0:8000
 
 test:
 	./test.py
