@@ -10,4 +10,4 @@ echo "Installing pip dependencies"
 pip install -r requirements.txt
 pip install -r requirements-dev.txt
 
-./manage.py syncdb --noinput
+./manage.py syncdb --migrate --noinput
