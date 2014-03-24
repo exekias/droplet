@@ -30,18 +30,18 @@ class Modules(tables.Table):
         columns=(
             ('install', tables.ActionColumn(verbose_name=_('Install'),
                                             action='core:install_module',
-                                            classes='btn btn-sm btn-primary',
+                                            classes='btn btn-primary',
                                             visible=lambda m: not m.installed)),
 
             ('enable', tables.ActionColumn(verbose_name=_('Enable'),
                                            action='core:enable_module',
-                                           classes='btn btn-sm btn-success',
+                                           classes='btn btn-success',
                                            visible=lambda m: m.installed and
                                            not m.enabled)),
 
             ('disable', tables.ActionColumn(verbose_name=_('Disable'),
                                             action='core:disable_module',
-                                            classes='btn btn-sm btn-danger',
+                                            classes='btn btn-info',
                                             visible=lambda m: m.installed and
                                             m.enabled)),
         )

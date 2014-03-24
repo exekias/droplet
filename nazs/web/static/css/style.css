@@ -1,4 +1,7 @@
 /* MAIN STYLES */
+.table td {
+    vertical-align: middle !important;
+}
 
 
 /* HEAD NAV */
