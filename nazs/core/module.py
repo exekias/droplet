@@ -385,6 +385,15 @@ class MenuItem(object):
         if self.url:
             raise TypeError('Menu items with URL cannot have childrens')
 
+        # Look for already present common node
+        if not item.is_leaf():
+            for current_item in self.items:
+                if item.name == current_item.name:
+                    for children in item.items:
+                        current_item.append(children)
+                    return
+
+        # First insertion
         self.items.append(item)
 
     def is_leaf(self):
