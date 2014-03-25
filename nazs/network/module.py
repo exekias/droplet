@@ -1,9 +1,12 @@
-from nazs.core.module import Module
+from nazs.core import module
 from nazs.core.files import TemplateConfFile
 from nazs.core.commands import run
 from nazs.core.sudo import root
 
-from nazs.network.models import Interface
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+
+from .models import Interface
 
 import logging
 
@@ -11,7 +14,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class Network(Module):
+class Network(module.Module):
 
     # Configuration files
 
@@ -20,6 +23,13 @@ class Network(Module):
                                   template_params=lambda: {
                                       'interfaces': Interface.objects.all()
                                   })
+
+    def menu(self):
+        network = module.MenuItem('network', verbose_name=_('Network'))
+        network.append(module.MenuItem('interfaces', reverse('interfaces'),
+                                       verbose_name=_('Interfaces')))
+
+        return (network,)
 
     def start(self):
         for iface in Interface.objects.all():

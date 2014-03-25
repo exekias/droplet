@@ -10,4 +10,5 @@ urlpatterns = patterns(
 
     # TODO make this automatic
     url(r'^core/', include('nazs.core.urls')),
+    url(r'^network/', include('nazs.network.urls')),
 )
