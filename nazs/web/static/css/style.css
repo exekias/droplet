@@ -25,6 +25,10 @@ body.loading #loading {
     border-radius: 5px;
 }
 
+#menu ul ul {
+    margin-left: 20px;
+}
+
 #main {
     border-radius: 5px;
 }

@@ -62,3 +62,18 @@ def init():
             importlib.import_module(app + '.module')
         except:
             pass
+
+
+def menu():
+    """
+    Return global menu composed from all modules
+    """
+    from nazs.core import module
+
+    menu = module.MenuItem('')
+
+    for mod in modules():
+        for item in mod.menu():
+            menu.append(item)
+
+    return menu

@@ -243,6 +243,12 @@ class Module(object):
         """
         return self.__class__.__name__
 
+    def menu(self):
+        """
+        Return a list of class:`MenuItem` to add to the global menu
+        """
+        return []
+
     # Status info
 
     @property
@@ -360,3 +366,26 @@ class Module(object):
         """
         self.stop()
         self.start()
+
+
+class MenuItem(object):
+    """
+    Menu item
+    """
+    def __init__(self, name, url=None, verbose_name=None):
+        self.name = name
+        self.verbose_name = verbose_name or name
+        self.url = url
+        self.items = []
+
+    def append(self, item):
+        """
+        Adde the given item as children
+        """
+        if self.url:
+            raise TypeError('Menu items with URL cannot have childrens')
+
+        self.items.append(item)
+
+    def is_leaf(self):
+        return not self.items

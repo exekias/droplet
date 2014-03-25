@@ -19,7 +19,7 @@
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-          <li id="loading"><img src="{% static 'img/loading.gif' %}" height="25" /></li>
+          <li id="loading"><img src="{% static "img/loading.gif" %}" height="25" /></li>
           <li>{% ablock "core:apply_button" %}</li>
         </ul>
       </div>
@@ -31,10 +31,8 @@
   <div class="row">
     <div class="col-md-3" id="menu">
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="{% url "modules" %}">{% trans 'Modules' %}</a></li>
-{% for module in modules %}
-        <li><a href="#">{{ module.name }}</a></li>
-{% endfor %}
+        <li><a href="{% url "modules" %}">{% trans "Modules" %}</a></li>
+        {% include "web/menu_items.html" %}
       </ul>
     </div>
     <div class="col-md-9" id="main">
