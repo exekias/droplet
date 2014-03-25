@@ -2,8 +2,7 @@ from django.test import TestCase
 from django.dispatch import receiver
 
 from nazs.core.module import Module
-from nazs.core.signals import (pre_enable, post_enable,
-                               pre_disable, post_disable)
+from nazs.core.signals import (pre_enable)
 
 
 class ModuleTests(TestCase):

@@ -6,6 +6,7 @@ from django.views.generic import View, TemplateView
 class BaseView(View):
     pass
 
+
 class Home(BaseView, TemplateView):
     template_name = 'web/home.html'
     block = 'core:home'

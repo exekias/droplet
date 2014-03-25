@@ -9,10 +9,10 @@ run:
 test:
 	./test.py
 
-sense: dockertest pep8
+sense: pep8 pyflakes test
 
 pep8:
-	pep8 --exclude=migrations nazs
+	pep8 --exclude=urls.py,migrations nazs
 
 pyflakes:
 	pyflakes nazs

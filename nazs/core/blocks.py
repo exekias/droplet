@@ -28,22 +28,25 @@ class Modules(tables.Table):
     status = tables.MergeColumn(
         verbose_name=_('Status'),
         columns=(
-            ('install', tables.ActionColumn(verbose_name=_('Install'),
-                                            action='core:install_module',
-                                            classes='btn btn-primary',
-                                            visible=lambda m: not m.installed)),
+            ('install',
+             tables.ActionColumn(verbose_name=_('Install'),
+                                 action='core:install_module',
+                                 classes='btn btn-primary',
+                                 visible=lambda m: not m.installed)),
 
-            ('enable', tables.ActionColumn(verbose_name=_('Enable'),
-                                           action='core:enable_module',
-                                           classes='btn btn-success',
-                                           visible=lambda m: m.installed and
-                                           not m.enabled)),
+            ('enable',
+             tables.ActionColumn(verbose_name=_('Enable'),
+                                 action='core:enable_module',
+                                 classes='btn btn-success',
+                                 visible=lambda m: m.installed and
+                                 not m.enabled)),
 
-            ('disable', tables.ActionColumn(verbose_name=_('Disable'),
-                                            action='core:disable_module',
-                                            classes='btn btn-info',
-                                            visible=lambda m: m.installed and
-                                            m.enabled)),
+            ('disable',
+             tables.ActionColumn(verbose_name=_('Disable'),
+                                 action='core:disable_module',
+                                 classes='btn btn-info',
+                                 visible=lambda m: m.installed and
+                                 m.enabled)),
         )
     )
 
