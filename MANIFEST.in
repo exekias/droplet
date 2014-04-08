@@ -1,0 +1,2 @@
+recursive-include nazs/web/templates *
+recursive-include nazs/web/static *
