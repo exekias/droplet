@@ -9,6 +9,7 @@ setup(
     version=__version__,
     author="NAZS Team",
     packages=find_packages(),
+    include_package_data=True,
     zip_safe=False,
     scripts=[
         "bin/manage.py"

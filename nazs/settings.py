@@ -11,7 +11,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite',
+        'NAME': '/var/lib/nazs/db.sqlite',
     },
     'volatile': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -23,7 +23,7 @@ DATABASES = {
 DATABASE_ROUTERS = ['nazs.core.database.VolatileRouter']
 
 # Non root user (root under development)
-RUN_AS_USER = 'root'
+RUN_AS_USER = 'nazs'
 
 ALLOWED_HOSTS = []
 
