@@ -83,7 +83,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'south',
-    'django_nose',
     'achilles',
 
     'nazs.core',
@@ -93,8 +92,6 @@ INSTALLED_APPS = (
 
     'nazs.web',
 )
-
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 # TODO log to file
 LOGGING = {
