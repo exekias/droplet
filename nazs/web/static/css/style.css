@@ -5,6 +5,10 @@
 
 
 /* HEAD NAV */
+#header {
+    padding: 0 !important;
+}
+
 #loading {
     padding: 10px;
     display: none;
@@ -19,6 +23,7 @@ body.loading #loading {
     line-height: 20px;
     margin-top: 7px;
 }
+
 
 /* MODULES MENU */
 #menu ul {
