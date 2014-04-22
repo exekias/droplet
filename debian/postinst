@@ -27,5 +27,11 @@ case "$1" in
         /usr/bin/nazs syncdb --noinput --migrate > /dev/null
         chown $NAZS_USER:nogroup "$NAZS_DB"
         chmod 0600 "$NAZS_DB"
+
+        if [ -e "/etc/init/nazs.conf" ]; then
+            invoke-rc.d nazs start || exit $?
+        fi
     ;;
 esac
+
+exit 0
