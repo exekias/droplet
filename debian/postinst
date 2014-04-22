@@ -5,6 +5,7 @@ set -e
 NAZS_USER='nazs'
 NAZS_HOME='/var/lib/nazs/'
 NAZS_DB="$NAZS_HOME/db.sqlite"
+NAZS_LOG="/var/log/nazs.log"
 
 case "$1" in
     configure)
@@ -13,6 +14,9 @@ case "$1" in
         then
             adduser --system --home "$NAZS_HOME" $NAZS_USER
         fi
+
+        touch $NAZS_LOG
+        chown $NAZS_USER:adm $NAZS_LOG
 
         dpkg-trigger --no-await nazs
     ;;

@@ -93,7 +93,6 @@ INSTALLED_APPS = (
     'nazs.web',
 )
 
-# TODO log to file
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -106,22 +105,32 @@ LOGGING = {
         },
     },
     'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
         'console': {
             'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
             'formatter': 'default',
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'level': 'DEBUG',
+            'formatter': 'default',
+            'class': 'logging.FileHandler',
+            'filename': '/var/log/nazs.log',
         },
     },
     'loggers': {
-        'nazs': {
-            'handlers': ['console'],
+        '': {
+            'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
         },
-        'achilles': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': True,
-        }
+        'django.db.backends': {
+            'handlers': ['null'],
+            'propagate': False,
+            'level':'DEBUG',
+        },
     }
 }
