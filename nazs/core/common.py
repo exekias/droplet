@@ -2,6 +2,23 @@ import importlib
 import logging
 
 
+def init():
+    """
+    Initialize nazs environment, setup logging, processes and all
+    needed stuff for running nazs
+    """
+    from nazs.core.sudo import set_euid
+    set_euid()
+
+    # Load all modules
+    from django.conf import settings
+    for app in settings.INSTALLED_APPS:
+        try:
+            importlib.import_module(app + '.module')
+        except:
+            pass
+
+
 def modules():
     """
     Return a list of instances of all present modules
@@ -45,23 +62,6 @@ def save():
     ModuleInfo.commit()
 
     logger.info("Changes saved")
-
-
-def init():
-    """
-    Initialize nazs environment, setup logging, processes and all
-    needed stuff for running nazs
-    """
-    from nazs.core.sudo import set_euid
-    set_euid()
-
-    # Load all modules
-    from django.conf import settings
-    for app in settings.INSTALLED_APPS:
-        try:
-            importlib.import_module(app + '.module')
-        except:
-            pass
 
 
 def menu():
