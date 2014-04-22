@@ -5,13 +5,13 @@ from setuptools import setup, find_packages
 from nazs import __version__
 
 setup(
-    name="NAZS",
+    name='nazs',
     version=__version__,
-    author="NAZS Team",
+    author='NAZS Team',
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
     scripts=[
-        "bin/manage.py"
+        'bin/nazs'
     ],
 )

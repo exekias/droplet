@@ -24,7 +24,7 @@ case "$1" in
         else
             echo Creating NAZS database...
         fi
-        /usr/share/python/nazs/bin/manage.py syncdb --noinput --migrate > /dev/null
+        /usr/bin/nazs syncdb --noinput --migrate > /dev/null
         chown $NAZS_USER:nogroup "$NAZS_DB"
         chmod 0600 "$NAZS_DB"
     ;;
