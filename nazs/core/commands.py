@@ -1,8 +1,19 @@
+from __future__ import absolute_import
+import commands
 import subprocess
 import logging
 
 
 logger = logging.getLogger(__name__)
+
+
+class CommandException(Exception):
+    def __init__(self, status, output):
+        self.status = status
+        self.output = output
+
+    def __str__(self):
+        return self.output
 
 
 def run(cmd, background=False):
@@ -13,8 +24,9 @@ def run(cmd, background=False):
     and this method will return a :class:`Popen` object
 
     If background is False (default) the command will run in this thread
-    and this method will return stdout. A subprocess.CalledProcessError
-    will be raised if command fails
+    and this method will return stdout.
+
+    A CommandException will be raised if command fails
     """
     logger.debug('Running command: %s' % cmd)
 
@@ -22,8 +34,14 @@ def run(cmd, background=False):
         return subprocess.Popen(cmd, shell=True, close_fds=True)
 
     else:
-        output = subprocess.check_output(cmd, shell=True,
-                                         stderr=subprocess.STDOUT)
+        (status, output) = commands.getstatusoutput(cmd)
+        if status != 0:
+            logger.error("Command failed: %s" % cmd)
+
         if output:
             logger.debug('OUTPUT:\n' + output)
-        return output
+
+        if status != 0:
+            raise CommandException(status, output)
+
+        return (status, output)

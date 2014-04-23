@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from nazs.core.commands import run
+from nazs.core.commands import run, CommandException
 import subprocess
 
 
@@ -10,11 +10,12 @@ class CommandsTests(TestCase):
     """
 
     def test_run(self):
-        output = run("echo -n test")
+        status, output = run("echo -n test")
+        self.assertEqual(status, 0)
         self.assertEqual(output, "test")
 
     def test_run_fail(self):
-        self.assertRaises(subprocess.CalledProcessError, run, "/bin/exit 1")
+        self.assertRaises(CommandException, run, "/bin/false")
 
     def test_run_background(self):
         p = run("exit 27", background=True)
