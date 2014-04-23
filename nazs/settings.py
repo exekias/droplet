@@ -130,7 +130,7 @@ LOGGING = {
         'django.db.backends': {
             'handlers': ['null'],
             'propagate': False,
-            'level':'DEBUG',
+            'level': 'DEBUG',
         },
     }
 }
