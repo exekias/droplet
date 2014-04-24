@@ -24,7 +24,7 @@ class Samba(module.Module):
         """
         with root():
             if os.path.exists(self.ETC_FILE):
-                os.unlink(self.ETC_FILE)
+                os.remove(self.ETC_FILE)
 
             run("samba-tool domain provision "
                 " --domain='zentyal' "
