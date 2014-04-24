@@ -1,7 +1,6 @@
 from django.test import TestCase
 
 from nazs.core.commands import run, CommandException
-import subprocess
 
 
 class CommandsTests(TestCase):
