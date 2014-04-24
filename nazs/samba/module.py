@@ -36,10 +36,6 @@ class Samba(module.Module):
                 "--use-ntvfs "
                 "--adminpass='foobar1!'")
 
-    def menu(self):
+    def menu(self, root):
         menu = module.MenuItem('samba', verbose_name=_('Directory'))
-        menu.append(module.MenuItem('interfaces',
-                                    'http://google.com',
-                                    verbose_name=_('Interfaces')))
-
-        return (menu,)
+        root.append(menu)

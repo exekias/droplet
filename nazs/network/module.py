@@ -24,12 +24,11 @@ class Network(module.Module):
                                       'interfaces': Interface.objects.all()
                                   })
 
-    def menu(self):
+    def menu(self, root):
         network = module.MenuItem('network', verbose_name=_('Network'))
         network.append(module.MenuItem('interfaces', reverse('interfaces'),
                                        verbose_name=_('Interfaces')))
-
-        return (network,)
+        root.append(network)
 
     def start(self):
         for iface in Interface.objects.all():

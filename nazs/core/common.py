@@ -70,10 +70,9 @@ def menu():
     """
     from nazs.core import module
 
-    menu = module.MenuItem('')
+    root = module.MenuItem('')
 
     for mod in modules():
-        for item in mod.menu():
-            menu.append(item)
+        mod.menu(root)
 
-    return menu
+    return root

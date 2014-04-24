@@ -243,11 +243,11 @@ class Module(object):
         """
         return self.__class__.__name__
 
-    def menu(self):
+    def menu(self, root):
         """
-        Return a list of class:`MenuItem` to add to the global menu
+        Append module menu items (class:`MenuItem`) too root menu element
         """
-        return []
+        pass
 
     # Status info
 
