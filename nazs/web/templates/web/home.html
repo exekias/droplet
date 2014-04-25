@@ -30,10 +30,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-3" id="menu">
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="{% url "modules" %}">{% trans "Modules" %}</a></li>
-        {% include "web/menu_items.html" %}
-      </ul>
+      {% ablock 'core:menu' %}
     </div>
     <div class="col-md-9" id="main">
       {% ablock content_block %}

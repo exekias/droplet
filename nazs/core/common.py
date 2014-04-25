@@ -73,6 +73,7 @@ def menu():
     root = module.MenuItem('')
 
     for mod in modules():
-        mod.menu(root)
+        if mod.installed:
+            mod.menu(root)
 
     return root

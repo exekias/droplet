@@ -5,7 +5,7 @@
         <li>
             <a href="#">{{ item.verbose_name }}</a>
             <ul class="nav">
-                {% with menu=item template_name="web/menu_items.html" %}
+                {% with menu=item template_name="web/core/menu_items.html" %}
                     {% include template_name %}
                 {% endwith %}
             </ul>

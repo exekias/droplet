@@ -10,6 +10,7 @@ register = actions.Library('core')
 def install_module(request, table, module):
     module.install()
     module.enable()
+    blocks.update(request, 'core:menu')
     blocks.update(request, table.register_name)
 
 

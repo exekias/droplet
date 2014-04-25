@@ -13,6 +13,5 @@ class Home(BaseView, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(Home, self).get_context_data(**kwargs)
-        context['menu'] = nazs.menu()
         context['content_block'] = self.block
         return context

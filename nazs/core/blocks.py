@@ -11,6 +11,11 @@ def home():
     return {'version': nazs.__version__}
 
 
+@register.block(template_name='web/core/menu.html')
+def menu():
+    return {'menu': nazs.menu()}
+
+
 @register.block(template_name='web/core/apply_button.html')
 def apply_button():
     return {'active': nazs.changed()}
