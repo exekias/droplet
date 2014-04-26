@@ -1,5 +1,3 @@
-import nazs
-
 from django.views.generic import View, TemplateView
 
 
