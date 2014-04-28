@@ -14,26 +14,19 @@ class Interface(Model):
     NAME_FILTER = ('eth', 'wlan')
 
     ETHERNET = 'ethernet'
-    #BRIDGE = 'bridge'
-    #VLAN = 'vlan'
-    #VIFACE = 'viface'
 
     TYPE_CHOICES = (
         (ETHERNET, _('Ethernet')),
-        #(BRIDGE, _('Bridge')),
-        #(VLAN, _('VLAN')),
     )
 
     UNCONFIGURED = 'notset'
     STATIC = 'static'
     DHCP = 'dhcp'
-    #BRIDGED = 'bridged'
 
     MODE_CHOICES = (
         (UNCONFIGURED, _('Unconfigured')),
         (STATIC, _('Static')),
         (DHCP, _('DHCP')),
-        #(BRIDGED, _('Bridged')),
     )
 
     # Interface name (eth0, eth0:1 br0, etc..)
