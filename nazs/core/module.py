@@ -221,6 +221,9 @@ class Module(object):
     """
     __metaclass__ = ModuleMeta
 
+    #: Install Wizard uri (in the form namespace:blockname, None for no wizard)
+    install_wizard = None
+
     def __init__(self):
         super(Module, self).__init__()
 
