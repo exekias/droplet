@@ -17,6 +17,8 @@ class Samba(module.Module):
     """
     ETC_FILE = '/etc/samba/smb.conf'
 
+    install_wizard = 'samba:install'
+
     def install(self):
         """
         Installation procedure, it writes basic smb.conf and uses samba-tool to

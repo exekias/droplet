@@ -162,7 +162,6 @@ class ModuleInfo(Model):
         (NOT_INSTALLED, _('Not installed')),
         (DISABLED, _('Disabled')),
         (ENABLED, _('Enabled')),
-        #(BROKEN, _('Broken')),
     )
 
     # Module name

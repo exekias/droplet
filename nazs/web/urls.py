@@ -6,6 +6,8 @@ from nazs.web.views import Home
 urlpatterns = patterns(
     '',
     url(r'^$', Home.as_view(), name='home'),
+    url(r'^wizard/(?P<block>.*)/$', Home.as_view(), name='wizard'),
+
     url(r'^achilles/', include('achilles.urls')),
 
     # TODO make this automatic
