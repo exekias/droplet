@@ -7,7 +7,9 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'nazs.settings'
 import nazs
 nazs.init()
 
-from django.core import management
-
 if __name__ == "__main__":
+    from django.core import management
+
+    # Sync volatile db, TODO set correct permissions
+    management.call_command('syncdb', database='volatile', interactive=False)
     management.execute_from_command_line()
