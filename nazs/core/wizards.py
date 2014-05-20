@@ -78,7 +78,7 @@ def next(request, wizard, step, data):
     # Retrieve form block
     form = allforms[step]
 
-    valid = forms.send(request, form.register_name, data)
+    valid = forms.send(request, form.register_name, data=data)
 
     if valid:
         if wizard.step+1 >= len(allforms):
