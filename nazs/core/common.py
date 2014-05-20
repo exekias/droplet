@@ -7,6 +7,10 @@ def init():
     Initialize nazs environment, setup logging, processes and all
     needed stuff for running nazs
     """
+    from django.core import management
+    # Sync volatile db, TODO set correct permissions
+    management.call_command('syncdb', database='volatile', interactive=False)
+
     from nazs.core.sudo import set_euid
     set_euid()
 
