@@ -84,6 +84,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'south',
     'achilles',
+    'django_forms_bootstrap',
 
     'nazs.core',
     'nazs.network',
