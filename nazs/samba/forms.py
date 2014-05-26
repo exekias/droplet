@@ -5,7 +5,7 @@ from django import forms
 class Mode(forms.Form):
 
     CHOICES = (
-        ('ad', _('Domain Controller')),
+        ('ad', _('Domain controller')),
         ('member', _('Domain member')),
     )
     mode = forms.ChoiceField(choices=CHOICES)
