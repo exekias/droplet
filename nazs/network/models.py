@@ -30,7 +30,7 @@ class Interface(Model):
     )
 
     # Interface name (eth0, eth0:1 br0, etc..)
-    name = models.CharField(max_length=10)
+    name = models.CharField(max_length=10, editable=False)
 
     # Type (ethernet, vlan, bridge...)
     type = models.CharField(choices=TYPE_CHOICES,
