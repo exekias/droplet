@@ -2,5 +2,5 @@ start on runlevel [2345]
 stop on runlevel [!2345]
 
 script
-  /usr/bin/nazs runserver --nothreading --noreload 0.0.0.0:8000
+  /usr/bin/nazs runserver --nothreading 0.0.0.0:8000
 end script
