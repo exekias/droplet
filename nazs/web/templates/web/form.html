@@ -1,0 +1,17 @@
+{% extends "achilles/form.html" %}
+{% load i18n %}
+{% load bootstrap_tags %}
+
+{% block formclass %}form-horizontal{% endblock %}
+
+{% block form %}
+    {{ form|as_bootstrap }}
+{% endblock %}
+
+{% block buttons %}
+<div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10">
+    <input type="submit" class="btn btn-default" value="{% trans "Save" %}" />
+  </div>
+</div>
+{% endblock %}
