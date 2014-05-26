@@ -1,17 +1,20 @@
-import django.dispatch
+from django.dispatch import Signal
 
 # Module install signals
-pre_install = django.dispatch.Signal()
-post_install = django.dispatch.Signal()
+pre_install = Signal()
+post_install = Signal()
 
 # Module enable signals
-pre_enable = django.dispatch.Signal()
-post_enable = django.dispatch.Signal()
+pre_enable = Signal()
+post_enable = Signal()
 
 # Module disable signals
-pre_disable = django.dispatch.Signal()
-post_disable = django.dispatch.Signal()
+pre_disable = Signal()
+post_disable = Signal()
 
 # Module save signals
-pre_save = django.dispatch.Signal()
-post_save = django.dispatch.Signal()
+pre_save = Signal()
+post_save = Signal()
+
+# Menu changed signal
+menu_changed = Signal()

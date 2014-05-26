@@ -1,6 +1,8 @@
 from achilles import blocks, actions, redirect
 from django.core.urlresolvers import reverse
 
+from .signals import menu_changed
+
 import nazs
 
 
@@ -18,7 +20,8 @@ def install_module(request, table, module):
 
     module.install()
     module.enable()
-    blocks.update(request, 'core:menu')
+
+    menu_changed.send(None, request=request)
     blocks.update(request, table.register_name)
 
 
