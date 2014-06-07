@@ -1,9 +1,8 @@
 from django.utils.translation import ugettext as _
 from django.dispatch import receiver
 
-from achilles import blocks, tables
-
 from .signals import menu_changed
+from nazs.web import blocks, tables
 
 import nazs
 

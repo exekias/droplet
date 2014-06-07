@@ -1,9 +1,9 @@
-from achilles import blocks, actions, redirect
 from django.core.urlresolvers import reverse
 
 from .signals import menu_changed
 
-import nazs
+from nazs.web import blocks, actions, redirect
+from nazs import save
 
 
 register = actions.Library('core')
@@ -39,7 +39,7 @@ def disable_module(request, table, module):
 
 @register.action
 def apply_changes(request):
-    nazs.save()
+    save()
 
 
 def update_save_button(request, **kwargs):

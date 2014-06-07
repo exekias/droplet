@@ -1,4 +1,4 @@
-from achilles import blocks, forms
+from nazs.web import blocks, forms
 from nazs.core.wizards import InstallWizard
 
 from .forms import Mode

@@ -10,11 +10,11 @@ aregister = actions.Library('wizard')
 class Wizard(blocks.Block):
     """
     Wizard block, it walks the user trough different forms (see
-    class:`achilles.forms.FormBlock`)
+    class:`nazs.web.forms.FormBlock`)
     """
     template_name = 'web/core/wizard.html'
 
-    #: Sorted list of class:`achilles.forms.Form` objects
+    #: Sorted list of class:`nazs.web.forms.Form` objects
     forms = []
 
     #: current step
