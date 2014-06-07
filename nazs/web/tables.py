@@ -1,4 +1,4 @@
-from achilles.tables import ButtonColumn
+from achilles.tables import *
 
 
 class EditColumn(ButtonColumn):
@@ -12,5 +12,5 @@ class EditColumn(ButtonColumn):
 
     def get_href(self, obj):
         return ("javascript:achilles.loadInto(achilles.block('%s')"
-                ".find('.pretable'), '%s', ['%s',])") % (
-                self.table.register_name, self.form, obj.id)
+                ".find('.pretable'), '%s', ['%s',])") % \
+               (self.table.register_name, self.form, obj.id)
