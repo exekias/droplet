@@ -19,6 +19,7 @@ def home():
 def menu():
     return {'menu': nazs.menu()}
 
+
 @receiver(menu_changed)
 def process_menu_change(sender, request=None, **kwargs):
     if request:

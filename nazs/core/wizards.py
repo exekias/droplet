@@ -1,7 +1,7 @@
-from achilles import blocks, actions, forms, redirect
 from django.core.urlresolvers import reverse
 
 import nazs
+from nazs.web import blocks, actions, forms, redirect
 
 
 aregister = actions.Library('wizard')
@@ -10,7 +10,7 @@ aregister = actions.Library('wizard')
 class Wizard(blocks.Block):
     """
     Wizard block, it walks the user trough different forms (see
-    class:`achilles.forms.Form`)
+    class:`achilles.forms.FormBlock`)
     """
     template_name = 'web/core/wizard.html'
 

@@ -9,7 +9,7 @@ register = blocks.Library('samba')
 
 
 @register.block
-class mode(forms.Form):
+class mode(forms.FormBlock):
     form_class = Mode
 
     def form_valid(self, request, form):
