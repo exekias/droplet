@@ -1,50 +1,51 @@
 from django.core.urlresolvers import reverse
+from achilles.actions import *
 
 from .signals import menu_changed
 
-from nazs.web import blocks, actions, redirect
+from nazs.web import blocks, redirect
 from nazs import save
 
 
-register = actions.Library('core')
+register = Library('core')
 
 
 @register.action
-def install_module(request, table, module):
+def install_module(transport, table, module):
 
     # Go to wizard if module declares one
     if module.install_wizard:
         wizard_url = reverse('wizard', kwargs={'block': module.install_wizard})
-        redirect.redirect(request, wizard_url)
+        redirect.redirect(transport, wizard_url)
         return
 
     module.install()
     module.enable()
 
-    menu_changed.send(None, request=request)
-    blocks.update(request, table.register_name)
+    menu_changed.send(None, transport=transport)
+    blocks.update(transport, table.register_name)
 
 
 @register.action
-def enable_module(request, table, module):
+def enable_module(transport, table, module):
     module.enable()
-    blocks.update(request, table.register_name)
+    blocks.update(transport, table.register_name)
 
 
 @register.action
-def disable_module(request, table, module):
+def disable_module(transport, table, module):
     module.disable()
-    blocks.update(request, table.register_name)
+    blocks.update(transport, table.register_name)
 
 
 @register.action
-def apply_changes(request):
+def apply_changes(transport):
     save()
 
 
-def update_save_button(request, **kwargs):
-    blocks.update(request, 'core:apply_button')
+def update_save_button(transport, **kwargs):
+    blocks.update(transport, 'core:apply_button')
 
 
 # Always update save button
-actions.post_actions_call.connect(update_save_button)
+post_actions_call.connect(update_save_button)

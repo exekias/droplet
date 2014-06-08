@@ -12,7 +12,7 @@ register = blocks.Library('samba')
 class mode(forms.FormBlock):
     form_class = Mode
 
-    def form_valid(self, request, form):
+    def form_valid(self, transport, form):
         pass
 
 

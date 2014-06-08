@@ -54,19 +54,19 @@ class InstallWizard(Wizard):
 
         super(InstallWizard, self).__init__(*args, **kwargs)
 
-    def finish(self, request):
+    def finish(self, transport):
         mod = self.module()
         mod.install()
         mod.enable()
-        redirect.redirect(request, reverse('modules'))
+        redirect.redirect(transport, reverse('modules'))
 
 
 @aregister.action
-def next(request, wizard, step, data):
+def next(transport, wizard, step, data):
     """
     Validate step and go to the next one (or finish the wizard)
 
-    :param request: Request object
+    :param transport: Transport object
     :param wizard: Wizard block name
     :param step: Current step number
     :param data: form data for the step
@@ -78,14 +78,14 @@ def next(request, wizard, step, data):
     # Retrieve form block
     form = allforms[step]
 
-    valid = forms.send(request, form.register_name, data=data)
+    valid = forms.send(transport, form.register_name, data=data)
 
     if valid:
         if wizard.step+1 >= len(allforms):
             # It was last step
-            wizard.finish(request)
+            wizard.finish(transport)
             return
 
         # Next step
         wizard.step = step+1
-        wizard.update(request)
+        wizard.update(transport)

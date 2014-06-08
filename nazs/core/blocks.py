@@ -20,9 +20,8 @@ def menu():
 
 
 @receiver(menu_changed)
-def process_menu_change(sender, request=None, **kwargs):
-    if request:
-        blocks.update(request, 'core:menu')
+def process_menu_change(sender, transport, **kwargs):
+    blocks.update(transport, 'core:menu')
 
 
 @register.block(template_name='web/core/apply_button.html')
