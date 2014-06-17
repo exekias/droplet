@@ -1,0 +1,19 @@
+FROM ubuntu:14.04
+MAINTAINER exekias@gmail.com
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update
+
+RUN apt-get install -y --no-install-recommends git-core python-pip make
+
+# Install requirements
+ADD requirements.txt /tmp/requirements.txt
+RUN pip install -r /tmp/requirements.txt
+
+# Install development requirements
+ADD requirements-dev.txt /tmp/requirements-dev.txt
+RUN pip install -r /tmp/requirements-dev.txt
+
+# Test
+VOLUME ["/nazs"]
+WORKDIR /nazs
+ENTRYPOINT /usr/bin/make test
