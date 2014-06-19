@@ -1,8 +1,8 @@
 from django.template.loader import get_template
 from django.template import Context
 
-from nazs.core.sudo import root
-from nazs import settings
+from .sudo import root
+from . import settings
 
 import os
 import pwd

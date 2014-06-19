@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 
-from nazs.web.views import Home
+from .views import Home
 
 
 urlpatterns = patterns(
@@ -11,6 +11,6 @@ urlpatterns = patterns(
     url(r'^achilles/', include('achilles.urls')),
 
     # TODO make this automatic
-    url(r'^core/', include('nazs.core.urls')),
-    url(r'^network/', include('nazs.network.urls')),
+    url(r'^core/', include('nazs.core.web.urls')),
+    url(r'^network/', include('nazs.network.web.urls')),
 )

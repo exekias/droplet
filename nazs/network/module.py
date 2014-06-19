@@ -1,7 +1,7 @@
-from nazs.core import module
-from nazs.core.files import TemplateConfFile
-from nazs.core.commands import run
-from nazs.core.sudo import root
+from nazs import module
+from nazs.files import TemplateConfFile
+from nazs.commands import run
+from nazs.sudo import root
 
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse

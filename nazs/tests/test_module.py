@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.dispatch import receiver
 
-from nazs.core.module import Module
-from nazs.core.signals import (pre_enable)
+from nazs.module import Module
+from nazs.signals import pre_enable
 
 
 class ModuleTests(TestCase):

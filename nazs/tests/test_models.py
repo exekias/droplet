@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from nazs.core.models import ModuleInfo
+from nazs.models import ModuleInfo
 
 
 class ModelTests(TestCase):

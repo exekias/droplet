@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.template import Template
 
-from nazs.core import files
+from nazs import files
 
 import tempfile
 import shutil

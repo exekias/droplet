@@ -1,12 +1,21 @@
 from django.utils.translation import ugettext as _
 from django.dispatch import receiver
 
-from .signals import menu_changed
+from nazs.actions import post_action_call, post_actions_call
 from nazs.web import blocks, tables
+from ..actions import install_module
 
 import nazs
 
 register = blocks.Library('core')
+
+
+def update_save_button(transport, **kwargs):
+    blocks.update(transport, 'core:apply_button')
+
+
+# Always update save button
+post_actions_call.connect(update_save_button)
 
 
 @register.block(template_name='web/core/welcome.html')
@@ -19,8 +28,10 @@ def menu():
     return {'menu': nazs.menu()}
 
 
-@receiver(menu_changed)
+@receiver(post_action_call, sender=install_module)
 def process_menu_change(sender, transport, **kwargs):
+    import logging
+    logger = logging.getLogger(__name__)
     blocks.update(transport, 'core:menu')
 
 
