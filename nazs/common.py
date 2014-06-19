@@ -11,7 +11,7 @@ def init():
     # Sync volatile db, TODO set correct permissions
     management.call_command('syncdb', database='volatile', interactive=False)
 
-    from nazs.core.sudo import set_euid
+    from .sudo import set_euid
     set_euid()
 
     # Load all modules
@@ -27,7 +27,7 @@ def modules():
     """
     Return a list of instances of all present modules
     """
-    from nazs.core.module import Module
+    from .module import Module
     return [cls() for cls in Module.MODULES]
 
 
@@ -72,7 +72,7 @@ def menu():
     """
     Return global menu composed from all modules
     """
-    from nazs.core import module
+    from . import module
 
     root = module.MenuItem('')
 
