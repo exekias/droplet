@@ -15,6 +15,3 @@ post_disable = Signal()
 # Module save signals
 pre_save = Signal()
 post_save = Signal()
-
-# Menu changed signal
-menu_changed = Signal()

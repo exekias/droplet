@@ -1,7 +1,7 @@
 from django.utils.translation import ugettext as _
 from django.dispatch import receiver
 
-from nazs.signals import menu_changed
+from nazs.signals import post_enable
 from nazs.web import blocks, tables
 
 import nazs
@@ -19,7 +19,7 @@ def menu():
     return {'menu': nazs.menu()}
 
 
-@receiver(menu_changed)
+@receiver(post_enable)
 def process_menu_change(sender, transport, **kwargs):
     blocks.update(transport, 'core:menu')
 
