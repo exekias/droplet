@@ -28,9 +28,10 @@ docker-build:
 	cp Dockerfile.build Dockerfile
 	docker build -t build-nazs .
 	docker run -v $(shell readlink -f .):/nazs build-nazs
+	rm Dockerfile
 
 docker-test:
 	cp Dockerfile.test Dockerfile
 	docker build -t test-nazs .
 	docker run -v $(shell readlink -f .):/nazs test-nazs
-
+	rm Dockerfile
