@@ -1,7 +1,9 @@
 from django.core.urlresolvers import reverse
 
 import nazs
-from nazs.web import blocks, actions, forms, redirect
+
+from nazs import actions
+from nazs.web import blocks, forms, redirect
 
 
 aregister = actions.Library('wizard')
@@ -12,7 +14,7 @@ class Wizard(blocks.Block):
     Wizard block, it walks the user trough different forms (see
     class:`nazs.web.forms.FormBlock`)
     """
-    template_name = 'web/core/wizard.html'
+    template_name = 'web/wizard.html'
 
     #: Sorted list of class:`nazs.web.forms.Form` objects
     forms = []
@@ -49,7 +51,7 @@ class InstallWizard(Wizard):
 
     def __init__(self, *args, **kwargs):
         if not self.module or \
-           not issubclass(self.module, nazs.core.module.Module):
+           not issubclass(self.module, nazs.module.Module):
             raise ValueError('You should define module class to be installed')
 
         super(InstallWizard, self).__init__(*args, **kwargs)

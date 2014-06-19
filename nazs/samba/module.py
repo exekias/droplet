@@ -1,8 +1,8 @@
-from nazs.core import module
-from nazs.core.commands import run
-from nazs.core.sudo import root
-
 from django.utils.translation import ugettext as _
+
+from nazs import module
+from nazs.commands import run
+from nazs.sudo import root
 
 import os
 import logging

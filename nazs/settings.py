@@ -94,6 +94,8 @@ INSTALLED_APPS = (
     'nazs.core.web',
     'nazs.network',
     'nazs.network.web',
+    'nazs.samba',
+    'nazs.samba.web',
 )
 
 LOGGING = {
