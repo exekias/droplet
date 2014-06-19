@@ -1,5 +1,8 @@
 import importlib
 import logging
+import traceback
+import sys
+import six
 
 
 def init():
@@ -17,10 +20,19 @@ def init():
     # Load all modules
     from django.conf import settings
     for app in settings.INSTALLED_APPS:
-        try:
-            importlib.import_module(app + '.module')
-        except:
-            pass
+        module_path = app + '.module'
+        if six.PY2:
+            try:
+                importlib.import_module(module_path)
+            except ImportError:
+                tb = sys.exc_info()[2]
+                stack = traceback.extract_tb(tb, 3)
+                if len(stack) > 2:
+                    raise
+        else:
+            from importlib import find_loader
+            if find_loader(module_path):
+                import_module(module_path)
 
 
 def modules():
