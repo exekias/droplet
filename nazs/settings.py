@@ -88,9 +88,6 @@ INSTALLED_APPS = (
 
     'nazs.core',
     'nazs.network',
-    'nazs.folders',
-    'nazs.torrent',
-    'nazs.samba',
 
     'nazs.web',
 )
