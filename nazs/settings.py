@@ -87,11 +87,13 @@ INSTALLED_APPS = (
     'django_forms_bootstrap',
 
     'nazs',
-    'nazs.core',
-    'nazs.web',
-    'nazs.network',
 
+    # TODO make this automatic:
     'nazs.web',
+    'nazs.core',
+    'nazs.core.web',
+    'nazs.network',
+    'nazs.network.web',
 )
 
 LOGGING = {

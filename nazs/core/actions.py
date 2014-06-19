@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse
 
-from nazs.web import blocks, redirect
-from nazs.actions import Library, post_actions_call
+from nazs.web import redirect
+from nazs.actions import Library
 from nazs import save
 
 
@@ -19,29 +19,17 @@ def install_module(transport, table, module):
     module.install()
     module.enable()
 
-    blocks.update(transport, table.register_name)
-
 
 @register.action
 def enable_module(transport, table, module):
     module.enable()
-    blocks.update(transport, table.register_name)
 
 
 @register.action
 def disable_module(transport, table, module):
     module.disable()
-    blocks.update(transport, table.register_name)
 
 
 @register.action
 def apply_changes(transport):
     save()
-
-
-def update_save_button(transport, **kwargs):
-    blocks.update(transport, 'core:apply_button')
-
-
-# Always update save button
-post_actions_call.connect(update_save_button)

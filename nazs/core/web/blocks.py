@@ -1,13 +1,21 @@
 from django.utils.translation import ugettext as _
 from django.dispatch import receiver
 
-from nazs.actions import post_action_call
+from nazs.actions import post_action_call, post_actions_call
 from nazs.web import blocks, tables
-from .actions import install_module
+from ..actions import install_module
 
 import nazs
 
 register = blocks.Library('core')
+
+
+def update_save_button(transport, **kwargs):
+    blocks.update(transport, 'core:apply_button')
+
+
+# Always update save button
+post_actions_call.connect(update_save_button)
 
 
 @register.block(template_name='web/core/welcome.html')
