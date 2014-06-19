@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from nazs.core.sudo import root, set_euid
+from nazs.sudo import root, set_euid
 
 import tempfile
 import shutil
