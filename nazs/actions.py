@@ -2,9 +2,8 @@ from django.core.urlresolvers import reverse
 from achilles.actions import *
 
 from .signals import menu_changed
-
-from nazs.web import blocks, redirect
-from nazs import save
+from .web import blocks, redirect
+from . import save
 
 
 register = Library('core')
@@ -12,7 +11,6 @@ register = Library('core')
 
 @register.action
 def install_module(transport, table, module):
-
     # Go to wizard if module declares one
     if module.install_wizard:
         wizard_url = reverse('wizard', kwargs={'block': module.install_wizard})

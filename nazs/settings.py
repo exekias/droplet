@@ -8,6 +8,10 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = '2rca$gbfiz)6lqc!z5jv5xs5!@9b@x%+ppoa^46bz(^vw)#%oa'
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -19,8 +23,7 @@ DATABASES = {
     }
 }
 
-
-DATABASE_ROUTERS = ['nazs.core.database.VolatileRouter', ]
+DATABASE_ROUTERS = ['nazs.database.VolatileRouter', ]
 
 # Non root user (root under development)
 RUN_AS_USER = 'nazs'
@@ -43,9 +46,6 @@ STATIC_URL = '/static/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
-
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = '2rca$gbfiz)6lqc!z5jv5xs5!@9b@x%+ppoa^46bz(^vw)#%oa'
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
