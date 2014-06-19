@@ -1,8 +1,9 @@
 from django.utils.translation import ugettext as _
 from django.dispatch import receiver
 
-from nazs.signals import post_enable
+from nazs.actions import post_action_call
 from nazs.web import blocks, tables
+from .actions import install_module
 
 import nazs
 
@@ -19,8 +20,10 @@ def menu():
     return {'menu': nazs.menu()}
 
 
-@receiver(post_enable)
+@receiver(post_action_call, sender=install_module)
 def process_menu_change(sender, transport, **kwargs):
+    import logging
+    logger = logging.getLogger(__name__)
     blocks.update(transport, 'core:menu')
 
 

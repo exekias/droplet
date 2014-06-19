@@ -19,7 +19,6 @@ def install_module(transport, table, module):
     module.install()
     module.enable()
 
-    menu_changed.send(None, transport=transport)
     blocks.update(transport, table.register_name)
 
 

@@ -86,7 +86,9 @@ INSTALLED_APPS = (
     'achilles',
     'django_forms_bootstrap',
 
+    'nazs',
     'nazs.core',
+    'nazs.web',
     'nazs.network',
 
     'nazs.web',

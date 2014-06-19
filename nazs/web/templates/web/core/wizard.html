@@ -1,6 +1,0 @@
-{% load i18n %}
-{% load achilles %}
-
-{% ablock form_name %}
-
-<button type="button" class="btn btn-primary" onclick="javascript:achilles.action('wizard:next', ['{{ wizard_name }}', {{ step }}, achilles.block('{{ wizard_name }}').find('form').serialize()])">{% trans "Next" %}</button>
