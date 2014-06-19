@@ -1,0 +1,14 @@
+{% for item in menu.items %}
+    {% if item.is_leaf %}
+        <li><a{% if item.url %} href="{{ item.url }}"{% endif %}>{{ item.verbose_name }}</a></li>
+    {% else %}
+        <li>
+            <a{% if item.url %} href="{{ item.url }}"{% endif %}>{{ item.verbose_name }}</a>
+            <ul class="nav">
+                {% with menu=item template_name="web/core/menu_items.html" %}
+                    {% include template_name %}
+                {% endwith %}
+            </ul>
+        </li>
+    {% endif %}
+{% endfor %}
