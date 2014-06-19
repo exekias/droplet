@@ -2,3 +2,4 @@ Django==1.6.2
 South==0.8.2
 git+git://github.com/exekias/django-achilles.git
 django-forms-bootstrap==3.0.0
+six>=1.4.1
