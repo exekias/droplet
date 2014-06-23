@@ -19,7 +19,8 @@ clean:
            build/ \
            *.egg-info \
            *.tar.gz \
-           *.dsc
+           *.dsc \
+           venv
 
 deb:
 	dpkg-buildpackage -uc -us
