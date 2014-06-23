@@ -246,12 +246,6 @@ class Module(object):
         """
         return self.__class__.__name__
 
-    def menu(self, root):
-        """
-        Append module menu items (class:`MenuItem`) too root menu element
-        """
-        pass
-
     # Status info
 
     @property
@@ -369,35 +363,3 @@ class Module(object):
         """
         self.stop()
         self.start()
-
-
-class MenuItem(object):
-    """
-    Menu item
-    """
-    def __init__(self, name, url=None, verbose_name=None):
-        self.name = name
-        self.verbose_name = verbose_name or name
-        self.url = url
-        self.items = []
-
-    def append(self, item):
-        """
-        Adde the given item as children
-        """
-        if self.url:
-            raise TypeError('Menu items with URL cannot have childrens')
-
-        # Look for already present common node
-        if not item.is_leaf():
-            for current_item in self.items:
-                if item.name == current_item.name:
-                    for children in item.items:
-                        current_item.append(children)
-                    return
-
-        # First insertion
-        self.items.append(item)
-
-    def is_leaf(self):
-        return not self.items

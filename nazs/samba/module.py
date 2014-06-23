@@ -1,5 +1,3 @@
-from django.utils.translation import ugettext as _
-
 from nazs import module
 from nazs.commands import run
 from nazs.sudo import root
@@ -37,7 +35,3 @@ class Samba(module.Module):
                 "--server-role='domain controller' "
                 "--use-ntvfs "
                 "--adminpass='foobar1!'")
-
-    def menu(self, root):
-        menu = module.MenuItem('samba', verbose_name=_('Directory'))
-        root.append(menu)

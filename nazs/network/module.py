@@ -3,9 +3,6 @@ from nazs.files import TemplateConfFile
 from nazs.commands import run
 from nazs.sudo import root
 
-from django.utils.translation import ugettext as _
-from django.core.urlresolvers import reverse
-
 from .models import Interface
 
 import logging
@@ -23,12 +20,6 @@ class Network(module.Module):
                                   template_params=lambda: {
                                       'interfaces': Interface.objects.all()
                                   })
-
-    def menu(self, root):
-        network = module.MenuItem('network', verbose_name=_('Network'))
-        network.append(module.MenuItem('interfaces', reverse('interfaces'),
-                                       verbose_name=_('Interfaces')))
-        root.append(network)
 
     def start(self):
         for iface in Interface.objects.all():

@@ -2,7 +2,7 @@ from django.utils.translation import ugettext as _
 from django.dispatch import receiver
 
 from nazs.actions import post_action_call, post_actions_call
-from nazs.web import blocks, tables
+from nazs.web import blocks, tables, menus
 from ..actions import install_module
 
 import nazs
@@ -25,13 +25,11 @@ def home():
 
 @register.block(template_name='web/core/menu.html')
 def menu():
-    return {'menu': nazs.menu()}
+    return {'menu': menus.menu()}
 
 
 @receiver(post_action_call, sender=install_module)
 def process_menu_change(sender, transport, **kwargs):
-    import logging
-    logger = logging.getLogger(__name__)
     blocks.update(transport, 'core:menu')
 
 
