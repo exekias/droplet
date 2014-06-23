@@ -1,4 +1,4 @@
-from nazs.core.models import Model
+from nazs.models import Model
 from nazs.network.util import getifaddrs
 
 from django.db import models
