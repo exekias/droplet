@@ -8,8 +8,8 @@ pep8:
 pyflakes:
 	pyflakes nazs
 
-test:
-	PYTHONPATH=. \
+test: venv
+	. venv/bin/activate; PYTHONPATH=.         \
     DJANGO_SETTINGS_MODULE=nazs.test_settings \
     django-admin.py test
 
@@ -24,14 +24,19 @@ clean:
 deb:
 	dpkg-buildpackage -uc -us
 
+copy-deb:
+	cp ../*.deb /nazs
+
+venv: venv/bin/activate
+venv/bin/activate: requirements.txt
+	test -d venv || virtualenv venv
+	. venv/bin/activate; pip install -U -r requirements.txt
+	touch venv/bin/activate
+
 docker-build:
-	cp Dockerfile.build Dockerfile
-	docker build -t build-nazs .
-	docker run -v $(shell readlink -f .):/nazs build-nazs
-	rm Dockerfile
+	docker build -t nazs-make .
+	docker run -v $(shell readlink -f .):/nazs nazs-make deb copy-deb
 
 docker-test:
-	cp Dockerfile.test Dockerfile
-	docker build -t test-nazs .
-	docker run -v $(shell readlink -f .):/nazs test-nazs
-	rm Dockerfile
+	docker build -t nazs-make .
+	docker run -v $(shell readlink -f .):/nazs nazs-make test

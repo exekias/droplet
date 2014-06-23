@@ -17,4 +17,4 @@ RUN mk-build-deps -irt'apt-get --no-install-recommends -yq' /tmp/control
 # Build
 VOLUME ["/nazs"]
 WORKDIR /nazs
-ENTRYPOINT make deb clean && cp ../*.deb .
+ENTRYPOINT ["/usr/bin/make"]
