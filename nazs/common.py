@@ -10,7 +10,10 @@ def init():
     """
     from django.core import management
     # Sync volatile db, TODO set correct permissions
-    management.call_command('syncdb', database='volatile', interactive=False)
+    management.call_command('syncdb',
+                            database='volatile',
+                            interactive=False,
+                            verbosity=0)
 
     from .sudo import set_euid
     set_euid()
