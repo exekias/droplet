@@ -1,15 +1,14 @@
 all:
 
-sense: pep8 pyflakes test
+.PHONY: env
 
-pep8:
-	pep8 nazs
+sense: flake8 test
 
-pyflakes:
-	pyflakes nazs
+flake8:
+	flake8 nazs
 
-test: venv
-	. venv/bin/activate; PYTHONPATH=.         \
+test: env
+	. env/bin/activate; PYTHONPATH=.         \
     DJANGO_SETTINGS_MODULE=nazs.test_settings \
     django-admin.py test
 
@@ -20,7 +19,7 @@ clean:
            *.egg-info \
            *.tar.gz \
            *.dsc \
-           venv
+           env
 
 deb:
 	dpkg-buildpackage -uc -us
@@ -28,16 +27,18 @@ deb:
 copy-deb:
 	cp ../*.deb /nazs
 
-venv: venv/bin/activate
-venv/bin/activate: requirements.txt
-	test -d venv || virtualenv venv
-	. venv/bin/activate; pip install -U -r requirements.txt
-	touch venv/bin/activate
+env: env/bin/activate
 
-docker-build:
+env/bin/activate: requirements.txt
+	test -d env || virtualenv env
+	. env/bin/activate; pip install -U -r requirements.txt
+	touch env/bin/activate
+
+docker:
 	docker build -t nazs-make .
+
+docker-build: docker
 	docker run -v $(shell readlink -f .):/nazs nazs-make deb copy-deb
 
-docker-test:
-	docker build -t nazs-make .
-	docker run -v $(shell readlink -f .):/nazs nazs-make test
+docker-test: docker
+	docker run -v $(shell readlink -f .):/nazs nazs-make sense

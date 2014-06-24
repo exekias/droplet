@@ -14,6 +14,8 @@ RUN dpkg -i dh-virtualenv_0.6_all.deb 2>/dev/null ; apt-get --no-install-recomme
 ADD debian/control /tmp/control
 RUN mk-build-deps -irt'apt-get --no-install-recommends -yq' /tmp/control
 
+RUN apt-get install -y python-flake8
+
 # Build
 VOLUME ["/nazs"]
 WORKDIR /nazs
