@@ -1,4 +1,4 @@
-from achilles.tables import *
+from achilles.tables import *  # noqa
 
 
 class EditColumn(ButtonColumn):

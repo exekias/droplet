@@ -1,4 +1,4 @@
-from achilles.forms import *
+from achilles.forms import *  # noqa
 
 
 # Override forms template
