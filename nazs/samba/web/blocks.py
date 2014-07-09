@@ -1,6 +1,6 @@
 from nazs.web import blocks, forms, wizards
 
-from ..forms import Mode
+from ..forms import DomainSettingsForm
 from ..module import Samba
 
 
@@ -8,15 +8,12 @@ register = blocks.Library('samba')
 
 
 @register.block
-class mode(forms.FormBlock):
-    form_class = Mode
+class DomainSettings(forms.ModelFormBlock):
+    form_class = DomainSettingsForm
     save_button = False
-
-    def form_valid(self, transport, form):
-        pass
 
 
 @register.block(name='install')
 class InstallSamba(wizards.InstallWizard):
     module = Samba
-    forms = [mode, ]
+    forms = [DomainSettings, ]

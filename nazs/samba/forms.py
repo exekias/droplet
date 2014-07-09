@@ -1,11 +1,9 @@
-from django.utils.translation import ugettext as _
 from django import forms
 
+from .models import DomainSettings
 
-class Mode(forms.Form):
 
-    CHOICES = (
-        ('ad', _('Domain controller')),
-        ('member', _('Domain member')),
-    )
-    mode = forms.ChoiceField(choices=CHOICES)
+class DomainSettingsForm(forms.ModelForm):
+
+    class Meta:
+        model = DomainSettings
