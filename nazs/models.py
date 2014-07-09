@@ -1,4 +1,4 @@
-from django.db import models
+from django.db.models import *  # noqa
 from django.db.models.query import QuerySet
 from django.utils.translation import ugettext as _
 
@@ -38,7 +38,7 @@ class ModelQuerySet(QuerySet):
         super(ModelQuerySet, self).update(**kwargs)
 
 
-class ModelManager(models.Manager):
+class ModelManager(Manager):
     """
     Model manager, it completely hides deleted objects, only exposed trough
     deleted method
@@ -83,7 +83,7 @@ class ModelManager(models.Manager):
         return ModelQuerySet(self.model).filter(_deleted=True)
 
 
-class Model(models.Model):
+class Model(Model):
     """
     NAZS model, it stores configuration handled by modules
 
@@ -98,19 +98,19 @@ class Model(models.Model):
     objects = ModelManager()
 
     # True if the object was added after module save event
-    _new = models.BooleanField(default=True,
-                               verbose_name=_('Row new'),
-                               editable=False)
+    _new = BooleanField(default=True,
+                        verbose_name=_('Row new'),
+                        editable=False)
 
     # True if the object has changed since last module save event
-    _changed = models.BooleanField(default=True,
-                                   verbose_name=_('Row changed'),
-                                   editable=False)
+    _changed = BooleanField(default=True,
+                            verbose_name=_('Row changed'),
+                            editable=False)
 
     # Deleted marker, custom manager will not show models with this set to True
-    _deleted = models.BooleanField(default=False,
-                                   verbose_name=_('Row deleted'),
-                                   editable=False)
+    _deleted = BooleanField(default=False,
+                            verbose_name=_('Row deleted'),
+                            editable=False)
 
     # Override save method to mark object as changed
     def save(self, *args, **kwargs):
@@ -145,6 +145,30 @@ class Model(models.Model):
         cls.objects.changed().true_update(_new=False, _changed=False)
 
 
+class SingletonModel(Model):
+    """
+    One row Model, useful to store settings, to use it just instance like::
+
+        settings = YourModel.get()
+        settings.foo = True
+        settings.save()
+    """
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super(SingletonModel, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        pass
+
+    @classmethod
+    def get(cls):
+        obj, _ = cls.objects.get_or_create(id=1)
+        return obj
+
+
 class ModuleInfo(Model):
     """
     NAZS module info, identified by the module name
@@ -164,13 +188,13 @@ class ModuleInfo(Model):
     )
 
     # Module name
-    name = models.CharField(max_length=200, unique=True)
+    name = CharField(max_length=200, unique=True)
 
     # Status
-    status = models.IntegerField(choices=STATUS_CHOICES, default=NOT_INSTALLED)
+    status = IntegerField(choices=STATUS_CHOICES, default=NOT_INSTALLED)
 
     # Changed
-    changed = models.BooleanField(default=False)
+    changed = BooleanField(default=False)
 
     def __unicode__(self):
         return u'Module %s' % self.name
