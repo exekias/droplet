@@ -21,5 +21,5 @@ class Interfaces(tables.Table):
 
 # TODO update interfaces block after save
 @register.block('edit_interface')
-class EditInterface(forms.ModelFormBlock):
+class EditInterface(forms.ModelForm):
     form_class = InterfaceForm
