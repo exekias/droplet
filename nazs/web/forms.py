@@ -14,4 +14,4 @@ class ModelForm(ModelForm):
             instance = self.form_class.Meta.model.get()
             return self.form_class(form_data, instance=instance)
         else:
-            return super(ModelForm, self).get_form(*args, **kwargs)
+            return super(ModelForm, self).get_form(form_data, *args, **kwargs)
