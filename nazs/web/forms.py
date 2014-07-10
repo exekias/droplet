@@ -5,9 +5,6 @@ from nazs.models import SingletonModel
 # Override forms template
 Form.template_name = 'web/form.html'
 
-# Show a save button by default
-Form.save_button = True
-
 
 class ModelForm(ModelForm):
 

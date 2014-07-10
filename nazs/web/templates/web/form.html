@@ -11,9 +11,7 @@
 {% block buttons %}
 <div class="form-group">
   <div class="col-sm-offset-2 col-sm-10">
-    {% if formblock.save_button %}
-    <input type="submit" class="pull-right btn btn-default" value="{% trans "Save" %}" />
-    {% endif %}
+      {{ block.super }}
   </div>
 </div>
 {% endblock %}

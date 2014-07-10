@@ -23,3 +23,5 @@ class Interfaces(tables.Table):
 @register.block('edit_interface')
 class EditInterface(forms.ModelForm):
     form_class = InterfaceForm
+
+    save = forms.SubmitButton(_('Save'))
