@@ -6,7 +6,7 @@ TEMPLATE_DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite',
+        'NAME': ':memory:',
     },
     'volatile': {
         'ENGINE': 'django.db.backends.sqlite3',
