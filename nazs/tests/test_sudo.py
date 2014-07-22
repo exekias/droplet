@@ -1,4 +1,5 @@
 from django.test import TestCase
+from unittest import skipIf
 
 from nazs.sudo import root, set_euid
 
@@ -19,6 +20,7 @@ class SudoTests(TestCase):
         with root():
             shutil.rmtree(self.tmpdir)
 
+    @skipIf(os.geteuid() == 0, "Cannot test set_euid, we are root")
     def test_with_root(self):
         set_euid()
         self.assertNotEqual(os.geteuid(), 0)
@@ -26,6 +28,7 @@ class SudoTests(TestCase):
         with root():
             self.assertEqual(os.getuid(), 0)
 
+    @skipIf(os.geteuid() == 0, "Cannot test set_euid, we are root")
     def test_no_root(self):
         set_euid()
         self.assertNotEqual(os.geteuid(), 0)

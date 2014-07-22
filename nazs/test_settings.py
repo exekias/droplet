@@ -6,7 +6,7 @@ TEMPLATE_DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite',
+        'NAME': ':memory:',
     },
     'volatile': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -14,8 +14,8 @@ DATABASES = {
     }
 }
 
-# Non root user (root under development)
-RUN_AS_USER = 'nobody'
+# Non root user, ROOT for current one
+RUN_AS_USER = None
 
 LOGGING = {
     'version': 1,
