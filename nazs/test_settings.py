@@ -14,8 +14,8 @@ DATABASES = {
     }
 }
 
-# Non root user (root under development)
-RUN_AS_USER = 'nobody'
+# Non root user, ROOT for current one
+RUN_AS_USER = None
 
 LOGGING = {
     'version': 1,
