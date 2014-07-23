@@ -1,0 +1,11 @@
+{% extends "achilles/table.html" %}
+
+{% block table %}
+    <div class="pretable"></div>
+    <div class="actions">
+        {% for action in table.actions %}
+            {{ action.render|safe }}
+        {% endfor %}
+    </div>
+    {{ block.super }}
+{% endblock %}
