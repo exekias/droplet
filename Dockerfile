@@ -15,6 +15,7 @@ ADD debian/control /tmp/control
 RUN mk-build-deps -irt'apt-get --no-install-recommends -yq' /tmp/control
 
 RUN apt-get install -y python-flake8
+RUN apt-get install -y python-dev libldap2-dev libkrb5-dev libsasl2-dev
 
 # Build
 VOLUME ["/nazs"]

@@ -10,7 +10,6 @@ register = blocks.Library('samba')
 @register.block
 class DomainSettings(forms.ModelForm):
     form_class = DomainSettingsForm
-    save_button = False
 
 
 @register.block(name='install')

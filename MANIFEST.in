@@ -3,4 +3,4 @@ recursive-include nazs/web/templates *
 recursive-include nazs/web/static *
 
 recursive-include nazs/network/templates *
-recursive-include nazs/torrent/templates *
+recursive-include nazs/samba/templates *
