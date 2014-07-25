@@ -17,7 +17,6 @@ class Samba(module.Module):
     """
     Samba 4 module, it deploys samba AD and file server
     """
-
     install_wizard = 'samba:install'
 
     SMBCONF_FILE = '/etc/samba/smb.conf'
@@ -81,18 +80,18 @@ class Samba(module.Module):
 
     def start(self):
         with root():
-            run('service smbd stop')
-            run('service nmbd stop')
+            run('service smbd stop || true')
+            run('service nmbd stop || true')
             run('service samba-ad-dc start')
 
     def stop(self):
         with root():
-            run('service smbd stop')
-            run('service nmbd stop')
+            run('service smbd stop || true')
+            run('service nmbd stop || true')
             run('service samba-ad-dc stop')
 
     def restart(self):
         with root():
-            run('service smbd stop')
-            run('service nmbd stop')
+            run('service smbd stop || true')
+            run('service nmbd stop || true')
             run('service samba-ad-dc restart')
