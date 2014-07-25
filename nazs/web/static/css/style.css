@@ -7,6 +7,10 @@
     width: 50%;
 }
 
+.actions {
+    padding: 10px 0;
+}
+
 .form-horizontal .control-label {
     float: left;
     width: 16.66666667%;
