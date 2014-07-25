@@ -16,12 +16,4 @@ class Interfaces(tables.Table):
 
     configured = tables.Column(verbose_name=_('Configured'))
 
-    edit = tables.EditColumn('network:edit_interface', verbose_name=_('Edit'))
-
-
-# TODO update interfaces block after save
-@register.block('edit_interface')
-class EditInterface(forms.ModelForm):
-    form_class = InterfaceForm
-
-    save = forms.SubmitButton(_('Save'))
+    edit = tables.EditColumn(InterfaceForm, verbose_name=_('Edit'))

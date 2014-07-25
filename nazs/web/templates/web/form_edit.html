@@ -1,0 +1,3 @@
+{% extends "web/form.html" %}
+
+{% block onreset %}achilles.action('blocks:update', ['{{ table_name }}']){% endblock %}

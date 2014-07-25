@@ -1,21 +1,79 @@
+from django.utils.translation import ugettext as _
 from achilles.tables import *  # noqa
+from achilles import blocks, forms
+
+
+register = blocks.Library('nazs')
 
 
 # OBJECT EDIT COLUMN
+
+
+@register.block(name='edit')
+class EditColumnBlock(forms.Form):
+
+    template_name='web/form_edit.html'
+
+    save = forms.SubmitButton(verbose_name=_('Save'))
+
+    cancel = forms.ResetButton(verbose_name=_('Cancel'))
+
+    def get_form(self, form_data=None, table_name=None,
+                 column_name=None, obj_id=None, **kwargs):
+        table = blocks.get(table_name)
+        column = getattr(table, column_name)
+        self.form_class = column.form_class
+        return super(EditColumnBlock, self).get_form(form_data=form_data,
+                                                     table_name=table_name,
+                                                     column_name=column_name,
+                                                     obj_id=obj_id,
+                                                     **kwargs)
+
+    def get_instance(self, table_name, column_name, obj_id, *args, **kwargs):
+        table = blocks.get(table_name)
+        return table.get_object(obj_id)
+
+    def get_context_data(self, table_name=None,
+                         column_name=None, obj_id=None, *args, **kwargs):
+        context = super(EditColumnBlock, self).get_context_data(
+            table_name=table_name,
+            column_name=column_name,
+            obj_id=obj_id,
+            **kwargs)
+        context['table_name'] = table_name
+        return context
+
+    def form_valid(self, transport, form, table_name=None,
+                   column_name=None, obj_id=None):
+
+        # Save the form
+        form.save()
+
+        # Update the table
+        blocks.update(transport, table_name)
+
+
+@register.block(name='create')
+class CreateColumnBlock(EditColumnBlock):
+
+    def get_instance(self, table_name, column_name, *args, **kwargs):
+        return None
+
 
 class EditColumn(ButtonColumn):
     """
     Action to show a form for the given object
     """
-    def __init__(self, form, classes='', *args, **kwargs):
+    def __init__(self, form_class, classes='', *args, **kwargs):
         super(EditColumn, self).__init__(*args, **kwargs)
-        self.form = form
+        self.form_class = form_class
         self.classes = classes
 
     def get_href(self, obj):
         return ("javascript:achilles.loadInto(achilles.block('%s')"
-                ".find('.pretable'), '%s', ['%s',])") % \
-               (self.table.register_name, self.form, obj.id)
+                ".find('.pretable'), 'nazs:edit', ['%s', '%s', '%s'])") % \
+               (self.table.register_name, self.table.register_name,
+                self.name, obj.id)
 
 
 # TABLE ACTIONS
@@ -73,14 +131,14 @@ class AddAction(TableAction):
     Table object add action, show the given form to create a new item
     in the table
     """
-    def __init__(self, form_name, *args, **kwargs):
+    def __init__(self, form_class, *args, **kwargs):
         super(AddAction, self).__init__(None, *args, **kwargs)
-        self.form_name = form_name
+        self.form_class = form_class
 
     def get_href(self):
         return ("javascript:achilles.loadInto(achilles.block('%s')"
-                ".find('.pretable'), '%s')") % \
-               (self.table.register_name, self.form_name)
+                ".find('.pretable'), 'nazs:create', ['%s', '%s'])") % \
+               (self.table.register_name, self.table.register_name, self.name)
 
 
 # TABLE CLASS OVERRIDES
