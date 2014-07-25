@@ -71,11 +71,11 @@ class Samba(module.Module):
 
     def save(self):
 
+        # Save con files
+        self.smbconf.write()
+
         with root():
-            self.smbconf.write()
-
             shutil.copy2(self.SMB_KRB5CONF_FILE, self.KRB5CONF_FILE)
-
             # XXX FIXME move this to network
             run("echo 'nameserver 127.0.0.1' > /etc/resolv.conf")
 
