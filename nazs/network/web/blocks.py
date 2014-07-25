@@ -1,5 +1,5 @@
 from django.utils.translation import ugettext as _
-from nazs.web import tables, blocks, forms
+from nazs.web import tables, blocks
 
 from ..forms import InterfaceForm
 from ..models import Interface

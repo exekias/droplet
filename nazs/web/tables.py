@@ -12,7 +12,7 @@ register = blocks.Library('nazs')
 @register.block(name='edit')
 class EditColumnBlock(forms.Form):
 
-    template_name='web/form_edit.html'
+    template_name = 'web/form_edit.html'
 
     save = forms.SubmitButton(verbose_name=_('Save'))
 
