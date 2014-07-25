@@ -1,4 +1,4 @@
-#FIXME put this at nazs-samba packaging level
+# FIXME put this at nazs-samba packaging level
 import sys
 sys.path.append('/usr/lib/python2.7/dist-packages')
 
@@ -18,14 +18,14 @@ def samdb_connect():
     """
     with root():
         lp = samba.param.LoadParm()
-	lp.load("/etc/samba/smb.conf")
-	creds = Credentials()
-	creds.guess(lp)
-	session = system_session()
-        samdb = SamDB("/var/lib/samba/private/sam.ldb",
-                      session_info=session,
-                      credentials=creds,
-                      lp=lp)
+    lp.load("/etc/samba/smb.conf")
+    creds = Credentials()
+    creds.guess(lp)
+    session = system_session()
+    samdb = SamDB("/var/lib/samba/private/sam.ldb",
+                  session_info=session,
+                  credentials=creds,
+                  lp=lp)
     return samdb
 
 

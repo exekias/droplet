@@ -60,9 +60,9 @@ class Samba(module.Module):
 
                 shutil.copy2(self.SMB_KRB5CONF_FILE, self.KRB5CONF_FILE)
 
-                ### XXX FIXME move this to network
+                # XXX FIXME move this to network
                 run("echo 'nameserver 127.0.0.1' > /etc/resolv.conf")
-                ### TODO manage shares
+                # TODO manage shares
                 run("touch /etc/samba/shares.conf")
 
             elif domain_settings.mode == 'member':
@@ -76,7 +76,7 @@ class Samba(module.Module):
 
             shutil.copy2(self.SMB_KRB5CONF_FILE, self.KRB5CONF_FILE)
 
-            ### XXX FIXME move this to network
+            # XXX FIXME move this to network
             run("echo 'nameserver 127.0.0.1' > /etc/resolv.conf")
 
     def start(self):
