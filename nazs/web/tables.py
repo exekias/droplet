@@ -1,15 +1,16 @@
 from django.utils.translation import ugettext as _
 from achilles.tables import *  # noqa
-from achilles import blocks, forms
+from achilles import actions, blocks, forms
 
 
-register = blocks.Library('nazs')
+bregister = blocks.Library('nazs')
+aregister = actions.Library('nazs')
 
 
 # OBJECT EDIT COLUMN
 
 
-@register.block(name='edit')
+@bregister.block(name='edit')
 class EditColumnBlock(forms.Form):
 
     template_name = 'web/form_edit.html'
@@ -53,7 +54,7 @@ class EditColumnBlock(forms.Form):
         blocks.update(transport, table_name)
 
 
-@register.block(name='create')
+@bregister.block(name='create')
 class CreateColumnBlock(EditColumnBlock):
 
     def get_instance(self, table_name, column_name, *args, **kwargs):
@@ -64,16 +65,35 @@ class EditColumn(ButtonColumn):
     """
     Action to show a form for the given object
     """
-    def __init__(self, form_class, classes='', *args, **kwargs):
-        super(EditColumn, self).__init__(*args, **kwargs)
+    def __init__(self, form_class, classes='btn btn-primary',
+                 verbose_name=_('Edit'), **kwargs):
+        super(EditColumn, self).__init__(classes=classes,
+                                         verbose_name=verbose_name,
+                                         **kwargs)
         self.form_class = form_class
-        self.classes = classes
 
     def get_href(self, obj):
         return ("javascript:achilles.loadInto(achilles.block('%s')"
                 ".find('.pretable'), 'nazs:edit', ['%s', '%s', '%s'])") % \
                (self.table.register_name, self.table.register_name,
                 self.name, obj.id)
+
+
+@aregister.action('delete')
+def delete(transport, table, obj):
+    obj.delete()
+    blocks.update(transport, table.register_name)
+
+
+class DeleteColumn(ActionColumn):
+    """
+    Action to delete an item
+    """
+    def __init__(self, classes='btn btn-danger', verbose_name=_('Delete'),
+                 **kwargs):
+        super(DeleteColumn, self).__init__(delete, classes=classes,
+                                           verbose_name=verbose_name,
+                                           **kwargs)
 
 
 # TABLE ACTIONS
@@ -131,8 +151,9 @@ class AddAction(TableAction):
     Table object add action, show the given form to create a new item
     in the table
     """
-    def __init__(self, form_class, *args, **kwargs):
-        super(AddAction, self).__init__(None, *args, **kwargs)
+    def __init__(self, form_class, verbose_name=_('Add'), *args, **kwargs):
+        super(AddAction, self).__init__(None, *args, verbose_name=verbose_name,
+                                        **kwargs)
         self.form_class = form_class
 
     def get_href(self):
