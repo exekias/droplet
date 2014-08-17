@@ -5,6 +5,7 @@ from django.db.models import get_app, get_models
 
 from .models import ModuleInfo
 from .files import ConfFile
+from .daemons import Daemon
 from .signals import (pre_install, post_install,
                       pre_enable, post_enable,
                       pre_disable, post_disable,
@@ -331,8 +332,8 @@ class Module(object):
 
         If you need more advanced stuff you can override this method
         """
-        for f in self.conf_files():
-            f.write()
+        for conf_file in self.conf_files():
+            conf_file.write()
 
     def conf_files(self):
         """
@@ -349,17 +350,28 @@ class Module(object):
         """
         Start running the module (start daemons, launch services...)
         """
-        pass
+        for daemon in self.daemons():
+            daemon.start()
 
     def stop(self):
         """
         Stop module from running (stop daemons)
         """
-        pass
+        for daemon in self.daemons():
+            daemon.stop()
 
     def restart(self):
         """
         Restart module
         """
-        self.stop()
-        self.start()
+        for daemon in self.daemons():
+            daemon.restart()
+
+    def daemons(self):
+        """
+        List of daemons for this module
+        """
+        for attr in dir(self):
+            field = getattr(self, attr)
+            if isinstance(field, Daemon):
+                yield field
