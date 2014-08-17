@@ -1,6 +1,7 @@
 from .util import import_module
 
 import logging
+import os
 
 
 def init():
@@ -9,14 +10,18 @@ def init():
     needed stuff for running nazs
     """
     from django.core import management
-    # Sync volatile db, TODO set correct permissions
+    from django.conf import settings
+
+    from .sudo import set_euid
+    set_euid()
+
+    # Sync volatile db and set permissions
+    volatile_db = settings.DATABASES['volatile']['NAME']
     management.call_command('syncdb',
                             database='volatile',
                             interactive=False,
                             verbosity=0)
-
-    from .sudo import set_euid
-    set_euid()
+    os.chmod(volatile_db, 0600)
 
     # Load all modules
     from django.conf import settings
