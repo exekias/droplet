@@ -278,7 +278,8 @@ class Module(object):
 
         # Check model changes
         for model in self.models():
-            if model.objects.changed().count():
+            if model.objects.changed().count() or \
+               model.objects.deleted().count():
                 return True
 
         # Nothing passed, module not changed
