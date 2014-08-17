@@ -1,5 +1,6 @@
 from nazs import module
 from nazs.files import TemplateConfFile
+from nazs.daemons import InitDaemon
 from nazs.commands import run
 from nazs.sudo import root
 
@@ -24,11 +25,17 @@ class Samba(module.Module):
     KRB5CONF_FILE = '/etc/krb5.conf'
     SMB_KRB5CONF_FILE = os.path.join(SMB_PRIVATE_DIR, 'krb5.conf')
 
+    # Conf files
     smbconf = TemplateConfFile(SMBCONF_FILE,
                                template='smb.conf',
                                template_params=lambda: {
                                    'settings': DomainSettings.get()
                                })
+
+    # Daemons
+    nmbd = InitDaemon('nmbd')
+    smbd = InitDaemon('smbd')
+    samba_ad = InitDaemon('samba-ad-dc')
 
     def install(self):
         """
@@ -78,20 +85,24 @@ class Samba(module.Module):
             # XXX FIXME move this to network
             run("echo 'nameserver 127.0.0.1' > /etc/resolv.conf")
 
+    def stop_other_daemons(self):
+        """
+        Stop services already provided by main samba daemon
+        """
+        if self.smbd.running:
+            self.smbd.stop()
+
+        if self.nmbd.running:
+            self.nmbd.stop()
+
     def start(self):
-        with root():
-            run('service smbd stop || true')
-            run('service nmbd stop || true')
-            run('service samba-ad-dc start')
+        self.stop_other_daemons()
+        self.samba_ad.start()
 
     def stop(self):
-        with root():
-            run('service smbd stop || true')
-            run('service nmbd stop || true')
-            run('service samba-ad-dc stop')
+        self.stop_other_daemons()
+        self.samba_ad.start()
 
     def restart(self):
-        with root():
-            run('service smbd stop || true')
-            run('service nmbd stop || true')
-            run('service samba-ad-dc restart')
+        self.stop_other_daemons()
+        self.samba_ad.restart()
