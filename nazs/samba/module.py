@@ -101,7 +101,7 @@ class Samba(module.Module):
 
     def stop(self):
         self.stop_other_daemons()
-        self.samba_ad.start()
+        self.samba_ad.stop()
 
     def restart(self):
         self.stop_other_daemons()
