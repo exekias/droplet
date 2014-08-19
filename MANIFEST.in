@@ -1,6 +1,13 @@
-recursive-include nazs/core/web/templates *
+include LICENSE
+include README.md
+include AUTHORS
+
 recursive-include nazs/web/templates *
 recursive-include nazs/web/static *
 
+recursive-include nazs/core/web/templates *
 recursive-include nazs/network/templates *
 recursive-include nazs/samba/templates *
+
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
