@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+#
 #  NAZS
 #  Copyright (C) 2014 Carlos Pérez-Aradros Herce <exekias@gmail.com>
 #
