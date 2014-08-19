@@ -15,7 +15,6 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-
 class VolatileRouter(object):
     """
     Router to use special db for volatile models
