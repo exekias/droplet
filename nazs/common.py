@@ -16,8 +16,7 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from .util import import_module
-
+import pkg_resources
 import logging
 import os
 
@@ -42,9 +41,8 @@ def init():
     os.chmod(volatile_db, 0600)
 
     # Load all modules
-    from django.conf import settings
-    for app in settings.INSTALLED_APPS:
-        import_module(app + '.module')
+    for app in pkg_resources.iter_entry_points('nazs.app'):
+        __import__(app.module_name + '.module')
 
 
 def modules():

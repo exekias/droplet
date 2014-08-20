@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import pkg_resources
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -93,7 +95,7 @@ ROOT_URLCONF = 'nazs.web.urls'
 
 WSGI_APPLICATION = 'nazs.web.wsgi.application'
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -103,18 +105,13 @@ INSTALLED_APPS = (
     'south',
     'achilles',
     'django_forms_bootstrap',
-
     'nazs',
-
-    # TODO make this automatic:
     'nazs.web',
     'nazs.core',
     'nazs.core.web',
-    'nazs.network',
-    'nazs.network.web',
-    'nazs.samba',
-    'nazs.samba.web',
-)
+] + [app.module_name for app in pkg_resources.iter_entry_points('nazs.app')] \
+  + [app.module_name for app in pkg_resources.iter_entry_points('nazs.web')]
+
 
 LOGGING = {
     'version': 1,

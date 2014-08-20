@@ -34,4 +34,14 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: System :: Systems Administration',
     ],
+    entry_points={
+        'nazs.app': [
+            'network=nazs.network',
+            'samba=nazs.samba',
+        ],
+        'nazs.web': [
+            'network=nazs.network.web',
+            'samba=nazs.samba.web',
+        ],
+    },
 )

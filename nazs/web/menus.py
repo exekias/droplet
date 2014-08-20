@@ -18,6 +18,8 @@
 
 import nazs
 
+from nazs.util import import_module
+
 
 class MenuItem(object):
     """
@@ -63,7 +65,7 @@ def menu():
     for mod in nazs.modules():
         if mod.installed:
             module_path = mod.__class__.__module__.rsplit('.', 1)[0]
-            menu = nazs.util.import_module(module_path + '.web.menu')
+            menu = import_module(module_path + '.web.menu')
             if menu:
                 menu.menu(root)
 
