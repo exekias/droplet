@@ -78,7 +78,7 @@ class InstallWizard(Wizard):
         mod = self.module()
         mod.install()
         mod.enable()
-        redirect.redirect(transport, reverse('modules'))
+        redirect.redirect(transport, reverse('core:modules'))
 
 
 @aregister.action

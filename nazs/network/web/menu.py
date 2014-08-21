@@ -8,7 +8,7 @@ def menu(root):
     network = MenuItem('network', verbose_name=_('Network'))
 
     network.append(MenuItem('interfaces',
-                            reverse('interfaces'),
+                            reverse('network:interfaces'),
                             verbose_name=_('Interfaces')))
 
     root.append(network)

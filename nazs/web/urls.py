@@ -16,8 +16,10 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from django.conf.urls import patterns, include, url
+import pkg_resources
 
+from nazs.util import import_module
+from django.conf.urls import patterns, include, url
 from .views import Home
 
 
@@ -25,10 +27,14 @@ urlpatterns = patterns(
     '',
     url(r'^$', Home.as_view(), name='home'),
     url(r'^wizard/(?P<block>.*)/$', Home.as_view(), name='wizard'),
-
     url(r'^achilles/', include('achilles.urls')),
-
-    # TODO make this automatic
-    url(r'^core/', include('nazs.core.web.urls')),
-    url(r'^network/', include('nazs.network.web.urls')),
+    url(r'^core/', include('nazs.core.web.urls', namespace='core')),
 )
+
+# Add nazs.web modules urls
+for app in pkg_resources.iter_entry_points('nazs.web'):
+    regex = r'^%s/' % app.name
+    path = '%s.urls' % app.module_name
+    if import_module(path):
+        urlpatterns += patterns('', url(regex, include(path,
+                                                       namespace=app.name)))
