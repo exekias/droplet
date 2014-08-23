@@ -18,6 +18,7 @@ setup(
     scripts=[
         'bin/nazs'
     ],
+    install_requires=open('requirements.txt').readlines(),
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
