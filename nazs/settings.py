@@ -102,7 +102,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'south',
     'achilles',
     'django_forms_bootstrap',
     'nazs',

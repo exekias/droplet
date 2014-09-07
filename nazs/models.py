@@ -18,7 +18,7 @@
 
 from django.db.models import *  # noqa
 from django.db.models.query import QuerySet
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 
 class ModelQuerySet(QuerySet):
@@ -71,7 +71,7 @@ class ModelManager(Manager):
         # updating model objects?
         self._updating = False
 
-    def get_query_set(self):
+    def get_queryset(self):
         # Update model objects on each query
         if not self._updating:
             self._updating = True
@@ -86,13 +86,13 @@ class ModelManager(Manager):
         """
         Return the objects that were created since last module save
         """
-        return self.get_query_set().filter(_new=True)
+        return self.get_queryset().filter(_new=True)
 
     def changed(self):
         """
         Return the objects that were modified since last module save
         """
-        return self.get_query_set().filter(_changed=True)
+        return self.get_queryset().filter(_changed=True)
 
     def deleted(self):
         """
