@@ -32,7 +32,7 @@ urlpatterns = patterns(
 )
 
 # Add nazs.web modules urls
-for app in pkg_resources.iter_entry_points('nazs.web'):
+for app in pkg_resources.iter_entry_points('nazs.app'):
     regex = r'^%s/' % app.name
     path = '%s.urls' % app.module_name
     if import_module(path):

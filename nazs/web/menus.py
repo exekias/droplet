@@ -58,14 +58,14 @@ def menu():
     Return global menu composed from all modules menu.
 
     This method will compose the global menu by calling menu() function for
-    module, it should be located under module_path.web.menu module
+    module, it should be located under module_path.menu module
     """
     root = MenuItem('')
 
     for mod in nazs.modules():
         if mod.installed:
             module_path = mod.__class__.__module__.rsplit('.', 1)[0]
-            menu = import_module(module_path + '.web.menu')
+            menu = import_module(module_path + '.menu')
             if menu:
                 menu.menu(root)
 
