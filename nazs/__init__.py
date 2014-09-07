@@ -18,7 +18,9 @@
 
 __version__ = '0.1'
 
-from .common import modules, changed, save, init
+from .common import modules, changed, save
 
+
+default_app_config = 'nazs.apps.NAZSConfig'
 
 __all__ = ['modules', 'changed', 'save', 'init']

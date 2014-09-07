@@ -28,7 +28,7 @@ urlpatterns = patterns(
     url(r'^$', Home.as_view(), name='home'),
     url(r'^wizard/(?P<block>.*)/$', Home.as_view(), name='wizard'),
     url(r'^achilles/', include('achilles.urls')),
-    url(r'^core/', include('nazs.core.web.urls', namespace='core')),
+    url(r'^core/', include('nazs.core.urls', namespace='core')),
 )
 
 # Add nazs.web modules urls

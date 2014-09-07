@@ -107,9 +107,7 @@ INSTALLED_APPS = [
     'nazs',
     'nazs.web',
     'nazs.core',
-    'nazs.core.web',
-] + [app.module_name for app in pkg_resources.iter_entry_points('nazs.app')] \
-  + [app.module_name for app in pkg_resources.iter_entry_points('nazs.web')]
+] + [app.module_name for app in pkg_resources.iter_entry_points('nazs.app')]
 
 
 LOGGING = {

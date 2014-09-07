@@ -21,7 +21,7 @@ from django.dispatch import receiver
 
 from nazs.actions import post_action_call, post_actions_call
 from nazs.web import blocks, tables, menus
-from ..actions import install_module, enable_module, disable_module
+from .actions import install_module, enable_module, disable_module
 
 import nazs
 

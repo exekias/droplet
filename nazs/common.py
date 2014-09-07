@@ -16,33 +16,7 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import pkg_resources
 import logging
-import os
-
-
-def init():
-    """
-    Initialize nazs environment, setup logging, processes and all
-    needed stuff for running nazs
-    """
-    from django.core import management
-    from django.conf import settings
-
-    from .sudo import set_euid
-    set_euid()
-
-    # Sync volatile db and set permissions
-    volatile_db = settings.DATABASES['volatile']['NAME']
-    management.call_command('syncdb',
-                            database='volatile',
-                            interactive=False,
-                            verbosity=0)
-    os.chmod(volatile_db, 0600)
-
-    # Load all modules
-    for app in pkg_resources.iter_entry_points('nazs.app'):
-        __import__(app.module_name + '.module')
 
 
 def modules():
