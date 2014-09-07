@@ -1,7 +1,7 @@
 from nazs.web import blocks, forms, wizards
 
-from ..forms import DomainSettingsForm
-from ..module import Samba
+from .forms import DomainSettingsForm
+from .module import Samba
 
 
 register = blocks.Library('samba')
