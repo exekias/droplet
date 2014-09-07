@@ -40,9 +40,5 @@ setup(
             'network=nazs.network',
             'samba=nazs.samba',
         ],
-        'nazs.web': [
-            'network=nazs.network.web',
-            'samba=nazs.samba.web',
-        ],
     },
 )
