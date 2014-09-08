@@ -45,10 +45,10 @@ class CatalogTests(TestCase):
 
         a = A()
         a.register()
-        self.assertEqual(self.catalog.get_instances(self.interface1), [a])
+        self.assertEqual(self.catalog.get_instances(self.interface1), set([a]))
 
         a.unregister()
-        self.assertEqual(self.catalog.get_instances(self.interface1), [])
+        self.assertEqual(self.catalog.get_instances(self.interface1), set())
 
     def test_register_two_instances(self):
         class Interface(self.interface1):
@@ -59,13 +59,14 @@ class CatalogTests(TestCase):
 
         b = Interface()
         b.register()
-        self.assertEqual(self.catalog.get_instances(self.interface1), [a, b])
+        self.assertEqual(self.catalog.get_instances(self.interface1),
+                         set([a, b]))
 
         a.unregister()
-        self.assertEqual(self.catalog.get_instances(self.interface1), [b])
+        self.assertEqual(self.catalog.get_instances(self.interface1), set([b]))
 
         b.unregister()
-        self.assertEqual(self.catalog.get_instances(self.interface1), [])
+        self.assertEqual(self.catalog.get_instances(self.interface1), set())
 
     def test_register_instance_multiple_superclasses(self):
         class A(self.interface1, self.interface2):
@@ -73,12 +74,12 @@ class CatalogTests(TestCase):
 
         a = A()
         a.register()
-        self.assertEqual(self.catalog.get_instances(self.interface1), [a])
-        self.assertEqual(self.catalog.get_instances(self.interface2), [a])
+        self.assertEqual(self.catalog.get_instances(self.interface1), set([a]))
+        self.assertEqual(self.catalog.get_instances(self.interface2), set([a]))
 
         a.unregister()
-        self.assertEqual(self.catalog.get_instances(self.interface1), [])
-        self.assertEqual(self.catalog.get_instances(self.interface2), [])
+        self.assertEqual(self.catalog.get_instances(self.interface1), set())
+        self.assertEqual(self.catalog.get_instances(self.interface2), set())
 
     def test_no_double_register(self):
         class A(self.interface1):
@@ -88,7 +89,7 @@ class CatalogTests(TestCase):
         a.register()
         a.register()
         a.register()
-        self.assertEqual(self.catalog.get_instances(self.interface1), [a])
+        self.assertEqual(self.catalog.get_instances(self.interface1), set([a]))
 
         a.unregister()
-        self.assertEqual(self.catalog.get_instances(self.interface1), [])
+        self.assertEqual(self.catalog.get_instances(self.interface1), set())

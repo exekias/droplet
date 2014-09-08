@@ -49,7 +49,7 @@ class LocalCatalog(object):
         self.INSTANCES[cls].remove(instance)
 
     def get_instances(self, cls):
-        return list(self.INSTANCES[cls])
+        return self.INSTANCES[cls]
 
 
 # Global catalog
