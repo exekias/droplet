@@ -53,7 +53,11 @@ class LocalCatalog(object):
 
 
 # Global catalog
-CATALOG = getattr(settings, 'NAZS_CATALOG', LocalCatalog())
+_CATALOG = getattr(settings, 'NAZS_CATALOG', LocalCatalog())
+
+
+def get_instances(cls):
+    return _CATALOG.get_instances(cls)
 
 
 class NAZSInterface(object):
@@ -66,9 +70,9 @@ class NAZSInterface(object):
     def register(self):
         for cls in self.__class__.__bases__:
             if issubclass(cls, NAZSInterface):
-                CATALOG.register(cls, self)
+                _CATALOG.register(cls, self)
 
     def unregister(self):
         for cls in self.__class__.__bases__:
             if issubclass(cls, NAZSInterface):
-                CATALOG.unregister(cls, self)
+                _CATALOG.unregister(cls, self)

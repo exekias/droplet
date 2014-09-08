@@ -22,6 +22,7 @@ import collections
 from django.db.models import get_app, get_models
 
 from .models import ModuleInfo
+from .catalog import NAZSInterface
 from .files import ConfFile
 from .daemons import Daemon
 from .signals import (pre_install, post_install,
@@ -108,6 +109,11 @@ class ModuleMeta(type):
             logger.info("Enabling %s module" % self.name)
             pre_enable.send(sender=self)
             res = enable(self, *args, **kwargs)
+
+            # Register interfaces (if present)
+            if isinstance(self, NAZSInterface):
+                self.register()
+
             post_enable.send(sender=self)
 
             info = self._info
@@ -153,6 +159,11 @@ class ModuleMeta(type):
             logger.info("Disabling %s module" % self.name)
             pre_disable.send(sender=self)
             res = disable(self, *args, **kwargs)
+
+            # Unregister interfaces (if present)
+            if isinstance(self, NAZSInterface):
+                self.unregister()
+
             post_disable.send(sender=self)
 
             info = self._info
@@ -245,6 +256,9 @@ class Module(object):
 
     def __init__(self):
         super(Module, self).__init__()
+
+        if isinstance(self, NAZSInterface) and self.enabled:
+            self.register()
 
     @property
     def _info(self):
