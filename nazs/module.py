@@ -20,6 +20,7 @@ import logging
 import collections
 
 from django.db.models import get_app, get_models
+from abc import ABCMeta
 
 from .models import ModuleInfo
 from .catalog import NAZSInterface
@@ -34,7 +35,7 @@ from .signals import (pre_install, post_install,
 logger = logging.getLogger(__name__)
 
 
-class ModuleMeta(type):
+class ModuleMeta(ABCMeta):
     """
     Module metaclass, to allow some black magic tricks on module definitions
     """

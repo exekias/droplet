@@ -20,6 +20,9 @@ import six
 import importlib
 import sys
 import traceback
+import string
+
+from django.utils.crypto import get_random_string
 
 
 def import_module(module_path):
@@ -41,3 +44,13 @@ def import_module(module_path):
         from importlib import find_loader
         if find_loader(module_path):
             return importlib.import_module(module_path)
+
+
+def make_password(length, chars=string.letters + string.digits + '#$%&!'):
+    """
+    Generate and return a random password
+
+    :param length: Desired length
+    :param chars: Character set to use
+    """
+    return get_random_string(length, chars)

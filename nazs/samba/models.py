@@ -22,3 +22,5 @@ class DomainSettings(models.SingletonModel):
     netbios = models.CharField(max_length=20, default='DC')
 
     description = models.CharField(max_length=20, default='NAZS server')
+
+    adminpass = models.CharField(max_length=50, editable=False, default='')

@@ -3,6 +3,8 @@ from nazs.files import TemplateConfFile
 from nazs.daemons import InitDaemon
 from nazs.commands import run
 from nazs.sudo import root
+from nazs.interfaces.samba import ISambaServer
+from nazs.util import make_password
 
 import os
 import shutil
@@ -14,7 +16,7 @@ from .models import DomainSettings
 logger = logging.getLogger(__name__)
 
 
-class Samba(module.Module):
+class Samba(module.Module, ISambaServer):
     """
     Samba 4 module, it deploys samba AD and file server
     """
@@ -49,6 +51,9 @@ class Samba(module.Module):
                 os.remove(self.SMBCONF_FILE)
 
             if domain_settings.mode == 'ad':
+                domain_settings.adminpass = make_password(15)
+                domain_settings.save()
+
                 run("samba-tool domain provision "
                     "--domain='%s' "
                     "--workgroup='%s' "
@@ -57,10 +62,11 @@ class Samba(module.Module):
                     "--use-rfc2307 "
                     "--server-role='domain controller' "
                     "--use-ntvfs "
-                    "--adminpass='foobar1!'" %
+                    "--adminpass='%s'" %
                     (domain_settings.domain,
                      domain_settings.workgroup,
-                     domain_settings.realm))
+                     domain_settings.realm,
+                     domain_settings.adminpass))
 
                 self.smbconf.write()
 
@@ -106,3 +112,15 @@ class Samba(module.Module):
     def restart(self):
         self.stop_other_daemons()
         self.samba_ad.restart()
+
+    def connection_info(self):
+        domain_settings = DomainSettings.get()
+        base_dn = 'dc=' + ',dc='.join(domain_settings.realm.split('.'))
+
+        return {
+            'host': '127.0.0.1',
+            'bind_dn': 'cn=Administrator,cn=Users,%s' % base_dn,
+            'bind_password': domain_settings.adminpass,
+            'base_dn': base_dn,
+            'protocol': 'ldap'
+        }
