@@ -33,7 +33,7 @@ DATABASES = {
 }
 
 # Non root user, ROOT for current one
-RUN_AS_USER = None
+NAZS_RUN_AS_USER = None
 
 LOGGING = {
     'version': 1,

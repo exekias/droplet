@@ -40,7 +40,7 @@ DATABASES = {
 DATABASE_ROUTERS = ['nazs.database.VolatileRouter', ]
 
 # Non root user (root under development)
-RUN_AS_USER = 'nazs'
+NAZS_RUN_AS_USER = 'nazs'
 
 ALLOWED_HOSTS = []
 
