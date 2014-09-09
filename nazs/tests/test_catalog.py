@@ -52,12 +52,17 @@ class CatalogTests(TestCase):
 
     def test_register_two_instances(self):
         class Interface(self.interface1):
-            pass
+            def __init__(self, name):
+                self._name = name
 
-        a = Interface()
+            @property
+            def name(self):
+                return self._name
+
+        a = Interface('a')
         a.register()
 
-        b = Interface()
+        b = Interface('b')
         b.register()
         self.assertEqual(set(self.catalog.get_instances(self.interface1)),
                          set([a, b]))

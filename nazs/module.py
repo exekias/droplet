@@ -276,6 +276,13 @@ class Module(object):
     @property
     def name(self):
         """
+        Return the internal unique name
+        """
+        return '.'.join([self.__module__, self.__class__.__name__])
+
+    @property
+    def verbose_name(self):
+        """
         Return the user visible name of the module
         """
         return self.__class__.__name__
