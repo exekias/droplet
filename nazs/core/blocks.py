@@ -62,7 +62,7 @@ class Modules(tables.Table):
     id_field = 'name'
 
     # Module name
-    name = tables.Column(verbose_name=_('Module'))
+    verbose_name = tables.Column(verbose_name=_('Module'))
 
     # Module status
     status = tables.MergeColumn(

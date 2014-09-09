@@ -26,13 +26,14 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         names = [n.upper() for n in args]
         for module in modules():
-            if module.name.upper() in names:
+            if module.verbose_name.upper() in names:
                 if module.enabled:
                     module.restart()
-                    names.remove(module.name.upper())
+                    names.remove(module.verbose_name.upper())
 
                 else:
-                    raise CommandError('Module %s is disabled' % module.name)
+                    raise CommandError('Module %s is disabled' %
+                                       module.verbose_name)
 
         if names:
             raise CommandError('Module %s does not exist' % ','.join(names))
