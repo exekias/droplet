@@ -19,6 +19,7 @@
 
 import os
 
+
 os.environ['DJANGO_SETTINGS_MODULE'] = 'nazs.settings'
 
 if __name__ == "__main__":

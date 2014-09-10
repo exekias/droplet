@@ -17,15 +17,33 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.apps import AppConfig
+from django.conf import settings
 
 import pkg_resources
+import pwd
+import os
+
+from .sudo import set_euid
 
 
 class NAZSConfig(AppConfig):
     name = 'nazs'
 
     def ready(self):
-        from .sudo import set_euid
+        # Force proper database permissions (sqlite backend only)
+        pw = pwd.getpwnam(settings.NAZS_USER)
+        for db in settings.DATABASES.itervalues():
+            if db['ENGINE'] == 'django.db.backends.sqlite3':
+                db_file = db['NAME']
+
+                # touch
+                with open(db_file, 'a'):
+                    os.utime(db_file, None)
+
+                os.chown(db_file, pw.pw_uid, pw.pw_gid)
+                os.chmod(db_file, 0600)
+
+        # Lower permissions
         set_euid()
 
         # Load all modules

@@ -17,6 +17,9 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from .settings import *  # noqa
+import os
+import pwd
+
 
 DEBUG = True
 TEMPLATE_DEBUG = True
@@ -33,7 +36,8 @@ DATABASES = {
 }
 
 # Non root user, ROOT for current one
-NAZS_RUN_AS_USER = None
+NAZS_USER = pwd.getpwuid(os.getuid())[0]
+NAZS_HOME = pwd.getpwnam(NAZS_USER).pw_dir
 
 LOGGING = {
     'version': 1,

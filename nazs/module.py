@@ -134,7 +134,8 @@ class ModuleMeta(ABCMeta):
         """
         def _wrapped(self, *args, **kwargs):
             if not self.installed:
-                raise AssertionError('Module %s is not installed' % self.verbose_name)
+                raise AssertionError('Module %s is not installed' %
+                                     self.verbose_name)
 
             logger.info("Saving %s module" % self.verbose_name)
             pre_save.send(sender=self)

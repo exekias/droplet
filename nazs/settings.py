@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
+import pwd
 import pkg_resources
 
 
@@ -25,22 +27,21 @@ TEMPLATE_DEBUG = DEBUG
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '2rca$gbfiz)6lqc!z5jv5xs5!@9b@x%+ppoa^46bz(^vw)#%oa'
 
+NAZS_USER = 'nazs'  # pwd.getpwuid(os.getuid())[0]  for current user
+NAZS_HOME = pwd.getpwnam(NAZS_USER).pw_dir
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/var/lib/nazs/db.sqlite',
+        'NAME': os.path.join(NAZS_HOME, 'db.sqlite'),
     },
     'volatile': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/dev/shm/nazs.sqlite',
+        'NAME': '/dev/shm/%s.sqlite' % NAZS_USER,
     }
 }
 
 DATABASE_ROUTERS = ['nazs.database.VolatileRouter', ]
-
-# Non root user (root under development)
-NAZS_RUN_AS_USER = 'nazs'
 
 ALLOWED_HOSTS = []
 
@@ -129,7 +130,7 @@ LOGGING = {
             'level': 'DEBUG',
             'formatter': 'default',
             'class': 'logging.FileHandler',
-            'filename': '/var/log/nazs.log',
+            'filename': os.path.join(NAZS_HOME, 'nazs.log'),
         },
     },
     'loggers': {
