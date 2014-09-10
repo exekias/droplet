@@ -75,9 +75,9 @@ class ModuleMeta(ABCMeta):
         def _wrapped(self, *args, **kwargs):
             if self.installed:
                 raise AssertionError('Module %s is already installed'
-                                     % self.name)
+                                     % self.verbose_name)
 
-            logger.info("Installing %s module" % self.name)
+            logger.info("Installing %s module" % self.verbose_name)
             pre_install.send(sender=self)
             res = install(self, *args, **kwargs)
             post_install.send(sender=self)
@@ -86,7 +86,7 @@ class ModuleMeta(ABCMeta):
             info.status = ModuleInfo.DISABLED
             info.save()
 
-            logger.info("Installed %s module" % self.name)
+            logger.info("Installed %s module" % self.verbose_name)
             return res
 
         return _wrapped
@@ -101,13 +101,13 @@ class ModuleMeta(ABCMeta):
             if not self.installed:
                 raise AssertionError('Module %s cannot be enabled'
                                      ', you should install it first'
-                                     % self.name)
+                                     % self.verbose_name)
 
             if self.enabled:
                 raise AssertionError('Module %s is already enabled'
-                                     % self.name)
+                                     % self.verbose_name)
 
-            logger.info("Enabling %s module" % self.name)
+            logger.info("Enabling %s module" % self.verbose_name)
             pre_enable.send(sender=self)
             res = enable(self, *args, **kwargs)
 
@@ -121,7 +121,7 @@ class ModuleMeta(ABCMeta):
             info.status = ModuleInfo.ENABLED
             info.save()
 
-            logger.info("Enabled %s module" % self.name)
+            logger.info("Enabled %s module" % self.verbose_name)
             return res
 
         return _wrapped
@@ -134,13 +134,13 @@ class ModuleMeta(ABCMeta):
         """
         def _wrapped(self, *args, **kwargs):
             if not self.installed:
-                raise AssertionError('Module %s is not installed' % self.name)
+                raise AssertionError('Module %s is not installed' % self.verbose_name)
 
-            logger.info("Saving %s module" % self.name)
+            logger.info("Saving %s module" % self.verbose_name)
             pre_save.send(sender=self)
             res = save(self, *args, **kwargs)
             post_save.send(sender=self)
-            logger.info("Saved %s module" % self.name)
+            logger.info("Saved %s module" % self.verbose_name)
 
             return res
 
@@ -155,9 +155,9 @@ class ModuleMeta(ABCMeta):
         def _wrapped(self, *args, **kwargs):
             if not self.enabled:
                 raise AssertionError('Module %s is already disabled'
-                                     % self.name)
+                                     % self.verbose_name)
 
-            logger.info("Disabling %s module" % self.name)
+            logger.info("Disabling %s module" % self.verbose_name)
             pre_disable.send(sender=self)
             res = disable(self, *args, **kwargs)
 
@@ -171,7 +171,7 @@ class ModuleMeta(ABCMeta):
             info.status = ModuleInfo.DISABLED
             info.save()
 
-            logger.info("Disabled %s module" % self.name)
+            logger.info("Disabled %s module" % self.verbose_name)
             return res
 
         return _wrapped
