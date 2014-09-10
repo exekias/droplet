@@ -405,8 +405,8 @@ class Module(object):
         """
         Restart module
         """
-        for daemon in self.daemons():
-            daemon.restart()
+        self.stop()
+        self.start()
 
     def daemons(self):
         """
