@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
+
 from setuptools import setup, find_packages
 from nazs import __version__
+
+
+path = os.path.abspath(os.path.dirname(__file__))
 
 setup(
     name='nazs',
@@ -11,14 +16,14 @@ setup(
     author='NAZS team',
     license='AGPLv3',
     description='',
-    long_description=open('README.md').read(),
+    long_description=open(os.path.join(path, 'README.md')).read(),
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
     scripts=[
-        'bin/nazs'
+        os.path.join(path, 'bin/nazs'),
     ],
-    install_requires=open('requirements.txt').readlines(),
+    install_requires=open(os.path.join(path, 'requirements.txt')).readlines(),
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
