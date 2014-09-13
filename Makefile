@@ -10,7 +10,7 @@ flake8:
 test: env
 	. env/bin/activate; PYTHONPATH=.         \
     DJANGO_SETTINGS_MODULE=nazs.test_settings \
-    django-admin.py test
+    fakeroot django-admin.py test
 
 clean:
 	rm -rf debian/*.debhelper \
