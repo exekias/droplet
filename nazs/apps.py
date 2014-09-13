@@ -36,6 +36,10 @@ class NAZSConfig(AppConfig):
             if 'sqlite' in db['ENGINE']:
                 filename = db['NAME']
 
+                # Nothing to do for in memory databases
+                if filename == ':memory:':
+                    continue
+
                 # touch
                 with open(filename, 'a'):
                     os.utime(filename, None)
