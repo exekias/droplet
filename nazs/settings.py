@@ -19,6 +19,7 @@
 import os
 import pwd
 import pkg_resources
+import warnings
 
 
 DEBUG = True
@@ -27,8 +28,15 @@ TEMPLATE_DEBUG = DEBUG
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '2rca$gbfiz)6lqc!z5jv5xs5!@9b@x%+ppoa^46bz(^vw)#%oa'
 
-NAZS_USER = 'nazs'  # pwd.getpwuid(os.getuid())[0]  for current user
+try:
+    NAZS_USER = 'nazs'
+    pwd.getpwnam(NAZS_USER)
+except:
+    warnings.warn("NAZS user doesn't exists, using current user", UserWarning)
+    NAZS_USER = pwd.getpwuid(os.getuid())[0]
+
 NAZS_HOME = pwd.getpwnam(NAZS_USER).pw_dir
+
 
 DATABASES = {
     'default': {

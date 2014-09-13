@@ -1,1 +1,2 @@
 /usr/share/python/nazs/bin/nazs /usr/bin/nazs
+/var/lib/nazs/nazs.log /var/log/nazs.log
