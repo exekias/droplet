@@ -16,6 +16,7 @@ clean:
 	rm -rf debian/*.debhelper \
            debian/nazs \
            build/ \
+           dist/ \
            *.egg-info \
            *.tar.gz \
            *.dsc \
