@@ -54,9 +54,11 @@ def save():
                 module.restart()
                 module.commit()
             else:
-                logger.debug("Not saving unchanged module: %s" % module.name)
+                logger.debug('Not saving unchanged module: %s' %
+                             module.verbose_name)
         else:
-            logger.debug("Not saving disabled module: %s" % module.name)
+            logger.debug('Not saving disabled module: %s' %
+                         module.verbose_name)
 
     # Commit
     ModuleInfo.commit()
