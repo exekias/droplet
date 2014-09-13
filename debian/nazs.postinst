@@ -5,6 +5,16 @@ set -e
 NAZS_USER='nazs'
 NAZS_HOME='/var/lib/nazs/'
 
+function migrate {
+    # Setup/migrate conf database
+    if [ -f $NAZS_DB ]; then
+        echo Upgrading NAZS database...
+    else
+        echo Creating NAZS database...
+    fi
+    /usr/bin/nazs migrate --noinput
+}
+
 case "$1" in
     configure)
         # Create NAZS user
@@ -13,17 +23,11 @@ case "$1" in
             adduser --system --home "$NAZS_HOME" $NAZS_USER
         fi
 
-        dpkg-trigger --no-await nazs
+        migrate
     ;;
 
     triggered)
-        # Setup/migrate conf database
-        if [ -f $NAZS_DB ]; then
-            echo Upgrading NAZS database...
-        else
-            echo Creating NAZS database...
-        fi
-        /usr/bin/nazs migrate --noinput
+        migrate
     ;;
 esac
 
