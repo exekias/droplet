@@ -7,7 +7,7 @@ include requirements-dev.txt
 recursive-include nazs/web/templates *
 recursive-include nazs/web/static *
 
-recursive-include nazs/core/web/templates *
+recursive-include nazs/core/templates *
 recursive-include nazs/network/templates *
 recursive-include nazs/samba/templates *
 
