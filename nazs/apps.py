@@ -30,18 +30,23 @@ class NAZSConfig(AppConfig):
     name = 'nazs'
 
     def ready(self):
-        # Force proper database permissions (sqlite backend only)
+        # Enorce proper database and log permissions
         pw = pwd.getpwnam(settings.NAZS_USER)
         for db in settings.DATABASES.itervalues():
-            if db['ENGINE'] == 'django.db.backends.sqlite3':
-                db_file = db['NAME']
+            if 'sqlite' in db['ENGINE']:
+                filename = db['NAME']
 
                 # touch
-                with open(db_file, 'a'):
-                    os.utime(db_file, None)
+                with open(filename, 'a'):
+                    os.utime(filename, None)
 
-                os.chown(db_file, pw.pw_uid, pw.pw_gid)
-                os.chmod(db_file, 0600)
+                os.chown(filename, pw.pw_uid, pw.pw_gid)
+                os.chmod(filename, 0600)
+
+        for handler in settings.LOGGING['handlers'].values():
+            if 'filename' in handler:
+                filename = handler['filename']
+                os.chown(filename, pw.pw_uid, pw.pw_gid)
 
         # Lower permissions
         set_euid()
