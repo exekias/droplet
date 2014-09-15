@@ -62,4 +62,4 @@ def run(cmd, background=False):
         if status != 0:
             raise CommandException(status, output)
 
-        return (status, output)
+        return output
