@@ -27,8 +27,7 @@ class CommandsTests(TestCase):
     """
 
     def test_run(self):
-        status, output = run("echo -n test")
-        self.assertEqual(status, 0)
+        output = run("echo -n test")
         self.assertEqual(output, "test")
 
     def test_run_fail(self):
