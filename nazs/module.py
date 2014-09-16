@@ -407,12 +407,14 @@ class Module(object):
         Restart module
         """
         # Call stop & start if any of them was overriden
-        if self.stop != Module.stop or self.start != Module.start:
+        if self.__class__.stop != Module.stop or \
+           self.__class__.start != Module.start:
             self.stop()
             self.start()
         else:
             # If not, restart is better
-            self.restart()
+            for daemon in self.daemons():
+                daemon.restart()
 
     def daemons(self):
         """
