@@ -30,6 +30,9 @@ class NAZSConfig(AppConfig):
     name = 'nazs'
 
     def ready(self):
+        # Set env variables
+        os.environ['LC_ALL'] = 'C'
+
         # Enorce proper database and log permissions
         pw = pwd.getpwnam(settings.NAZS_USER)
         for db in settings.DATABASES.itervalues():
