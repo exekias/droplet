@@ -2,5 +2,6 @@
 *.pot
 *.pyc
 *.swp
+*.swo
 .coverage
 local_settings.py
