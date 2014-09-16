@@ -94,7 +94,7 @@ class EditColumn(ButtonColumn):
         return ("javascript:achilles.loadInto(achilles.block('%s')"
                 ".find('.pretable'), 'nazs:edit', ['%s', '%s', '%s'])") % \
                (self.table.register_name, self.table.register_name,
-                self.name, obj.id)
+                self.name, self.table.get_object_id(obj))
 
 
 @aregister.action('delete')
