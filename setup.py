@@ -46,6 +46,7 @@ setup(
         'nazs.app': [
             'network=nazs.network',
             'samba=nazs.samba',
+            'apache=nazs.apache',
         ],
     },
 )
