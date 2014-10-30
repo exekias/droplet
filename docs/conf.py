@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# nazs documentation build configuration file, created by
+# droplet documentation build configuration file, created by
 # sphinx-quickstart on Thu Sep 12 03:54:07 2013.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -15,7 +15,7 @@ import sys, os
 
 # Include . in python path
 sys.path.append('..')
-os.environ['DJANGO_SETTINGS_MODULE'] = 'nazs.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'droplet.settings'
 
 # Activate virtual env
 manage_path = os.path.dirname(os.path.realpath(__file__))
@@ -44,7 +44,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'nazs'
+project = u'droplet'
 copyright = u'2013, Author'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -168,7 +168,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'nazsdoc'
+htmlhelp_basename = 'dropletdoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -187,7 +187,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'nazs.tex', u'nazs Documentation',
+  ('index', 'droplet.tex', u'droplet Documentation',
    u'Author', 'manual'),
 ]
 
@@ -217,7 +217,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'nazs', u'nazs Documentation',
+    ('index', 'droplet', u'droplet Documentation',
      [u'Author'], 1)
 ]
 
@@ -231,8 +231,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'nazs', u'nazs Documentation',
-   u'Author', 'nazs', 'One line description of project.',
+  ('index', 'droplet', u'droplet Documentation',
+   u'Author', 'droplet', 'One line description of project.',
    'Miscellaneous'),
 ]
 
@@ -249,7 +249,7 @@ texinfo_documents = [
 # -- Options for Epub output ---------------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'nazs'
+epub_title = u'droplet'
 epub_author = u'Author'
 epub_publisher = u'Author'
 epub_copyright = u'2013, Author'

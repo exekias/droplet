@@ -5,16 +5,16 @@ all:
 sense: flake8 test
 
 flake8:
-	flake8 nazs
+	flake8 droplet
 
 test: env
 	. env/bin/activate; PYTHONPATH=.         \
-    DJANGO_SETTINGS_MODULE=nazs.test_settings \
+    DJANGO_SETTINGS_MODULE=droplet.test_settings \
     fakeroot django-admin.py test
 
 clean:
 	rm -rf debian/*.debhelper \
-           debian/nazs \
+           debian/droplet \
            build/ \
            dist/ \
            *.egg-info \
@@ -26,7 +26,7 @@ deb:
 	dpkg-buildpackage -uc -us
 
 copy-deb:
-	cp ../*.deb /nazs
+	cp ../*.deb /droplet
 
 env: env/bin/activate
 
@@ -36,10 +36,10 @@ env/bin/activate: requirements.txt
 	touch env/bin/activate
 
 docker:
-	docker build -t nazs-make .
+	docker build -t droplet-make .
 
 docker-build: docker
-	docker run -v $(shell readlink -f .):/nazs nazs-make deb copy-deb
+	docker run -v $(shell readlink -f .):/droplet droplet-make deb copy-deb
 
 docker-test: docker
-	docker run -v $(shell readlink -f .):/nazs nazs-make sense
+	docker run -v $(shell readlink -f .):/droplet droplet-make sense

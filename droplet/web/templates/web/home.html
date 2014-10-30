@@ -1,0 +1,40 @@
+{% extends "web/base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load achilles %}
+
+{% block content %}
+
+<div class="container-fluid" id="header">
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{% url "home" %}">droplet</a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li id="loading"><img src="{% static "img/loading.gif" %}" height="25" /></li>
+          <li>{% ablock "core:apply_button" %}</li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3" id="menu">
+      {% ablock 'core:menu' %}
+    </div>
+    <div class="col-md-9" id="main">
+      {% ablock content_block %}
+    </div>
+  </div>
+</div>
+{% endblock %}

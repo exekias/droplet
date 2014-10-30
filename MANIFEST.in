@@ -4,12 +4,12 @@ include AUTHORS
 include requirements.txt
 include requirements-dev.txt
 
-recursive-include nazs/web/templates *
-recursive-include nazs/web/static *
+recursive-include droplet/web/templates *
+recursive-include droplet/web/static *
 
-recursive-include nazs/core/templates *
-recursive-include nazs/network/templates *
-recursive-include nazs/samba/templates *
+recursive-include droplet/core/templates *
+recursive-include droplet/network/templates *
+recursive-include droplet/samba/templates *
 
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]

@@ -4,7 +4,7 @@
 import os
 
 from setuptools import setup, find_packages
-from nazs import __version__
+from droplet import __version__
 
 
 def relpath(filename):
@@ -12,10 +12,10 @@ def relpath(filename):
     return os.path.relpath(os.path.join(here, filename))
 
 setup(
-    name='nazs',
+    name='droplet',
     version=__version__,
-    url='https://github.com/exekias/nazs',
-    author='NAZS team',
+    url='https://github.com/exekias/droplet',
+    author='droplet team',
     license='AGPLv3',
     description='',
     long_description=open(relpath('README.md')).read(),
@@ -23,7 +23,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     scripts=[
-        relpath('bin/nazs'),
+        relpath('bin/droplet'),
     ],
     install_requires=open(relpath('requirements.txt')).readlines(),
     classifiers=[
@@ -43,9 +43,9 @@ setup(
         'Topic :: System :: Systems Administration',
     ],
     entry_points={
-        'nazs.app': [
-            'network=nazs.network',
-            'samba=nazs.samba',
+        'droplet.app': [
+            'network=droplet.network',
+            'samba=droplet.samba',
         ],
     },
 )

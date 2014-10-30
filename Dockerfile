@@ -18,6 +18,6 @@ RUN apt-get install -y python-flake8
 RUN apt-get install -y python-dev libldap2-dev libsasl2-dev
 
 # Build
-VOLUME ["/nazs"]
-WORKDIR /nazs
+VOLUME ["/droplet"]
+WORKDIR /droplet
 ENTRYPOINT ["/usr/bin/make"]

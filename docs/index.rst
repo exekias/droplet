@@ -1,9 +1,9 @@
-.. nazs documentation master file, created by
+.. droplet documentation master file, created by
    sphinx-quickstart on Thu Sep 12 04:02:59 2013.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to nazs's documentation!
+Welcome to droplet's documentation!
 ================================
 
 Contents:
@@ -11,7 +11,7 @@ Contents:
 .. toctree::
    :maxdepth: 100
 
-   nazs
+   droplet
 
 
 Indices and tables

@@ -1,2 +1,2 @@
-/usr/share/python/nazs/bin/nazs /usr/bin/nazs
-/var/lib/nazs/nazs.log /var/log/nazs.log
+/usr/share/python/droplet/bin/droplet /usr/bin/droplet
+/var/lib/droplet/droplet.log /var/log/droplet.log
