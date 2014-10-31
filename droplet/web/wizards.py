@@ -40,7 +40,7 @@ class Wizard(blocks.Block):
     #: current step
     step = 0
 
-    def get_forms(self, *args, **kwargs):
+    def get_forms(self):
         """
         Return the sorted list of forms of the wizard
         """
@@ -48,15 +48,16 @@ class Wizard(blocks.Block):
 
     def get_context_data(self, *args, **kwargs):
         context = super(Wizard, self).get_context_data(*args, **kwargs)
-        forms = self.get_forms(*args, **kwargs)
         context.update({
             'wizard_name': self.register_name,
-            'form_name': forms[self.step].register_name,
+            'form_name': self.next(self.step).register_name,
             'step': self.step,
-            'step_count': len(forms),
-            'last': self.step == len(forms),
         })
         return context
+
+    def next(self, step):
+        forms = self.get_forms()
+        return forms[step]
 
 
 class InstallWizard(Wizard):
@@ -93,15 +94,14 @@ def next(transport, wizard, step, data):
     """
     step = int(step)
     wizard = blocks.get(wizard)
-    allforms = wizard.get_forms()
 
     # Retrieve form block
-    form = allforms[step]
+    form = wizard.next(step)
 
     valid = forms.send(transport, form.register_name, data=data)
 
     if valid:
-        if wizard.step+1 >= len(allforms):
+        if wizard.next(step+1) is None:
             # It was last step
             wizard.finish(transport)
             return
