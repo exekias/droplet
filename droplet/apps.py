@@ -48,7 +48,7 @@ class dropletConfig(AppConfig):
                     os.utime(filename, None)
 
                 os.chown(filename, pw.pw_uid, pw.pw_gid)
-                os.chmod(filename, 0600)
+                os.chmod(filename, 384)  # 0600
 
         for handler in settings.LOGGING['handlers'].values():
             if 'filename' in handler:

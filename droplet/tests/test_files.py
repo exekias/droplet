@@ -53,7 +53,7 @@ class FilesTests(TestCase):
 
         USER = 'daemon'
         GROUP = 'daemon'
-        MODE = 0007
+        MODE = 007
         uid = pwd.getpwnam(USER).pw_uid
         gid = grp.getgrnam(USER).gr_gid
 
