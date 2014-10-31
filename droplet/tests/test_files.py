@@ -53,7 +53,7 @@ class FilesTests(TestCase):
 
         USER = 'daemon'
         GROUP = 'daemon'
-        MODE = 007
+        MODE = 7  # 0007
         uid = pwd.getpwnam(USER).pw_uid
         gid = grp.getgrnam(USER).gr_gid
 
@@ -63,7 +63,7 @@ class FilesTests(TestCase):
                        mode=MODE).write()
 
         stat = os.stat(filename)
-        self.assertEqual(stat.st_mode & 0777, MODE)
+        self.assertEqual(stat.st_mode & 511, MODE)  # 0777
         self.assertEqual(stat.st_uid, uid)
         self.assertEqual(stat.st_gid, gid)
 
