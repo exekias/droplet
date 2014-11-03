@@ -2,15 +2,18 @@ all:
 
 .PHONY: env
 
-sense: flake8 test
+sense: flake8 test report-coverage
 
-flake8:
-	flake8 droplet
+flake8: env
+	. env/bin/activate; flake8 droplet
 
 test: env
 	. env/bin/activate; PYTHONPATH=.         \
     DJANGO_SETTINGS_MODULE=droplet.test_settings \
-    fakeroot django-admin.py test
+    fakeroot coverage run --source='droplet' ./env/bin/django-admin.py test
+
+report-coverage:
+	coverage report
 
 clean:
 	rm -rf debian/*.debhelper \
@@ -33,6 +36,7 @@ env: env/bin/activate
 env/bin/activate: requirements.txt
 	test -d env || virtualenv env
 	. env/bin/activate; pip install -U -r requirements.txt
+	. env/bin/activate; pip install -U -r requirements-dev.txt
 	touch env/bin/activate
 
 docker:
