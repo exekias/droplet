@@ -17,6 +17,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from achilles.forms import *  # noqa
+from achilles.forms import Form
 from droplet.models import SingletonModel
 
 
