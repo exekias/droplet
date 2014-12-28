@@ -26,6 +26,7 @@ from .models import ModuleInfo
 from .catalog import DropletInterface
 from .files import ConfFile
 from .daemons import Daemon
+from .tasks import task
 from .signals import (pre_install, post_install,
                       pre_enable, post_enable,
                       pre_disable, post_disable,
@@ -326,6 +327,14 @@ class Module(object):
         # Nothing passed, module not changed
         return False
 
+    def models(self):
+        """
+        Return all the models defined for this module
+        """
+        app = get_app(self.__class__.__module__.split('.')[-2])
+        return get_models(app)
+
+    @task
     def commit(self):
         """
         Commit changes in all the models for this module. This method is call
@@ -335,15 +344,9 @@ class Module(object):
         for model in self.models():
             model.commit()
 
-    def models(self):
-        """
-        Return all the models defined for this module
-        """
-        app = get_app(self.__class__.__module__.split('.')[-2])
-        return get_models(app)
-
     # Enable / disable actions
 
+    @task
     def install(self):
         """
         Setup actions, called only once. This method should assume nothing
@@ -352,6 +355,7 @@ class Module(object):
         """
         pass
 
+    @task
     def enable(self):
         """
         Do the needed actions to enable this module. You can assume that
@@ -359,6 +363,7 @@ class Module(object):
         """
         pass
 
+    @task
     def disable(self):
         """
         Do the needed actions to disable this module
@@ -367,6 +372,7 @@ class Module(object):
 
     # Save changes
 
+    @task
     def save(self):
         """
         Write config needed to make this module work. By default it ensures
@@ -388,6 +394,7 @@ class Module(object):
 
     # Start / stop
 
+    @task
     def start(self):
         """
         Start running the module (start daemons, launch services...)
@@ -395,6 +402,7 @@ class Module(object):
         for daemon in self.daemons():
             daemon.start()
 
+    @task
     def stop(self):
         """
         Stop module from running (stop daemons)
@@ -402,6 +410,7 @@ class Module(object):
         for daemon in self.daemons():
             daemon.stop()
 
+    @task
     def restart(self):
         """
         Restart module
